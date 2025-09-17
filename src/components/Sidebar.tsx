@@ -1,11 +1,12 @@
 import { useState } from "react";
 
 type Props = {
-  onSelect: (menu: string) => void;
+    onSelect: (menu: string) => void;
+    isOpen: boolean;
+    setIsOpen: (open: boolean) => void;
 };
 
-export default function Sidebar({ onSelect }: Props) {
-  const [isOpen, setIsOpen] = useState(true);
+export default function Sidebar({ onSelect, isOpen, setIsOpen }: Props) {
 
   return (
     <>

@@ -4,14 +4,12 @@ import { t } from '../lang/i18n';
 type Props = {
     onSend: (msg: string) => void;
 };
-
 export default function FooterInput({ onSend }: Props) {
     const [inputValue, setInputValue] = useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
-
     const handleSend = () => {
-        if (inputValue.trim() === '') return;
+        if (!inputValue.trim()) return;
         onSend(inputValue);
         setInputValue('');
     };
@@ -20,25 +18,18 @@ export default function FooterInput({ onSend }: Props) {
         <div
             className="footer-input"
             style={{
-                position: 'fixed',
-                bottom: 0,
-                left: 0,
-                right: 0,
                 display: 'flex',
                 gap: '8px',
                 padding: '8px',
                 borderTop: '1px solid #ccc',
                 backgroundColor: '#fff',
-            }}>
+            }}
+        >
             <input
                 type="text"
                 value={inputValue}
                 onChange={handleChange}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        handleSend();
-                    }
-                }}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder={t('placeholder')}
                 style={{
                     flex: 1,
@@ -61,6 +52,5 @@ export default function FooterInput({ onSend }: Props) {
                 {t('send')}
             </button>
         </div>
-
     );
 }
