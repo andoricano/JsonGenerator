@@ -3,6 +3,8 @@ import { setLang, getLang } from './lang/i18n';
 import type { Lang } from './lang/i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import FooterInput from './components/FooterInput';
+import Sidebar from './components/Sidebar';
+
 
 export default function App() {
     const [lang, setLangState] = useState<Lang>(getLang());
@@ -17,12 +19,15 @@ export default function App() {
         setMessages(prev => [...prev, msg]);
         console.log('App Messages:', msg);
     };
-
+    const handleMenuSelect = (menu: string) => {
+        console.log('선택된 메뉴:', menu);
+    };
     return (
         <div
             className="app-container"
-            style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
-        >
+            style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+
+            <Sidebar onSelect={handleMenuSelect} />
             <div style={{ padding: '16px', borderBottom: '1px solid #ccc' }}>
                 <LanguageSwitcher lang={lang} onChange={handleLangChange} />
             </div>
