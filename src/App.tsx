@@ -4,10 +4,13 @@ import type { Lang } from './lang/i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import FooterInput from './components/FooterInput';
 import Sidebar from './components/Sidebar';
+import TextBox from './components/TextBox';
 
 export default function App() {
     const [lang, setLangState] = useState<Lang>(getLang());
-    const [messages, setMessages] = useState<string[]>([]);
+    const [messages, setMessages] = useState<
+        { id: number; sender: 'player'; text: string }[]
+    >([]);
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
     const handleLangChange = (newLang: Lang) => {
@@ -16,9 +19,12 @@ export default function App() {
     };
 
     const handleSend = (msg: string) => {
-        setMessages(prev => [...prev, msg]);
-        console.log('App Messages:', msg);
+        setMessages(prev => [
+            ...prev,
+            { id: prev.length + 1, sender: 'player', text: msg },
+        ]);
     };
+    const latestMessage = messages.length > 0 ? [messages[messages.length - 1]] : [];
 
     const handleMenuSelect = (menu: string) => {
         console.log('선택된 메뉴:', menu);
@@ -46,10 +52,9 @@ export default function App() {
                     <LanguageSwitcher lang={lang} onChange={handleLangChange} />
                 </div>
 
-                <div style={{ flex: 1, overflow: 'auto', padding: '16px' }}>
-                    {messages.map((msg, idx) => (
-                        <div key={idx}>{msg}</div>
-                    ))}
+
+                <div style={{ flex: 1, padding: '16px' }}>
+                    <TextBox messages={latestMessage} />
                 </div>
 
                 <FooterInput onSend={handleSend} />
