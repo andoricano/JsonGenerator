@@ -13,12 +13,11 @@ type Props = {
 export default function TextBox({ messages }: Props) {
   return (
     <div style={styles.container}>
-      {messages.map((msg) => (
+      {messages.map(msg => (
         <div
           key={msg.id}
           style={{
-            ...styles.bubble,
-            ...(msg.sender === 'npc' ? styles.npcBubble : styles.playerBubble),
+            ...styles.bubble
           }}
         >
           <span style={{ color: msg.sender === 'npc' ? 'red' : '#fff' }}>
@@ -33,29 +32,18 @@ export default function TextBox({ messages }: Props) {
 export const styles: { [key: string]: React.CSSProperties } = {
   container: {
     display: 'flex',
+    justifyContent: 'flex-end',
+    backgroundColor: '#4caf50',
     flexDirection: 'column',
-    padding: 16,
+    width: '100%',
+    height: '400px',
+    boxSizing: 'border-box',
   },
   bubble: {
     padding: '12px',
     marginBottom: '10px',
     borderRadius: '12px',
-    display: 'inline-block',
-  },
-  npcBubble: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#f0f0f0',
-  },
-  playerBubble: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#4caf50',
-  },
-  fixedBox: {
-    height: 400,
-    backgroundColor: '#f9f9f9',
-    borderTop: '1px solid #ccc',
-    borderBottom: '1px solid #ccc',
-    padding: 16,
-    overflowY: 'auto',
+    display: 'block',
+    maxWidth: '80%',
   },
 };

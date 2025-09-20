@@ -32,7 +32,6 @@ export default function App() {
     };
 
     return (
-
         <div className="app-container" style={{ display: 'flex', height: '100vh' }}>
             <Sidebar
                 onSelect={handleMenuSelect}
@@ -47,13 +46,14 @@ export default function App() {
                     transition: 'margin-left 0.3s ease',
                     display: 'flex',
                     flexDirection: 'column',
+                    height: '100%',
                 }}
             >
                 <div style={{ padding: '16px', borderBottom: '1px solid #ccc' }}>
                     <LanguageSwitcher lang={lang} onChange={handleLangChange} />
                 </div>
 
-                <SceneCanvas messages={messages} />
+                <SceneCanvas messages={messages} style={{ flex: 1 }} />
 
                 <FooterInput onSend={handleSend} />
             </div>
