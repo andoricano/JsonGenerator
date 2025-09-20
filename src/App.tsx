@@ -4,14 +4,15 @@ import type { Lang } from './lang/i18n';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import FooterInput from './components/FooterInput';
 import Sidebar from './components/Sidebar';
-import TextBox from './components/TextBox';
+import SceneCanvas from './components/SceneCanvas';
 
 export default function App() {
     const [lang, setLangState] = useState<Lang>(getLang());
+    const [sidebarOpen, setSidebarOpen] = useState(true);
+
     const [messages, setMessages] = useState<
         { id: number; sender: 'player'; text: string }[]
     >([]);
-    const [sidebarOpen, setSidebarOpen] = useState(true);
 
     const handleLangChange = (newLang: Lang) => {
         setLang(newLang);
@@ -22,11 +23,9 @@ export default function App() {
         setMessages(prev => [
             ...prev,
             { id: prev.length + 1, sender: 'player', text: msg },
-            
         ]);
         console.log(msg)
     };
-    const latestMessage = messages.length > 0 ? [messages[messages.length - 1]] : [];
 
     const handleMenuSelect = (menu: string) => {
         console.log('선택된 메뉴:', menu);
@@ -54,10 +53,7 @@ export default function App() {
                     <LanguageSwitcher lang={lang} onChange={handleLangChange} />
                 </div>
 
-
-                <div style={{ flex: 1, padding: '16px' }}>
-                    <TextBox messages={latestMessage} />
-                </div>
+                <SceneCanvas messages={messages} />
 
                 <FooterInput onSend={handleSend} />
             </div>

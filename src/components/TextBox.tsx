@@ -1,6 +1,6 @@
 import React from 'react';
 
-type Message = {
+export type Message = {
   id: number;
   sender: 'npc' | 'player';
   text: string;
@@ -21,11 +21,7 @@ export default function TextBox({ messages }: Props) {
             ...(msg.sender === 'npc' ? styles.npcBubble : styles.playerBubble),
           }}
         >
-          <span
-            style={{
-              color: msg.sender === 'npc' ? 'red' : '#fff',
-            }}
-          >
+          <span style={{ color: msg.sender === 'npc' ? 'red' : '#fff' }}>
             {msg.text}
           </span>
         </div>
@@ -34,7 +30,7 @@ export default function TextBox({ messages }: Props) {
   );
 }
 
-const styles: { [key: string]: React.CSSProperties } = {
+export const styles: { [key: string]: React.CSSProperties } = {
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -53,5 +49,13 @@ const styles: { [key: string]: React.CSSProperties } = {
   playerBubble: {
     alignSelf: 'flex-end',
     backgroundColor: '#4caf50',
+  },
+  fixedBox: {
+    height: 400,
+    backgroundColor: '#f9f9f9',
+    borderTop: '1px solid #ccc',
+    borderBottom: '1px solid #ccc',
+    padding: 16,
+    overflowY: 'auto',
   },
 };
