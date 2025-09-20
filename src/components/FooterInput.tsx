@@ -4,14 +4,26 @@ import { t } from '../lang/i18n';
 type Props = {
     onSend: (msg: string) => void;
 };
+
 export default function FooterInput({ onSend }: Props) {
     const [inputValue, setInputValue] = useState('');
+    const [isComposing, setIsComposing] = useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+    };
+
     const handleSend = () => {
         if (!inputValue.trim()) return;
         onSend(inputValue);
         setInputValue('');
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && !isComposing) {
+            e.preventDefault();
+            handleSend();
+        }
     };
 
     return (
@@ -23,13 +35,16 @@ export default function FooterInput({ onSend }: Props) {
                 padding: '8px',
                 borderTop: '1px solid #ccc',
                 backgroundColor: '#fff',
+                marginBottom:'10px'
             }}
         >
             <input
                 type="text"
                 value={inputValue}
                 onChange={handleChange}
-                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                onKeyDown={handleKeyDown}
+                onCompositionStart={() => setIsComposing(true)}
+                onCompositionEnd={() => setIsComposing(false)}
                 placeholder={t('placeholder')}
                 style={{
                     flex: 1,

@@ -22,7 +22,9 @@ export default function App() {
         setMessages(prev => [
             ...prev,
             { id: prev.length + 1, sender: 'player', text: msg },
+            
         ]);
+        console.log(msg)
     };
     const latestMessage = messages.length > 0 ? [messages[messages.length - 1]] : [];
 
