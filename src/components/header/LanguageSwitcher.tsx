@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Lang } from '../lang/i18n';
+import type { Lang } from '../../lang/i18n';
 
 type Props = {
     lang: Lang;

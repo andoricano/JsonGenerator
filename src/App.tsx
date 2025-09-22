@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { setLang, getLang } from './lang/i18n';
 import type { Lang } from './lang/i18n';
-import LanguageSwitcher from './components/LanguageSwitcher';
+import LanguageSwitcher from './components/header/LanguageSwitcher';
+import Header from './components/header/Header';
 import FooterInput from './components/FooterInput';
 import Sidebar from './components/Sidebar';
 import SceneCanvas from './components/SceneCanvas';
@@ -33,6 +34,7 @@ export default function App() {
 
     return (
         <div className="app-container" style={{ display: 'flex', height: '100vh' }}>
+            <Header/>
             <Sidebar
                 onSelect={handleMenuSelect}
                 isOpen={sidebarOpen}
