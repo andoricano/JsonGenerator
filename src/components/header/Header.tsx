@@ -1,5 +1,5 @@
-import { Lang } from "../../stores/HeaderStore";
-import LanguageSwitcher from "./LanguageSwitcher";
+// import { Lang } from "../../stores/HeaderStore";
+// import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
   return (

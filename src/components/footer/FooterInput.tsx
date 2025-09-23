@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { t } from '../lang/i18n';
+import { t } from '../../lang/i18n';
+import { useStores } from "../../AppProvider";
 
 type Props = {
     onSend: (msg: string) => void;
@@ -8,6 +9,7 @@ type Props = {
 export default function FooterInput({ onSend }: Props) {
     const [inputValue, setInputValue] = useState('');
     const [isComposing, setIsComposing] = useState(false);
+    const { footerStore } = useStores();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
@@ -15,6 +17,13 @@ export default function FooterInput({ onSend }: Props) {
 
     const handleSend = () => {
         if (!inputValue.trim()) return;
+        footerStore.addItem({
+            id: Date.now(),
+            type: "text",
+            cmd1: 0,
+            cmd2: 0,
+            text: inputValue,
+        });
         onSend(inputValue);
         setInputValue('');
     };
@@ -27,7 +36,7 @@ export default function FooterInput({ onSend }: Props) {
     };
 
     return (
-        <div
+        <footer
             className="footer-input"
             style={{
                 display: 'flex',
@@ -35,7 +44,7 @@ export default function FooterInput({ onSend }: Props) {
                 padding: '8px',
                 borderTop: '1px solid #ccc',
                 backgroundColor: '#fff',
-                marginBottom:'10px'
+                marginBottom: '10px'
             }}
         >
             <input
@@ -66,6 +75,6 @@ export default function FooterInput({ onSend }: Props) {
             >
                 {t('send')}
             </button>
-        </div>
+        </footer>
     );
 }

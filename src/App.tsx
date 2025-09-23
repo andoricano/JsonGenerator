@@ -3,9 +3,10 @@ import { setLang, getLang } from './lang/i18n';
 import type { Lang } from './lang/i18n';
 import LanguageSwitcher from './components/header/LanguageSwitcher';
 import Header from './components/header/Header';
-import FooterInput from './components/FooterInput';
+import FooterInput from './components/footer/FooterInput';
 import Sidebar from './components/Sidebar';
 import SceneCanvas from './components/SceneCanvas';
+import { AppProvider } from './AppProvider';
 
 export default function App() {
     const [lang, setLangState] = useState<Lang>(getLang());
@@ -33,32 +34,35 @@ export default function App() {
     };
 
     return (
-        <div className="app-container" style={{ display: 'flex', height: '100vh' }}>
-            <Header/>
-            <Sidebar
-                onSelect={handleMenuSelect}
-                isOpen={sidebarOpen}
-                setIsOpen={setSidebarOpen}
-            />
 
-            <div
-                style={{
-                    flex: 1,
-                    marginLeft: sidebarOpen ? 200 : 0,
-                    transition: 'margin-left 0.3s ease',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%',
-                }}
-            >
-                <div style={{ padding: '16px', borderBottom: '1px solid #ccc' }}>
-                    <LanguageSwitcher lang={lang} onChange={handleLangChange} />
+        <AppProvider>
+            <div className="app-container" style={{ display: 'flex', height: '100vh' }}>
+                <Header />
+                <Sidebar
+                    onSelect={handleMenuSelect}
+                    isOpen={sidebarOpen}
+                    setIsOpen={setSidebarOpen}
+                />
+
+                <div
+                    style={{
+                        flex: 1,
+                        marginLeft: sidebarOpen ? 200 : 0,
+                        transition: 'margin-left 0.3s ease',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: '100%',
+                    }}
+                >
+                    <div style={{ padding: '16px', borderBottom: '1px solid #ccc' }}>
+                        <LanguageSwitcher lang={lang} onChange={handleLangChange} />
+                    </div>
+
+                    <SceneCanvas messages={messages} style={{ flex: 1 }} />
+
+                    <FooterInput onSend={handleSend} />
                 </div>
-
-                <SceneCanvas messages={messages} style={{ flex: 1 }} />
-
-                <FooterInput onSend={handleSend} />
             </div>
-        </div>
+        </AppProvider>
     );
 }
