@@ -58,7 +58,7 @@ export default function App() {
                         <LanguageSwitcher lang={lang} onChange={handleLangChange} />
                     </div>
 
-                    <SceneCanvas messages={messages} style={{ flex: 1 }} />
+                    <SceneCanvas messages={messages} />
 
                     <FooterInput onSend={handleSend} />
                 </div>

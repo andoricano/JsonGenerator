@@ -31,12 +31,12 @@ export default function TextBox({ messages }: Props) {
 
 export const styles: { [key: string]: React.CSSProperties } = {
   container: {
-    display: 'flex',
-    justifyContent: 'flex-end',
+    position: 'absolute',
     backgroundColor: '#4caf50',
-    flexDirection: 'column',
-    width: '100%',
-    height: '400px',
+    left: 20,              
+    right: 20,             
+    bottom: 20,            
+    height: '200px',
     boxSizing: 'border-box',
   },
   bubble: {

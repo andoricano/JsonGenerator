@@ -1,20 +1,21 @@
 import TextBox, { Message } from './TextBox';
-import React, { useState } from 'react';
 interface SceneCanvasProps {
     messages: Message[];
-    style?: React.CSSProperties;
 }
-export default function SceneCanvas({ messages, style }: SceneCanvasProps) {
+export default function SceneCanvas({ messages }: SceneCanvasProps) {
     const latestMessage = messages.length > 0 ? [messages[messages.length - 1]] : [];
 
     return (
         <div
             style={{
+                position: 'relative',
+                display: 'flex',
                 flexDirection: 'column',
                 padding: '16px',
                 backgroundColor: 'black',
+                height: '100vh',
                 marginTop: '100px',
-                ...style,
+                boxSizing: 'border-box',
             }}
         >
             <TextBox messages={latestMessage} />
