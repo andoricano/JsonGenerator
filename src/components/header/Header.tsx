@@ -18,7 +18,7 @@ export default function Header() {
     headerStore.setProjectName(newName);
     setDialogOpen(false);
   };
-return (
+  return (
     <>
       <header
         style={{
@@ -26,8 +26,7 @@ return (
           top: 0,
           left: 0,
           right: 0,
-          height: "60px",
-          display: "flex",
+          height: "160px",
           alignItems: "center",
           padding: "0 16px",
           borderBottom: "1px solid #ccc",
@@ -35,12 +34,10 @@ return (
           zIndex: 1000,
         }}
       >
-
-        <h1
-          style={{ marginRight: "auto", cursor: "pointer" }}
-          onClick={() => setDialogOpen(true)}
-        >
-          Project : {projectName}
+        <h1>
+          <span style={{ cursor: "pointer" }} onClick={() => setDialogOpen(true)}>
+            Project : {projectName}
+          </span>
         </h1>
         <Nav />
       </header>

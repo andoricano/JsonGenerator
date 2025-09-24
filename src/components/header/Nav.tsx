@@ -27,7 +27,7 @@ const menuItems = [
 
 export default function Nav() {
   return (
-    <nav style={{ display: "flex", gap: "12px" }}>
+    <nav>
       {menuItems.map((menu, idx) => (
         <Dropdown key={idx} label={menu.label} items={menu.items} />
       ))}

@@ -57,7 +57,7 @@ export default function Sidebar({ onSelect, isOpen, setIsOpen }: Props) {
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     position: "fixed",
-    top: 0,
+    top: 160,
     bottom: 0,
     width: "200px",
     transition: "left 0.3s ease",
