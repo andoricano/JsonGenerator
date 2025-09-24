@@ -1,58 +1,58 @@
 // import { Lang } from "../../stores/HeaderStore";
 // import LanguageSwitcher from "./LanguageSwitcher";
-import { Dropdown } from "./Dropdown";
+import { useObservable } from "../../hooks/useObservable";
+import { useStores } from "../../AppProvider";
+import Nav from "./Nav";
+import { useState } from "react";
+import Dialog from "../Dialog";
+
 
 
 export default function Header() {
-  const menuItems = [
-    {
-      label: "File",
-      items: [
-        { label: "New", onClick: () => console.log("New file") },
-        { label: "Save", onClick: () => console.log("Save file") },
-        { label: "Export", onClick: () => console.log("Export file") },
-      ],
-    },
-    {
-      label: "Edit",
-      items: [
-        { label: "Undo", onClick: () => console.log("Undo") },
-        { label: "Redo", onClick: () => console.log("Redo") },
-      ],
-    },
-    {
-      label: "Help",
-      items: [
-        { label: "Docs", onClick: () => console.log("Docs") },
-        { label: "About", onClick: () => console.log("About") },
-      ],
-    },
-  ];
+  const { headerStore } = useStores();
+  const projectName = useObservable(headerStore.projectName$, headerStore.projectName);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  return (
-    <header
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: "60px",
-        display: "flex",
-        alignItems: "center",
-        padding: "0 16px",
-        borderBottom: "1px solid #ccc",
-        background: "skyblue",
-        zIndex: 1000,
-      }}
-    >
-      <h1 style={{ marginRight: "auto" }}>Generate Script</h1>
-      <nav style={{ display: "flex", gap: "12px" }}>
+  const handleConfirm = (newName: string) => {
+    headerStore.setProjectName(newName);
+    setDialogOpen(false);
+  };
+return (
+    <>
+      <header
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "60px",
+          display: "flex",
+          alignItems: "center",
+          padding: "0 16px",
+          borderBottom: "1px solid #ccc",
+          background: "skyblue",
+          zIndex: 1000,
+        }}
+      >
 
-        {menuItems.map((menu, idx) => (
-          <Dropdown key={idx} label={menu.label} items={menu.items} />
-        ))}
-      </nav>
-    </header>
+        <h1
+          style={{ marginRight: "auto", cursor: "pointer" }}
+          onClick={() => setDialogOpen(true)}
+        >
+          Project : {projectName}
+        </h1>
+        <Nav />
+      </header>
+
+      <Dialog
+        open={dialogOpen}
+        title="프로젝트 이름 변경"
+        placeholder="새 프로젝트 이름"
+        defaultValue={projectName}
+        onClose={() => setDialogOpen(false)}
+        onConfirm={handleConfirm}
+      />
+    </>
   );
 }
