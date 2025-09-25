@@ -37,13 +37,11 @@ export default function Dialog({ open, title, placeholder, defaultValue = "", on
           gap: 12,
         }}
       >
-        {/* 제목 + 닫기 버튼 */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <span>{title}</span>
           <button onClick={onClose} style={{ cursor: "pointer" }}>X</button>
         </div>
 
-        {/* 입력 필드 */}
         <input
           type="text"
           value={inputValue}
@@ -52,7 +50,6 @@ export default function Dialog({ open, title, placeholder, defaultValue = "", on
           style={{ padding: 8 }}
         />
 
-        {/* 확인 버튼 */}
         <button onClick={() => onConfirm(inputValue)} style={{ padding: 8, cursor: "pointer" }}>
           확인
         </button>
