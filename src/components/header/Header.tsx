@@ -5,7 +5,7 @@ import { useStores } from "../../AppProvider";
 import Nav from "./Nav";
 import { useState } from "react";
 import Dialog from "../Dialog";
-import Toolbox from "./Toolbox";
+import Workspace from "./Workspace";
 
 
 
@@ -41,7 +41,7 @@ export default function Header() {
           </span>
         </h1>
         <Nav />
-        <Toolbox/>
+        <Workspace/>
       </header>
 
       <Dialog

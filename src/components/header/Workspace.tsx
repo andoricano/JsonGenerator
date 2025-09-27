@@ -1,7 +1,10 @@
 import { useStores } from "../../AppProvider";
+import { useObservable } from "../../hooks/useObservable"; 
 
-export default function Toolbox() {
+
+export default function Workspace() {
     const { headerStore } = useStores();
+    const activeTool = useObservable(headerStore.activeTool$, headerStore.activeTool);
 
     const tools = [
         { label: "Scriptor" },
@@ -15,11 +18,12 @@ export default function Toolbox() {
                 height: "40px",
                 display: "flex",
                 alignItems: "center",
-                padding: "0 16px",
                 borderBottom: "1px solid #ccc",
-                gap: "8px",
+                marginTop: "10px",
+                gap: "18px",
             }}
         >
+            <h1>Workspace</h1>
             {tools.map((tool) => (
                 <button
                     key={tool.label}
@@ -29,10 +33,11 @@ export default function Toolbox() {
                         height: "28px",
                         border: "1px solid #999",
                         borderRadius: "6px",
-                        background: "#f9f9f9",
+                        background:
+                            activeTool === tool.label ? "lightgreen" : "#f9f9f9",
                         cursor: "pointer",
                     }}
-                    onClick={() => console.log(`Clicked ${tool.label}`)}
+                    onClick={() => headerStore.setActiveTool(tool.label)}
                 >
                     {tool.label}
                 </button>
