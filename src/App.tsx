@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useStores } from './AppProvider';
 import { setLang, getLang } from './lang/i18n';
 import type { Lang } from './lang/i18n';
 import LanguageSwitcher from './components/header/LanguageSwitcher';
@@ -7,6 +8,7 @@ import FooterInput from './components/footer/FooterInput';
 import Sidebar from './components/Sidebar';
 import SceneCanvas from './components/SceneCanvas';
 import { AppProvider } from './AppProvider';
+import Canvas from './components/main/Canvas'
 
 export default function App() {
     const [lang, setLangState] = useState<Lang>(getLang());
@@ -57,9 +59,7 @@ export default function App() {
                     <div style={{ padding: '16px', borderBottom: '1px solid #ccc' }}>
                         <LanguageSwitcher lang={lang} onChange={handleLangChange} />
                     </div>
-
-                    <SceneCanvas messages={messages} />
-
+                    <Canvas/>
                     <FooterInput onSend={handleSend} />
                 </div>
             </div>

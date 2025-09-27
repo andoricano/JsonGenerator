@@ -2,9 +2,10 @@ import TextBox, { Message } from './TextBox';
 interface SceneCanvasProps {
     messages: Message[];
 }
-export default function SceneCanvas({ messages }: SceneCanvasProps) {
-    const latestMessage = messages.length > 0 ? [messages[messages.length - 1]] : [];
+export default function SceneCanvas() {
+    // const latestMessage = messages.length > 0 ? [messages[messages.length - 1]] : [];
 
+    
     return (
         <div
             style={{
@@ -18,7 +19,7 @@ export default function SceneCanvas({ messages }: SceneCanvasProps) {
                 boxSizing: 'border-box',
             }}
         >
-            <TextBox messages={latestMessage} />
+            {/* <TextBox messages={latestMessage} /> */}
         </div>
     );
 }
