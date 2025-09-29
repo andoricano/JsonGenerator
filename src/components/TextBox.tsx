@@ -31,7 +31,6 @@ export default function TextBox({ messages }: Props) {
 
 export const styles: { [key: string]: React.CSSProperties } = {
   container: {
-    position: 'absolute',
     backgroundColor: '#4caf50',
     left: 20,              
     right: 20,             

@@ -1,7 +1,7 @@
 import { useObservable } from "../../hooks/useObservable";
 import { useStores } from "../../AppProvider";
 import { useState } from "react";
-import SceneCanvas from "../SceneCanvas";
+import Scriptor from "./scriptor/Scriptor";
 import ImageUploader from "./user/Uploader";
 import Editer from "./editer/Editer";
 
@@ -16,7 +16,7 @@ export default function Canvas() {
   return (
     <>
       <main>
-        {activeTool === "Scriptor" && <SceneCanvas/>}
+        {activeTool === "Scriptor" && <Scriptor/>}
         {activeTool === "Uploader" && <ImageUploader />}
         {activeTool === "Editer" && <Editer />}
       </main>

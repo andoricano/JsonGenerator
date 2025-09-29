@@ -6,7 +6,7 @@ import LanguageSwitcher from './components/header/LanguageSwitcher';
 import Header from './components/header/Header';
 import FooterInput from './components/footer/FooterInput';
 import Sidebar from './components/Sidebar';
-import SceneCanvas from './components/SceneCanvas';
+import SceneCanvas from './components/main/scriptor/Scriptor';
 import { AppProvider } from './AppProvider';
 import Canvas from './components/main/Canvas'
 
@@ -14,21 +14,9 @@ export default function App() {
     const [lang, setLangState] = useState<Lang>(getLang());
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
-    const [messages, setMessages] = useState<
-        { id: number; sender: 'player'; text: string }[]
-    >([]);
-
     const handleLangChange = (newLang: Lang) => {
         setLang(newLang);
         setLangState(newLang);
-    };
-
-    const handleSend = (msg: string) => {
-        setMessages(prev => [
-            ...prev,
-            { id: prev.length + 1, sender: 'player', text: msg },
-        ]);
-        console.log(msg)
     };
 
     const handleMenuSelect = (menu: string) => {
@@ -60,7 +48,6 @@ export default function App() {
                         <LanguageSwitcher lang={lang} onChange={handleLangChange} />
                     </div>
                     <Canvas/>
-                    <FooterInput onSend={handleSend} />
                 </div>
             </div>
         </AppProvider>
