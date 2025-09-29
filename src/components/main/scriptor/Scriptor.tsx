@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import TextBox, { Message } from '../../TextBox';
-import FooterInput from '../../footer/FooterInput';
+import TextBoxSection from './TextBoxSection';
+import InputSection from './InputSection';
 
-interface SceneCanvasProps {
-    messages: Message[];
-}
 export default function Scriptor() {
     const [messages, setMessages] = useState<
         { id: number; sender: 'player'; text: string }[]
@@ -31,8 +28,9 @@ export default function Scriptor() {
                 boxSizing: 'border-box',
             }}
         >
-            <TextBox messages={messages} />
-            <FooterInput onSend={handleSend} />
+            
+            <TextBoxSection messages={messages} />
+            <InputSection onSend={handleSend} />
         </div>
     );
 }

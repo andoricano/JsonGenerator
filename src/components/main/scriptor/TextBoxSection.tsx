@@ -10,7 +10,7 @@ type Props = {
   messages: Message[];
 };
 
-export default function TextBox({ messages }: Props) {
+export default function TextBoxSection({ messages }: Props) {
   return (
     <div style={styles.container}>
       {messages.map(msg => (

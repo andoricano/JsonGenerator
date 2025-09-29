@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { t } from '../../lang/i18n';
-import { useStores } from "../../AppProvider";
+import { t } from '../../../lang/i18n';
+import { useStores } from "../../../AppProvider";
 
 type Props = {
     onSend: (msg: string) => void;
 };
 
-export default function FooterInput({ onSend }: Props) {
+export default function InputSection({ onSend }: Props) {
     const [inputValue, setInputValue] = useState('');
     const [isComposing, setIsComposing] = useState(false);
     const { footerStore } = useStores();
@@ -36,7 +36,7 @@ export default function FooterInput({ onSend }: Props) {
     };
 
     return (
-        <footer
+        <section
             className="footer-input"
             style={{
                 display: 'flex',
@@ -75,6 +75,6 @@ export default function FooterInput({ onSend }: Props) {
             >
                 {t('send')}
             </button>
-        </footer>
+        </section>
     );
 }
