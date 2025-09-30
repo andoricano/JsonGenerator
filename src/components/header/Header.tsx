@@ -35,13 +35,35 @@ export default function Header() {
           zIndex: 1000,
         }}
       >
-        <h1>
-          <span style={{ cursor: "pointer" }} onClick={() => setDialogOpen(true)}>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between", 
+            gap: "16px",
+            marginTop: "20px",
+            padding: "12px 20px",
+            background: "lightblue",
+            borderRadius: "8px",    
+            boxShadow: "0 2px 6px rgba(0,0,0,0.15)", 
+          }}
+        >
+          <h1
+            style={{
+              margin: 0,
+              cursor: "pointer",
+              fontSize: "20px",
+              fontWeight: "bold",
+              color: "#333",
+            }}
+            onClick={() => setDialogOpen(true)}
+          >
             Project : {projectName}
-          </span>
-        </h1>
-        <Nav />
-        <Workspace/>
+          </h1>
+          <Nav />
+        </div>
+        <Workspace />
       </header>
 
       <Dialog
