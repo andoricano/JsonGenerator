@@ -40,13 +40,13 @@ export default function Header() {
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between", 
+            justifyContent: "space-between",
             gap: "16px",
             marginTop: "20px",
             padding: "12px 20px",
             background: "lightblue",
-            borderRadius: "8px",    
-            boxShadow: "0 2px 6px rgba(0,0,0,0.15)", 
+            borderRadius: "8px",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
           }}
         >
           <h1
@@ -56,8 +56,19 @@ export default function Header() {
               fontSize: "20px",
               fontWeight: "bold",
               color: "#333",
+              padding: "10px 16px",
+              borderRadius: "6px",
+              transition: "background 0.2s, color 0.2s",
             }}
             onClick={() => setDialogOpen(true)}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#e0f0ff";
+              e.currentTarget.style.color = "#007bff";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = "#333";
+            }}
           >
             Project : {projectName}
           </h1>
