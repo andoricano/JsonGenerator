@@ -11,37 +11,38 @@ export default function Workspace() {
         { label: "Uploader" },
         { label: "Editer" },
     ];
+return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "24px",
+        borderBottom: "2px solid #ccc",
+        padding: "8px 16px",
+        marginTop: "10px",
+      }}
+    >
+      <h1 style={{ margin: 0, fontSize: "18px" }}>Workspace</h1>
 
-    return (
-        <div
+      <div style={{ display: "flex", gap: "12px" }}>
+        {tools.map((tool) => (
+          <div
+            key={tool.label}
+            onClick={() => headerStore.setActiveTool(tool.label)}
             style={{
-                height: "40px",
-                display: "flex",
-                alignItems: "center",
-                borderBottom: "1px solid #ccc",
-                marginTop: "10px",
-                gap: "18px",
+              padding: "6px 12px",
+              cursor: "pointer",
+              borderBottom:
+                activeTool === tool.label ? "3px solid #007bff" : "3px solid transparent",
+              color: activeTool === tool.label ? "#007bff" : "#555",
+              fontWeight: activeTool === tool.label ? "bold" : "normal",
+              transition: "all 0.2s",
             }}
-        >
-            <h1>Workspace</h1>
-            {tools.map((tool) => (
-                <button
-                    key={tool.label}
-                    style={{
-                        flex: 1,
-                        minWidth: "100px",
-                        height: "28px",
-                        border: "1px solid #999",
-                        borderRadius: "6px",
-                        background:
-                            activeTool === tool.label ? "lightgreen" : "#f9f9f9",
-                        cursor: "pointer",
-                    }}
-                    onClick={() => headerStore.setActiveTool(tool.label)}
-                >
-                    {tool.label}
-                </button>
-            ))}
-        </div>
-    );
+          >
+            {tool.label}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

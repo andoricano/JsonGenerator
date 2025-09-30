@@ -31,7 +31,7 @@ export default function Header() {
           alignItems: "center",
           padding: "0 16px",
           borderBottom: "1px solid #ccc",
-          background: "skyblue",
+          background: "white",
           zIndex: 1000,
         }}
       >
