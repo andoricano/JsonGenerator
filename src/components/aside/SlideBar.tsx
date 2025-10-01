@@ -6,7 +6,7 @@ type Props = {
   setIsOpen: (open: boolean) => void;
 };
 
-export default function Sidebar({ onSelect, isOpen, setIsOpen }: Props) {
+export default function Slidebar({ onSelect, isOpen, setIsOpen }: Props) {
 
   return (
     <>

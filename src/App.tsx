@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-import { useStores } from './AppProvider';
+import { useState } from 'react';
 import { setLang, getLang } from './lang/i18n';
 import type { Lang } from './lang/i18n';
-import LanguageSwitcher from './components/header/LanguageSwitcher';
 import Header from './components/header/Header';
-import FooterInput from './components/main/scriptor/InputSection';
-import Sidebar from './components/Sidebar';
-import SceneCanvas from './components/main/scriptor/Scriptor';
+import Canvas from './components/main/Canvas';
 import { AppProvider } from './AppProvider';
-import Canvas from './components/main/Canvas'
+import SideBar from './components/aside/SideBar';
 
 export default function App() {
     const [lang, setLangState] = useState<Lang>(getLang());
@@ -22,6 +18,7 @@ export default function App() {
     const handleMenuSelect = (menu: string) => {
         console.log('선택된 메뉴:', menu);
     };
+
     return (
         <AppProvider>
             <header
@@ -30,7 +27,7 @@ export default function App() {
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '10%',
+                    height: '20%',
                     background: '#f5f5f5',
                     zIndex: 1000,
                 }}
@@ -41,40 +38,33 @@ export default function App() {
             <aside
                 style={{
                     position: 'fixed',
-                    top: '10%',            
-                    left: 0,
-                    width: sidebarOpen ? '10%' : '0%',
-                    height: '90%',          
+                    top: '10%',
+                    left: '0%',
+                    width: '20%',
+                    height: '80%',
                     transition: 'width 0.3s ease',
                     overflow: 'hidden',
                     background: '#ddd',
-                    zIndex: 900,
                 }}
             >
-                <Sidebar
+                <SideBar
                     onSelect={handleMenuSelect}
-                    isOpen={sidebarOpen}
-                    setIsOpen={setSidebarOpen}
                 />
             </aside>
 
             <main
                 style={{
                     position: 'fixed',
-                    top: '10%',
-                    left: sidebarOpen ? '14%' : '0%',
+                    top: '20%',
+                    left: sidebarOpen ? '20%' : '0%',
                     width: sidebarOpen ? '80%' : '100%',
-                    height: '90%',
+                    height: '80%',
                     transition: 'left 0.3s ease, width 0.3s ease',
                     display: 'flex',
                     flexDirection: 'column',
-                    overflow: 'auto',
-                    background: '#fff',
+                    background:'white'
                 }}
             >
-                <div style={{ padding: '1rem', borderBottom: '1px solid #ccc' }}>
-                    <LanguageSwitcher lang={lang} onChange={handleLangChange} />
-                </div>
                 <Canvas />
             </main>
         </AppProvider>

@@ -18,16 +18,15 @@ export default function Scriptor() {
     return (
         <div
             style={{
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '16px',
-                backgroundColor: 'black',
-                marginTop: '100px',
-                boxSizing: 'border-box',
+                height: "100%",    
+                display: "flex",
+                flexDirection: "column",
+                padding: "16px",
+                backgroundColor: "black",
+                boxSizing: "border-box",
             }}
         >
-            
+
             <TextBoxSection messages={messages} />
             <InputSection onSend={handleSend} />
         </div>
