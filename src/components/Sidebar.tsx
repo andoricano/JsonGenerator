@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 type Props = {
-    onSelect: (menu: string) => void;
-    isOpen: boolean;
-    setIsOpen: (open: boolean) => void;
+  onSelect: (menu: string) => void;
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
 };
 
 export default function Sidebar({ onSelect, isOpen, setIsOpen }: Props) {
@@ -20,7 +20,7 @@ export default function Sidebar({ onSelect, isOpen, setIsOpen }: Props) {
             e.currentTarget.appendChild(btn);
 
             e.currentTarget.onmouseleave = () => {
-              e.currentTarget.innerHTML = ""; 
+              e.currentTarget.innerHTML = "";
             };
           }}
           style={styles.hoverZone}
@@ -67,7 +67,6 @@ const styles: { [key: string]: React.CSSProperties } = {
     top: "50%",
     right: -13,
     transform: "translateY(-50%)",
-    zIndex: 1001,
     height: 100,
   },
   sidebarContent: {
@@ -88,14 +87,11 @@ const styles: { [key: string]: React.CSSProperties } = {
     left: 0,
     bottom: 0,
     width: "16px",
-    zIndex: 1002,
   },
   hiddenButton: {
     position: "absolute",
     top: "50%",
     left: 0,
-    transform: "translateY(-50%)",
-    zIndex: 1003,
     height: "100px",
     background: "#007bff",
     color: "#fff",

@@ -23,7 +23,6 @@ export default function Scriptor() {
                 flexDirection: 'column',
                 padding: '16px',
                 backgroundColor: 'black',
-                height: '100vh',
                 marginTop: '100px',
                 boxSizing: 'border-box',
             }}

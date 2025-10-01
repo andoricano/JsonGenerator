@@ -22,34 +22,61 @@ export default function App() {
     const handleMenuSelect = (menu: string) => {
         console.log('선택된 메뉴:', menu);
     };
-
     return (
-
         <AppProvider>
-            <div className="app-container" style={{ display: 'flex', height: '100vh' }}>
+            <header
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '10%',
+                    background: '#f5f5f5',
+                    zIndex: 1000,
+                }}
+            >
                 <Header />
+            </header>
+
+            <aside
+                style={{
+                    position: 'fixed',
+                    top: '10%',            
+                    left: 0,
+                    width: sidebarOpen ? '10%' : '0%',
+                    height: '90%',          
+                    transition: 'width 0.3s ease',
+                    overflow: 'hidden',
+                    background: '#ddd',
+                    zIndex: 900,
+                }}
+            >
                 <Sidebar
                     onSelect={handleMenuSelect}
                     isOpen={sidebarOpen}
                     setIsOpen={setSidebarOpen}
                 />
+            </aside>
 
-                <div
-                    style={{
-                        flex: 1,
-                        marginLeft: sidebarOpen ? 200 : 0,
-                        transition: 'margin-left 0.3s ease',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: '100%',
-                    }}
-                >
-                    <div style={{ padding: '16px', borderBottom: '1px solid #ccc' }}>
-                        <LanguageSwitcher lang={lang} onChange={handleLangChange} />
-                    </div>
-                    <Canvas/>
+            <main
+                style={{
+                    position: 'fixed',
+                    top: '10%',
+                    left: sidebarOpen ? '14%' : '0%',
+                    width: sidebarOpen ? '80%' : '100%',
+                    height: '90%',
+                    transition: 'left 0.3s ease, width 0.3s ease',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    overflow: 'auto',
+                    background: '#fff',
+                }}
+            >
+                <div style={{ padding: '1rem', borderBottom: '1px solid #ccc' }}>
+                    <LanguageSwitcher lang={lang} onChange={handleLangChange} />
                 </div>
-            </div>
+                <Canvas />
+            </main>
         </AppProvider>
     );
 }
