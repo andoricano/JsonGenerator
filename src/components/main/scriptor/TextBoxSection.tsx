@@ -10,21 +10,19 @@ type Props = {
   messages: Message[];
 };
 
+
 export default function TextBoxSection({ messages }: Props) {
+  const lastMessage = messages[messages.length - 1];
+
   return (
     <div style={styles.container}>
-      {messages.map(msg => (
-        <div
-          key={msg.id}
-          style={{
-            ...styles.bubble
-          }}
-        >
-          <span style={{ color: msg.sender === 'npc' ? 'red' : '#fff' }}>
-            {msg.text}
+      {lastMessage && (
+        <div style={styles.bubble}>
+          <span style={{ color: lastMessage.sender === 'npc' ? 'red' : '#fff' }}>
+            {lastMessage.text}
           </span>
         </div>
-      ))}
+      )}
     </div>
   );
 }
@@ -32,9 +30,9 @@ export default function TextBoxSection({ messages }: Props) {
 export const styles: { [key: string]: React.CSSProperties } = {
   container: {
     backgroundColor: '#4caf50',
-    left: 20,              
-    right: 20,             
-    bottom: 20,            
+    left: 20,
+    right: 20,
+    bottom: 20,
     height: '200px',
     boxSizing: 'border-box',
   },

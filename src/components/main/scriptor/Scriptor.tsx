@@ -15,18 +15,19 @@ export default function Scriptor() {
         console.log(msg)
     };
 
+
     return (
         <div
             style={{
-                height: "100%",    
+                height: "100%",
                 display: "flex",
                 flexDirection: "column",
+                justifyContent: "flex-end",
                 padding: "16px",
                 backgroundColor: "black",
                 boxSizing: "border-box",
             }}
         >
-
             <TextBoxSection messages={messages} />
             <InputSection onSend={handleSend} />
         </div>
