@@ -26,7 +26,7 @@ export default function App() {
                     position: 'fixed',
                     top: 0,
                     left: 0,
-                    width: '100%',
+                    right: 0,
                     height: '20%',
                     background: '#f5f5f5',
                     zIndex: 1000,
@@ -59,10 +59,12 @@ export default function App() {
                     left: sidebarOpen ? '20%' : '0%',
                     width: sidebarOpen ? '80%' : '100%',
                     height: '80%',
+                    minWidth: '500px',
+                    minHeight: '500px',
                     transition: 'left 0.3s ease, width 0.3s ease',
                     display: 'flex',
                     flexDirection: 'column',
-                    background:'white'
+                    background: 'white'
                 }}
             >
                 <Canvas />

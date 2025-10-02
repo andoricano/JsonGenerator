@@ -14,8 +14,9 @@ export default function Canvas() {
   return (
     <div
       style={{
-        width: "100%",
-        flex: 1,  
+        minWidth: '1000px',
+        minHeight: '100px',
+        flex: 1,
         display: "flex",
         flexDirection: "column",
       }}
