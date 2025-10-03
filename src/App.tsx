@@ -27,7 +27,7 @@ export default function App() {
                     top: 0,
                     left: 0,
                     right: 0,
-                    height: '20%',
+                    height: '15%',
                     background: '#f5f5f5',
                     zIndex: 1000,
                 }}
@@ -38,10 +38,10 @@ export default function App() {
             <aside
                 style={{
                     position: 'fixed',
-                    top: '10%',
+                    top: '15%',
                     left: '0%',
                     width: '20%',
-                    height: '80%',
+                    height: '85%',
                     transition: 'width 0.3s ease',
                     overflow: 'hidden',
                     background: '#ddd',
@@ -55,10 +55,10 @@ export default function App() {
             <main
                 style={{
                     position: 'fixed',
-                    top: '20%',
-                    left: sidebarOpen ? '20%' : '0%',
-                    width: sidebarOpen ? '80%' : '100%',
-                    height: '80%',
+                    top: '15%',
+                    left: '20%',
+                    width: '80%',
+                    height: '85%',
                     minWidth: '500px',
                     minHeight: '500px',
                     transition: 'left 0.3s ease, width 0.3s ease',

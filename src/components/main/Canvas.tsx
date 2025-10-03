@@ -3,6 +3,7 @@ import { useStores } from "../../AppProvider";
 import Scriptor from "./scriptor/Scriptor";
 import ImageUploader from "./user/Uploader";
 import Editer from "./editer/Editer";
+import Workspace from "./tab/Workspace";
 
 export default function Canvas() {
   const { headerStore } = useStores();
@@ -21,6 +22,8 @@ export default function Canvas() {
         flexDirection: "column",
       }}
     >
+      <Workspace />
+
       {activeTool === "Scriptor" && <Scriptor />}
       {activeTool === "Uploader" && <ImageUploader />}
       {activeTool === "Editer" && <Editer />}

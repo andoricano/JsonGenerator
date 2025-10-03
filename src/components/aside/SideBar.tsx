@@ -7,12 +7,11 @@ export default function SideBar({ onSelect }: Props) {
         <div
             style={{
                 position: "fixed",
-                top: 160,
-                bottom: 0,
-                width: "20%",
+                top: "10%",
                 left: 0,
-                transition: "width 0.3s ease",
-                overflow: "hidden",
+                width: "100%",
+                height: "100%",
+                display: "flex"
             }}
         >
             <div
@@ -20,7 +19,6 @@ export default function SideBar({ onSelect }: Props) {
                     height: "100%",
                     minWidth: '200px',
                     minHeight: '500px',
-                    backgroundColor: "#f5f5f5",
                     borderRight: "1px solid #ccc",
                     padding: "16px",
                     display: "flex",

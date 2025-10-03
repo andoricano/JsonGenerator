@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 type Props = {
   onSelect: (menu: string) => void;
   isOpen: boolean;

@@ -1,5 +1,5 @@
-import { useStores } from "../../AppProvider";
-import { useObservable } from "../../hooks/useObservable";
+import { useStores } from "../../../AppProvider";
+import { useObservable } from "../../../hooks/useObservable";
 
 
 export default function Workspace() {
@@ -18,8 +18,7 @@ export default function Workspace() {
         alignItems: "center",
         gap: "30px",
         borderBottom: "2px solid #ccc",
-        padding: "6px 0px",
-        marginTop: "10px",
+        padding: "6px 10px",
       }}
     >
       <h1

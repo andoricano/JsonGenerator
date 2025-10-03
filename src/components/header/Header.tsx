@@ -5,8 +5,6 @@ import { useStores } from "../../AppProvider";
 import Nav from "./Nav";
 import { useState } from "react";
 import Dialog from "../Dialog";
-import Workspace from "./Workspace";
-
 
 
 export default function Header() {
@@ -23,13 +21,11 @@ export default function Header() {
     <>
       <div
         style={{
-          position: "fixed",
           top: 0,
           left: 0,
           right: 0,
           minWidth: '1000px',
-          minHeight: '160px',
-          height: "160px",
+          minHeight: '100px',
           alignItems: "center",
           padding: "0 16px",
           borderBottom: "1px solid #ccc",
@@ -76,7 +72,6 @@ export default function Header() {
           </h1>
           <Nav />
         </div>
-        <Workspace />
       </div>
 
       <Dialog
