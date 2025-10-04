@@ -17,7 +17,7 @@ export default function SideBar({ onSelect }: Props) {
                 style={{
                     width: "100%",
                     height: "100%",
-                    minWidth: '200px',
+                    minWidth: '100px',
                     minHeight: '500px',
                     borderRight: "1px solid #ccc",
                     padding: "16px",

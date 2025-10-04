@@ -9,7 +9,7 @@ export default function Workspace() {
   const tools = [
     { label: "Scriptor" },
     { label: "Uploader" },
-    { label: "Editer" },
+    { label: "Resouece Editer" },
   ];
   return (
     <div
@@ -23,13 +23,12 @@ export default function Workspace() {
     >
       <h1
         style={{
-          width: "20%",
+          width: "10%",
           margin: "0px",
           fontSize: "18px",
           textAlign: "center",
           padding: "8px 0",
           borderRadius: "8px",
-          background: "#6ec1e4",
           boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
           boxSizing:"border-box"
         }}>
