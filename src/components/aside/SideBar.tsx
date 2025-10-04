@@ -6,8 +6,7 @@ export default function SideBar({ onSelect }: Props) {
     return (
         <div
             style={{
-                position: "fixed",
-                top: "10%",
+                position: "absolute",
                 left: 0,
                 width: "100%",
                 height: "100%",
@@ -16,6 +15,7 @@ export default function SideBar({ onSelect }: Props) {
         >
             <div
                 style={{
+                    width: "100%",
                     height: "100%",
                     minWidth: '200px',
                     minHeight: '500px',
