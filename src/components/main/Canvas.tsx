@@ -1,7 +1,7 @@
 import { useObservable } from "../../hooks/useObservable";
 import { useStores } from "../../AppProvider";
 import Scriptor from "./scriptor/Scriptor";
-import ImageUploader from "./user/Uploader";
+import Theme from "./theme/Theme";
 import Editer from "./editer/Editer";
 import Workspace from "./tab/Workspace";
 
@@ -25,7 +25,7 @@ export default function Canvas() {
       <Workspace />
 
       {activeTool === "Scriptor" && <Scriptor />}
-      {activeTool === "Uploader" && <ImageUploader />}
+      {activeTool === "Theme" && <Theme />}
       {activeTool === "Editer" && <Editer />}
     </div>
   );

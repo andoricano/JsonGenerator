@@ -8,7 +8,7 @@ export default function Workspace() {
 
   const tools = [
     { label: "Scriptor" },
-    { label: "Uploader" },
+    { label: "Theme" },
     { label: "Resouece Editer" },
   ];
   return (
