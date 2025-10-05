@@ -21,7 +21,7 @@ export default function Theme() {
         padding: "6px 10px",
       }}
     >
-        <ImageUploader/>
+        {/* <ImageUploader/> */}
     </div>
   );
 }

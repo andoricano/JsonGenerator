@@ -4,6 +4,7 @@ import Scriptor from "./scriptor/Scriptor";
 import Theme from "./theme/Theme";
 import Editer from "./editer/Editer";
 import Workspace from "./tab/Workspace";
+import Config from "./config/Config";
 
 export default function Canvas() {
   const { headerStore } = useStores();
@@ -27,6 +28,7 @@ export default function Canvas() {
       {activeTool === "Scriptor" && <Scriptor />}
       {activeTool === "Theme" && <Theme />}
       {activeTool === "Editer" && <Editer />}
+      {activeTool === "Config" && <Config />}
     </div>
   );
 }

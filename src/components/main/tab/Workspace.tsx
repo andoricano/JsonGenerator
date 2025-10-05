@@ -10,6 +10,7 @@ export default function Workspace() {
     { label: "Scriptor" },
     { label: "Theme" },
     { label: "Resouece Editer" },
+    { label: "Config" },
   ];
   return (
     <div
