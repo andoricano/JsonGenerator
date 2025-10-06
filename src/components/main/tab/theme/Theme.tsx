@@ -1,5 +1,5 @@
-import { useStores } from "../../../AppProvider";
-import { useObservable } from "../../../hooks/useObservable";
+import { useStores } from "../../../../AppProvider";
+import { useObservable } from "../../../../hooks/useObservable";
 import ImageUploader from "../user/Uploader";
 
 export default function Theme() {

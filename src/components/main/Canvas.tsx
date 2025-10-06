@@ -1,10 +1,11 @@
 import { useObservable } from "../../hooks/useObservable";
 import { useStores } from "../../AppProvider";
-import Scriptor from "./scriptor/Scriptor";
-import Theme from "./theme/Theme";
-import Editer from "./editer/Editer";
-import Workspace from "./tab/Workspace";
-import Config from "./config/Config";
+import Scriptor from "./tab/scriptor/Scriptor";
+import Theme from "./tab/theme/Theme";
+import Editer from "./tab/editer/Editer";
+import Workspace from "./Workspace";
+import Config from "./tab/config/Config";
+import { TOOLS } from "./Workspace";
 
 export default function Canvas() {
   const { headerStore } = useStores();
@@ -25,10 +26,10 @@ export default function Canvas() {
     >
       <Workspace />
 
-      {activeTool === "Scriptor" && <Scriptor />}
-      {activeTool === "Theme" && <Theme />}
-      {activeTool === "Editer" && <Editer />}
-      {activeTool === "Config" && <Config />}
+      {activeTool === TOOLS.SCRIPTOR && <Scriptor />}
+      {activeTool === TOOLS.THEME && <Theme />}
+      {activeTool === TOOLS.EDITER && <Editer />}
+      {activeTool === TOOLS.CONFIG && <Config />}
     </div>
   );
 }

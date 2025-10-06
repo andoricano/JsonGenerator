@@ -1,5 +1,5 @@
-import { useObservable } from "../../../hooks/useObservable";
-import { useStores } from "../../../AppProvider";
+import { useObservable } from "../../../../hooks/useObservable";
+import { useStores } from "../../../../AppProvider";
 import { useState } from "react";
 
 
@@ -17,6 +17,16 @@ export default function Editer() {
   return (
     <>
       <main>
+        <h1>Test!!</h1>
+        <h1>Test!!</h1>
+        <h1>Test!!</h1>
+        <h1>Test!!</h1>
+        <h1>Test!!</h1>
+        <h1>Test!!</h1>
+        <h1>Test!!</h1>
+        <h1>Test!!</h1>
+        <h1>Test!!</h1>
+        <h1>Test!!</h1>
         <h1>Test!!</h1>
         <h1>Test!!</h1>
         <h1>Test!!</h1>

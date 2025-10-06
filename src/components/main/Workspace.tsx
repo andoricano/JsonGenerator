@@ -1,17 +1,26 @@
-import { useStores } from "../../../AppProvider";
-import { useObservable } from "../../../hooks/useObservable";
+import { useStores } from "../../AppProvider";
+import { useObservable } from "../../hooks/useObservable";
 
+export const TOOLS = {
+  SCRIPTOR: "Scriptor",
+  THEME: "Theme",
+  EDITER: "Resource Editer",
+  CONFIG: "Config",
+} as const;
+
+export type ToolType = typeof TOOLS[keyof typeof TOOLS];
 
 export default function Workspace() {
   const { headerStore } = useStores();
   const activeTool = useObservable(headerStore.activeTool$, headerStore.activeTool);
 
   const tools = [
-    { label: "Scriptor" },
-    { label: "Theme" },
-    { label: "Resouece Editer" },
-    { label: "Config" },
+    { label: TOOLS.SCRIPTOR },
+    { label: TOOLS.THEME },
+    { label: TOOLS.EDITER },
+    { label: TOOLS.CONFIG },
   ];
+
   return (
     <div
       style={{

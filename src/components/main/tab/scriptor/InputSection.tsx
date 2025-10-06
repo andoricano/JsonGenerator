@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { t } from '../../../lang/i18n';
-import { useStores } from "../../../AppProvider";
+import { t } from '../../../../lang/i18n';
+import { useStores } from "../../../../AppProvider";
 
 type Props = {
     onSend: (msg: string) => void;
