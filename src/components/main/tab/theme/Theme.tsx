@@ -1,6 +1,5 @@
 import { useStores } from "../../../../AppProvider";
 import { useObservable } from "../../../../hooks/useObservable";
-import ImageUploader from "../user/Uploader";
 
 export default function Theme() {
   const { headerStore } = useStores();
@@ -21,7 +20,6 @@ export default function Theme() {
         padding: "6px 10px",
       }}
     >
-        {/* <ImageUploader/> */}
     </div>
   );
 }

@@ -22,7 +22,7 @@ const ImageUploader: React.FC = () => {
   };
 
   return (
-    <main
+    <div
       style={{
         display: "flex",
         flexDirection: "column",
@@ -83,7 +83,7 @@ const ImageUploader: React.FC = () => {
           }}
         />
       )}
-    </main>
+    </div>
   );
 };
 

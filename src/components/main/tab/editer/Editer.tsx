@@ -1,6 +1,7 @@
 import { useObservable } from "../../../../hooks/useObservable";
 import { useStores } from "../../../../AppProvider";
 import { useState } from "react";
+import ImageUploader from "./uploader/Uploader";
 
 
 
@@ -15,29 +16,8 @@ export default function Editer() {
     setDialogOpen(false);
   };
   return (
-    <>
-      <main>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-        <h1>Test!!</h1>
-      </main>
-    </>
+    <div>
+      <ImageUploader/>
+    </div>
   );
 }

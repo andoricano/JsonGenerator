@@ -1,7 +1,7 @@
-import { useObservable } from "../../../../hooks/useObservable";
-import { useStores } from "../../../../AppProvider";
+import { useObservable } from "../../../../../hooks/useObservable";
+import { useStores } from "../../../../../AppProvider";
 import { useState } from "react";
-import Dialog from "../../../Dialog";
+import Dialog from "../../../../Dialog";
 import ImageUploader from "./Uploader";
 
 
