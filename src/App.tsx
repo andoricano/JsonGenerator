@@ -1,20 +1,9 @@
-import { useState } from 'react';
-import { setLang, getLang } from './lang/i18n';
-import type { Lang } from './lang/i18n';
 import Header from './components/header/Header';
 import Canvas from './components/main/Canvas';
 import { AppProvider } from './AppProvider';
 import SideBar from './components/aside/SideBar';
 
 export default function App() {
-    const [lang, setLangState] = useState<Lang>(getLang());
-    const [sidebarOpen, setSidebarOpen] = useState(true);
-
-    const handleLangChange = (newLang: Lang) => {
-        setLang(newLang);
-        setLangState(newLang);
-    };
-
     const handleMenuSelect = (menu: string) => {
         console.log('선택된 메뉴:', menu);
     };

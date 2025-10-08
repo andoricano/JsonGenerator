@@ -1,5 +1,5 @@
-import { Dropdown } from "./Dropdown";
 import { useStores } from "../../AppProvider";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Toolbar() {
   const { footerStore } = useStores();
@@ -29,7 +29,7 @@ export default function Toolbar() {
 
 
   return (
-    <nav
+    <div
       style={{
         display: "flex",
         gap: "12px",
@@ -57,7 +57,9 @@ export default function Toolbar() {
           {btn.label}
         </button>
       ))}
-    </nav>
+
+      <LanguageSwitcher/>
+    </div>
   );
 }
 

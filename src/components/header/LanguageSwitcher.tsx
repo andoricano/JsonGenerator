@@ -1,17 +1,19 @@
 import React from 'react';
 import type { Lang } from '../../lang/i18n';
+import { useStores } from "../../AppProvider";
+import { useObservable } from "../../hooks/useObservable";
 
-type Props = {
-    lang: Lang;
-    onChange: (lang: Lang) => void;
-};
+export default function LanguageSwitcher() {
+    const { appStore } = useStores();
 
-export default function LanguageSwitcher({ lang, onChange }: Props) {
+    const lang = useObservable(appStore.lang$, appStore.lang);
+
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        onChange(e.target.value as Lang);
+        const selected = e.target.value as Lang;
+        appStore.setLang(selected);
     };
 
-    const label = lang === 'ko' ? 'Language' : '언어';
+    const label = lang === "ko" ? "언어" : "Language";
 
     return (
         <div
@@ -26,7 +28,7 @@ export default function LanguageSwitcher({ lang, onChange }: Props) {
                 border: '1px solid #ccc',
                 borderRadius: '6px',
                 backgroundColor: '#f9f9f9',
-                minWidth: '200px',
+                width: '150px',
                 justifyContent: 'space-between',
             }}
         >
