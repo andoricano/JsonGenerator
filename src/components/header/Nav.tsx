@@ -10,11 +10,20 @@ export default function Nav() {
     {
       label: "File",
       items: [
-        { label: "New", onClick: () => console.log("New file") },
-        { label: "Save", onClick: () => console.log("Save file") },
+        { label: "New Project", onClick: () => console.log("New Project") },
+      
         {
-          label: "Export",
-          onClick: () => exportJSON(footerStore.toJSON()),
+          label: "Save",
+          onClick: () => exportJSON(footerStore.toJSON())
+        },
+        {
+          label: "Load",
+          onClick: () => console.log("Load"),
+        },
+        
+        {
+          label: "Setting",
+          onClick: () => console.log("Setting"),
         },
       ],
     },

@@ -2,9 +2,9 @@
 // import LanguageSwitcher from "./LanguageSwitcher";
 import { useObservable } from "../../hooks/useObservable";
 import { useStores } from "../../AppProvider";
-import Nav from "./Nav";
 import { useState } from "react";
 import Dialog from "../Dialog";
+import Toolbar from "./Toolbar";
 
 
 export default function Header() {
@@ -70,7 +70,7 @@ export default function Header() {
           >
             Project : {projectName}
           </h1>
-          <Nav />
+          <Toolbar />
         </div>
       </div>
 
