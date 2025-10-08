@@ -1,16 +1,10 @@
 import React, { createContext, useContext } from "react";
 import { appStore } from "./stores/AppStore";
-import { headerStore, canvasStore, logicStore } from "./stores/HeaderStore";
-import { footerStore } from "./stores/FooterStore";
 import { mainStore } from "./stores/MainStore";
 
 
 interface AppStores {
   appStore: typeof appStore;
-  headerStore: typeof headerStore;
-  canvasStore: typeof canvasStore;
-  logicStore: typeof logicStore;
-  footerStore: typeof footerStore; 
   mainStore: typeof mainStore; 
 }
 
@@ -18,7 +12,7 @@ const AppContext = createContext<AppStores | null>(null);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   return (
-    <AppContext.Provider value={{ appStore, headerStore, canvasStore, logicStore,footerStore, mainStore }}>
+    <AppContext.Provider value={{ appStore, mainStore }}>
       {children}
     </AppContext.Provider>
   );

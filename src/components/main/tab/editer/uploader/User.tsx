@@ -7,13 +7,13 @@ import ImageUploader from "./Uploader";
 
 
 export default function User() {
-  const { headerStore } = useStores();
-  const projectName = useObservable(headerStore.projectName$, headerStore.projectName);
+  const { appStore } = useStores();
+  const projectName = useObservable(appStore.projectName$, appStore.projectName);
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleConfirm = (newName: string) => {
-    headerStore.setProjectName(newName);
+    appStore.setProjectName(newName);
     setDialogOpen(false);
   };
   return (

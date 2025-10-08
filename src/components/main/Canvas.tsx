@@ -8,10 +8,10 @@ import Config from "./tab/config/Config";
 import { TOOLS } from "./Workspace";
 
 export default function Canvas() {
-  const { headerStore } = useStores();
+  const { appStore } = useStores();
   const activeTool = useObservable(
-    headerStore.activeTool$,
-    headerStore.activeTool
+    appStore.activeTool$,
+    appStore.activeTool
   );
 
   return (

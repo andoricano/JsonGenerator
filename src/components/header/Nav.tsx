@@ -4,7 +4,7 @@ import { useStores } from "../../AppProvider";
 
 
 export default function Nav() {
-  const { footerStore } = useStores();
+  const { mainStore } = useStores();
 
   const menuItems = [
     {
@@ -14,7 +14,7 @@ export default function Nav() {
       
         {
           label: "Save",
-          onClick: () => exportJSON(footerStore.toJSON())
+          onClick: () => exportJSON(mainStore.scriptToJSON())
         },
         {
           label: "Load",

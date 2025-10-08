@@ -9,7 +9,7 @@ type Props = {
 export default function InputSection({ onSend }: Props) {
     const [inputValue, setInputValue] = useState('');
     const [isComposing, setIsComposing] = useState(false);
-    const { footerStore } = useStores();
+    const { mainStore } = useStores();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
@@ -17,7 +17,7 @@ export default function InputSection({ onSend }: Props) {
 
     const handleSend = () => {
         if (!inputValue.trim()) return;
-        footerStore.addItem({
+        mainStore.addScriptItem({
             id: Date.now(),
             type: "text",
             cmd1: 0,

@@ -2,8 +2,8 @@ import { useStores } from "../../../../AppProvider";
 import { useObservable } from "../../../../hooks/useObservable";
 
 export default function Theme() {
-  const { headerStore } = useStores();
-  const activeTool = useObservable(headerStore.activeTool$, headerStore.activeTool);
+  const { appStore } = useStores();
+  const activeTool = useObservable(appStore.activeTool$, appStore.activeTool);
 
   const tools = [
     { label: "Scriptor" },

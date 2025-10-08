@@ -2,14 +2,14 @@ import { useStores } from "../../AppProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Toolbar() {
-  const { footerStore } = useStores();
+  const { mainStore } = useStores();
 
   const handleNew = () => {
     console.log("New Project");
   };
 
   const handleSave = () => {
-    exportJSON(footerStore.toJSON());
+    exportJSON(mainStore.toJSON());
   };
 
   const handleLoad = () => {
