@@ -1,4 +1,3 @@
-import React from "react";
 import { useStores } from "../../AppProvider";
 import { useObservable } from "../../hooks/useObservable";
 import { TOOLS } from "../main/Workspace";
@@ -28,15 +27,21 @@ export default function Contents({ obj }: ContentsProps) {
   return (
     <div
       style={{
-        flexGrow: 1,
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        overflowY: "auto",
-        padding: "8px 0",
+        flex: 1,
+        minHeight: 0,
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
-      <ul>
+      <ul
+        style={{
+          flex: 1,
+          margin: 0,
+          padding: '8px 0',
+          listStyle: 'none',
+          overflowY: 'auto',
+        }}
+      >
         {categories[activeCategory].map((item, idx) => (
           <li key={idx}>{item}</li>
         ))}

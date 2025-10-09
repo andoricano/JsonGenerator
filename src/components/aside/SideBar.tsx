@@ -10,27 +10,19 @@ export default function SideBar({ onSelect }: Props) {
         Character: ["Hero", "Villain", "Merchant"],
         Resource: ["background.png", "music.mp3", "sprite.png"],
     };
+
+
     return (
         <div
             style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                borderRight: "1px solid #ccc",
+                height: '100%',        
+                display: 'flex',
+                flexDirection: 'column',
+                flex: 1,
+                minHeight: 0,
             }}
         >
-            <div
-                style={{
-                    flex: 1,
-                    minHeight: 0,
-                }}
-            >
-                <Contents obj={dummyData} />
-            </div>
+            <Contents obj={dummyData} />
         </div>
-    )
+    );
 }

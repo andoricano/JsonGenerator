@@ -1,13 +1,8 @@
 import Header from './components/header/Header';
 import Canvas from './components/main/Canvas';
 import { AppProvider } from './AppProvider';
-import SideBar from './components/aside/SideBar';
 
 export default function App() {
-    const handleMenuSelect = (menu: string) => {
-        console.log('선택된 메뉴:', menu);
-    };
-
     return (
         <AppProvider>
             <header
@@ -23,30 +18,11 @@ export default function App() {
             >
                 <Header />
             </header>
-
-            <aside
-                style={{
-                    position: 'fixed',
-                    top: '20%',
-                    left: '0%',
-                    width: '20%',
-                    height: '80%',
-                    transition: 'width 0.3s ease',
-                    overflow: 'hidden',
-                    background: '#ddd',
-                }}
-            >
-                <SideBar
-                    onSelect={handleMenuSelect}
-                />
-            </aside>
-
             <main
                 style={{
                     position: 'fixed',
                     top: '20%',
-                    left: '20%',
-                    width: '80%',
+                    width: '100%',
                     height: '80%',
                     minWidth: '500px',
                     minHeight: '500px',
