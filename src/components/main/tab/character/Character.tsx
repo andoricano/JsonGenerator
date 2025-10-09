@@ -5,7 +5,7 @@ import ImageUploader from "./uploader/Uploader";
 
 
 
-export default function Editer() {
+export default function Character() {
   const { appStore } = useStores();
   const projectName = useObservable(appStore.projectName$, appStore.projectName);
 
@@ -17,6 +17,7 @@ export default function Editer() {
   };
   return (
     <div>
+      <ImageUploader/>
     </div>
   );
 }

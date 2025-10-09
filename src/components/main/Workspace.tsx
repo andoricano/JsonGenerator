@@ -3,9 +3,8 @@ import { useObservable } from "../../hooks/useObservable";
 
 export const TOOLS = {
   SCRIPTOR: "Scriptor",
-  THEME: "Theme",
+  CHARACTER: "Character",
   EDITER: "Resource Editer",
-  CONFIG: "Config",
 } as const;
 
 export type ToolType = typeof TOOLS[keyof typeof TOOLS];
@@ -16,9 +15,8 @@ export default function Workspace() {
 
   const tools = [
     { label: TOOLS.SCRIPTOR },
-    { label: TOOLS.THEME },
+    { label: TOOLS.CHARACTER },
     { label: TOOLS.EDITER },
-    { label: TOOLS.CONFIG },
   ];
 
   return (

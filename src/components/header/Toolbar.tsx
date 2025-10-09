@@ -9,7 +9,7 @@ export default function Toolbar() {
   };
 
   const handleSave = () => {
-    exportJSON(mainStore.toJSON());
+    exportJSON(mainStore.scriptToJSON());
   };
 
   const handleLoad = () => {
