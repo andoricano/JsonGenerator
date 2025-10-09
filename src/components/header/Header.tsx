@@ -5,6 +5,7 @@ import { useStores } from "../../AppProvider";
 import { useState } from "react";
 import Dialog from "../Dialog";
 import Toolbar from "./Toolbar";
+import Workspace from "../main/Workspace";
 
 
 export default function Header() {
@@ -72,6 +73,7 @@ export default function Header() {
           </h1>
           <Toolbar />
         </div>
+        <Workspace/>
       </div>
 
       <Dialog

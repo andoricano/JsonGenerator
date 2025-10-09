@@ -23,7 +23,6 @@ export default function Canvas() {
         flexDirection: "column",
       }}
     >
-      <Workspace />
 
       {activeTool === TOOLS.SCRIPTOR && <Scriptor />}
       {activeTool === TOOLS.CHARACTER && <Character />}
