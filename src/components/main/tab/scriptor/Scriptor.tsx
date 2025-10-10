@@ -30,7 +30,7 @@ export default function Scriptor() {
                     flexDirection: 'column',
                 }}
             >
-                <SideBar onSelect={handleMenuSelect} />
+                <SideBar/>
             </aside>
 
 

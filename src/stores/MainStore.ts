@@ -3,6 +3,7 @@ import { BehaviorSubject } from "rxjs";
 interface ScriptItem {
   id: number;
   type: string;
+  name: string;
   cmd1: number;
   cmd2: number;
   text: string;
