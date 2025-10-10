@@ -12,7 +12,6 @@ export default function ChatList() {
     if (!el) return;
     el.scrollTop = el.scrollHeight;
   }, [scriptList]);
-
   return (
     <div
       ref={containerRef}
@@ -36,18 +35,13 @@ export default function ChatList() {
             display: "flex",
             alignItems: "flex-start",
             gap: "8px",
+            flexDirection: "column",
           }}
         >
-          <span
-            style={{
-              fontWeight: "bold",
-              color: "#555",
-              flexShrink: 0,
-            }}
-          >
-            {idx + 1}.
-          </span>
-          <span
+          <div style={{ fontWeight: "bold", color: "#555" }}>
+            {idx + 1}. {item.name}
+          </div>
+          <div
             style={{
               overflow: "hidden",
               display: "-webkit-box",
@@ -56,11 +50,10 @@ export default function ChatList() {
               textOverflow: "ellipsis",
               wordBreak: "break-word",
               lineHeight: "1.4",
-              flex: 1,
             }}
           >
-            {item.text ?? JSON.stringify(item)}
-          </span>
+            {item.text}
+          </div>
         </div>
       ))}
     </div>
