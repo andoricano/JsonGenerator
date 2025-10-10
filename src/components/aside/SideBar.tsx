@@ -1,17 +1,6 @@
-import Contents from "./Contents";
+import ChatList from "./ChatList";
 
-type Props = {
-    onSelect: (menu: string) => void;
-};
-
-export default function SideBar({ onSelect }: Props) {
-    const dummyData = {
-        Script: ["Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending", "Intro Scene", "Battle Start", "Ending",],
-        Character: ["Hero", "Villain", "Merchant"],
-        Resource: ["background.png", "music.mp3", "sprite.png"],
-    };
-
-
+export default function SideBar() {
     return (
         <div
             style={{
@@ -22,7 +11,7 @@ export default function SideBar({ onSelect }: Props) {
                 minHeight: 0,
             }}
         >
-            <Contents obj={dummyData} />
+            <ChatList />
         </div>
     );
 }
