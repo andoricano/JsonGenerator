@@ -24,7 +24,15 @@ export class MainStore {
   }
 
 
-  private scriptItemsSubject = new BehaviorSubject<ScriptItem[]>([]);
+  private defaultScriptItem: ScriptItem = {
+    id: 1,
+    type: "default",
+    name: "User",
+    cmd1: 0,
+    cmd2: 0,
+    text: "please input your text",
+  };
+  private scriptItemsSubject = new BehaviorSubject<ScriptItem[]>([this.defaultScriptItem]);
   scriptItems$ = this.scriptItemsSubject.asObservable();
 
   constructor() {
@@ -51,6 +59,17 @@ export class MainStore {
       images: this.images,
       scriptItems: this.scriptItems,
     };
+  }
+
+  private _selectedIndex = new BehaviorSubject<number>(0);
+  selectedIndex$ = this._selectedIndex.asObservable();
+
+  get selectedIndex() {
+    return this._selectedIndex.getValue();
+  }
+
+  set selectedIndex(index: number) {
+    this._selectedIndex.next(index);
   }
 }
 
