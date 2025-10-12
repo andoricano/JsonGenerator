@@ -5,15 +5,12 @@ import { useObservable } from "../../hooks/useObservable";
 export default function ChatList() {
   const { mainStore } = useStores();
 
-  // 스크립트 아이템 리스트
   const scriptList = useObservable(mainStore.scriptItems$, mainStore.scriptItems);
 
-  // 선택된 인덱스
   const selectedIndex = useObservable(mainStore.selectedIndex$, mainStore.selectedIndex);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 새 항목 추가 시 자동 스크롤
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -37,7 +34,7 @@ export default function ChatList() {
         return (
           <div
             key={item.id ?? idx}
-            onClick={() => (mainStore.selectedIndex = idx)} // 클릭 시 selectedIndex 갱신
+            onClick={() => (mainStore.selectedIndex = idx)}
             style={{
               marginBottom: "8px",
               padding: "8px",
