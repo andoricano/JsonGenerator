@@ -71,6 +71,13 @@ export class MainStore {
   set selectedIndex(index: number) {
     this._selectedIndex.next(index);
   }
+
+
+  resetProject() {
+    this.imagesSubject.next([]);
+    this.scriptItemsSubject.next([this.defaultScriptItem]);
+    this._selectedIndex.next(0);
+  }
 }
 
 export const mainStore = new MainStore();

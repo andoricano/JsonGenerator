@@ -5,6 +5,7 @@ export default function Toolbar() {
   const { mainStore } = useStores();
 
   const handleNew = () => {
+    mainStore.resetProject()
     console.log("New Project");
   };
 
