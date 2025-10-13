@@ -1,23 +1,22 @@
-// import { Lang } from "../../stores/HeaderStore";
-// import LanguageSwitcher from "./LanguageSwitcher";
-import { useObservable } from "../../hooks/useObservable";
-import { useStores } from "../../AppProvider";
 import { useState } from "react";
+import { useAppStore } from "../../AppProvider";
 import Dialog from "../Dialog";
 import Toolbar from "./Toolbar";
 import Workspace from "../main/Workspace";
 
-
 export default function Header() {
-  const { appStore } = useStores();
-  const projectName = useObservable(appStore.projectName$, appStore.projectName);
+  const {
+    projectName,
+    setProjectName,
+  } = useAppStore();
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleConfirm = (newName: string) => {
-    appStore.setProjectName(newName);
+    setProjectName(newName);
     setDialogOpen(false);
   };
+
   return (
     <>
       <div
@@ -34,7 +33,6 @@ export default function Header() {
           zIndex: 1000,
         }}
       >
-
         <div
           style={{
             display: "flex",

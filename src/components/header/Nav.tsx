@@ -1,10 +1,10 @@
 import { Dropdown } from "./Dropdown";
-import { useStores } from "../../AppProvider";
+import { useAppStore } from "../../AppProvider";
 
 
 
 export default function Nav() {
-  const { mainStore } = useStores();
+  const { scriptToJSON } = useAppStore();
 
   const menuItems = [
     {
@@ -14,7 +14,7 @@ export default function Nav() {
       
         {
           label: "Save",
-          onClick: () => exportJSON(mainStore.scriptToJSON())
+          onClick: () => exportJSON(scriptToJSON())
         },
         {
           label: "Load",

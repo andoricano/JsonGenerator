@@ -1,27 +1,90 @@
-import { BehaviorSubject } from "rxjs";
+import { useState } from "react";
 
-export class AppStore {
-
-    private projectNameSubject = new BehaviorSubject<string>("I Love yo yoU");
-    projectName$ = this.projectNameSubject.asObservable();
-    get projectName() { return this.projectNameSubject.getValue(); }
-    setProjectName(name: string) { this.projectNameSubject.next(name); }
-
-    private langSubject = new BehaviorSubject<"en" | "ko">("en");
-    lang$ = this.langSubject.asObservable();
-    get lang() { return this.langSubject.getValue(); }
-    setLang(l: "en" | "ko") { this.langSubject.next(l); }
-
-    private darkModeSubject = new BehaviorSubject<boolean>(false);
-    darkMode$ = this.darkModeSubject.asObservable();
-    get darkMode() { return this.darkModeSubject.getValue(); }
-    toggleDarkMode() { this.darkModeSubject.next(!this.darkModeSubject.getValue()); }
-
-
-    private activeToolSubject = new BehaviorSubject<string>("Scriptor");
-    activeTool$ = this.activeToolSubject.asObservable();
-    get activeTool() { return this.activeToolSubject.getValue(); }
-    setActiveTool(tool: string) { this.activeToolSubject.next(tool); }
+export interface ScriptItem {
+  id: number;
+  type: string;
+  name: string;
+  cmd1: number;
+  cmd2: number;
+  text: string;
 }
 
-export const appStore = new AppStore();
+export function useStoreLogic() {
+  // ===== AppStore =====
+  const [projectName, setProjectName] = useState("I Love yo yoU");
+  const [lang, setLang] = useState<"en" | "ko">("en");
+  const [darkMode, setDarkMode] = useState(false);
+  const [activeTool, setActiveTool] = useState("Scriptor");
+
+  const toggleDarkMode = () => setDarkMode(prev => !prev);
+
+  const resetAppStore = () => {
+    setProjectName("I Love yo yoU");
+    setLang("en");
+    setDarkMode(false);
+    setActiveTool("Scriptor");
+  };
+
+  // ===== Logic Store =====
+  const [images, setImages] = useState<{ id: number; url: string }[]>([]);
+  const defaultScriptItem: ScriptItem = {
+    id: 1,
+    type: "default",
+    name: "User",
+    cmd1: 0,
+    cmd2: 0,
+    text: "please input your text",
+  };
+  const [scriptItems, setScriptItems] = useState<ScriptItem[]>([defaultScriptItem]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const addImage = (url: string) => setImages(prev => [...prev, { id: Date.now(), url }]);
+  const removeImage = (id: number) => setImages(prev => prev.filter(img => img.id !== id));
+
+  const addScriptItem = (item: ScriptItem) => setScriptItems(prev => [...prev, item]);
+  const removeScriptItem = (id: number) => setScriptItems(prev => prev.filter(i => i.id !== id));
+
+  const resetMainStore = () => {
+    setImages([]);
+    setScriptItems([defaultScriptItem]);
+    setSelectedIndex(0);
+  };
+
+  const resetAll = () => {
+    resetAppStore();
+    resetMainStore();
+  };
+
+  const scriptToJSON = () => ({
+    images,
+    scriptItems,
+  });
+
+  return {
+    // AppStore
+    projectName,
+    setProjectName,
+    lang,
+    setLang,
+    darkMode,
+    toggleDarkMode,
+    activeTool,
+    setActiveTool,
+    resetAppStore,
+
+    // Logic Store
+    images,
+    addImage,
+    removeImage,
+    scriptItems,
+    addScriptItem,
+    removeScriptItem,
+    selectedIndex,
+    setSelectedIndex,
+    resetMainStore,
+    scriptToJSON,
+
+    // 전체 초기화
+    resetAll,
+  };
+}

@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import TextBoxSection from './TextBoxSection';
 import InputSection from './InputSection';
 import SideBar from '../../../aside/SideBar';
-import { useStores } from '../../../../AppProvider';
-import { useObservable } from '../../../../hooks/useObservable';
+import { useAppStore } from '../../../../AppProvider';
 
 
 export default function Scriptor() {
-    const { mainStore } = useStores();
-    const selectedIndex = useObservable(mainStore.selectedIndex$, mainStore.selectedIndex);
+    const { scriptItems,selectedIndex,setSelectedIndex } = useAppStore();
 
     const [messages, setMessages] = useState<
         { id: number; sender: 'player'; text: string }[]
@@ -17,7 +15,7 @@ export default function Scriptor() {
 
 
     useEffect(() => {
-        const script = mainStore.scriptItems[selectedIndex];
+        const script = scriptItems[selectedIndex];
         if (script) {
             setMessages([
                 {
@@ -29,7 +27,7 @@ export default function Scriptor() {
         } else {
             setMessages([]);
         }
-    }, [selectedIndex, mainStore.scriptItems]);
+    }, [selectedIndex, scriptItems]);
 
 
     const handleSend = (msg: string) => {
@@ -37,7 +35,7 @@ export default function Scriptor() {
             ...prev,
             { id: prev.length + 1, sender: 'player', text: msg },
         ]);
-        mainStore.selectedIndex = mainStore.scriptItems.length - 1;
+        setSelectedIndex(scriptItems.length);
         console.log(msg)
     };
 

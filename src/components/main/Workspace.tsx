@@ -1,5 +1,4 @@
-import { useStores } from "../../AppProvider";
-import { useObservable } from "../../hooks/useObservable";
+import { useAppStore } from "../../AppProvider";
 
 export const TOOLS = {
   SCRIPTOR: "Scriptor",
@@ -10,8 +9,7 @@ export const TOOLS = {
 export type ToolType = typeof TOOLS[keyof typeof TOOLS];
 
 export default function Workspace() {
-  const { appStore } = useStores();
-  const activeTool = useObservable(appStore.activeTool$, appStore.activeTool);
+  const { activeTool, setActiveTool } = useAppStore();
 
   const tools = [
     { label: TOOLS.SCRIPTOR },
@@ -46,7 +44,7 @@ export default function Workspace() {
         {tools.map((tool) => (
           <div
             key={tool.label}
-            onClick={() => appStore.setActiveTool(tool.label)}
+            onClick={() => setActiveTool(tool.label)}
             style={{
               padding: "6px 0px",
               cursor: "pointer",

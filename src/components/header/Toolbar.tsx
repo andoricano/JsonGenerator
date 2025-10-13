@@ -1,16 +1,16 @@
-import { useStores } from "../../AppProvider";
+import { useAppStore } from "../../AppProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Toolbar() {
-  const { mainStore } = useStores();
+  const { resetMainStore,scriptToJSON } = useAppStore();
 
   const handleNew = () => {
-    mainStore.resetProject()
+    resetMainStore()
     console.log("New Project");
   };
 
   const handleSave = () => {
-    exportJSON(mainStore.scriptToJSON());
+    exportJSON(scriptToJSON());
   };
 
   const handleLoad = () => {

@@ -1,17 +1,11 @@
-import { useObservable } from "../../hooks/useObservable";
-import { useStores } from "../../AppProvider";
+import { useAppStore } from "../../AppProvider";
 import Scriptor from "./tab/scriptor/Scriptor";
 import Editer from "./tab/editer/Editer";
-import Workspace from "./Workspace";
 import { TOOLS } from "./Workspace";
 import Character from "./tab/character/Character";
 
 export default function Canvas() {
-  const { appStore } = useStores();
-  const activeTool = useObservable(
-    appStore.activeTool$,
-    appStore.activeTool
-  );
+  const { activeTool } = useAppStore();
 
   return (
     <div

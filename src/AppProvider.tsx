@@ -1,25 +1,15 @@
-import React, { createContext, useContext } from "react";
-import { appStore } from "./stores/AppStore";
-import { mainStore } from "./stores/MainStore";
+import { createContext, useContext, ReactNode } from "react";
+import { useStoreLogic } from "./stores/AppStore";
 
+const AppContext = createContext<ReturnType<typeof useStoreLogic> | null>(null);
 
-interface AppStores {
-  appStore: typeof appStore;
-  mainStore: typeof mainStore; 
+export function AppProvider({ children }: { children: ReactNode }) {
+  const store = useStoreLogic();
+  return <AppContext.Provider value={store}>{children}</AppContext.Provider>;
 }
 
-const AppContext = createContext<AppStores | null>(null);
-
-export function AppProvider({ children }: { children: React.ReactNode }) {
-  return (
-    <AppContext.Provider value={{ appStore, mainStore }}>
-      {children}
-    </AppContext.Provider>
-  );
-}
-
-export function useStores(): AppStores {
+export function useAppStore() {
   const context = useContext(AppContext);
-  if (!context) throw new Error("useStores must be used within AppProvider");
+  if (!context) throw new Error("useAppStore must be used within AppProvider");
   return context;
 }

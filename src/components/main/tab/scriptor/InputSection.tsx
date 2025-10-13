@@ -1,6 +1,6 @@
 import React, { useState,useRef } from 'react';
 import { t } from '../../../../lang/i18n';
-import { useStores } from "../../../../AppProvider";
+import { useAppStore } from "../../../../AppProvider";
 
 type Props = {
     onSend: (msg: string) => void;
@@ -9,7 +9,7 @@ type Props = {
 export default function InputSection({ onSend }: Props) {
     const [inputValue, setInputValue] = useState('');
     const [isComposing, setIsComposing] = useState(false);
-    const { mainStore } = useStores();
+    const { addScriptItem } = useAppStore();
     const aRef = useRef(0);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +19,7 @@ export default function InputSection({ onSend }: Props) {
     const handleSend = () => {
         aRef.current++;
         if (!inputValue.trim()) return;
-        mainStore.addScriptItem({
+        addScriptItem({
             id: Date.now(),
             name: aRef.current % 2 === 0 ? "player" : "luna",
             type: "text",

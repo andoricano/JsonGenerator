@@ -1,16 +1,13 @@
 import React from 'react';
 import type { Lang } from '../../lang/i18n';
-import { useStores } from "../../AppProvider";
-import { useObservable } from "../../hooks/useObservable";
+import { useAppStore } from "../../AppProvider";
 
 export default function LanguageSwitcher() {
-    const { appStore } = useStores();
-
-    const lang = useObservable(appStore.lang$, appStore.lang);
+    const { lang, setLang } = useAppStore();
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selected = e.target.value as Lang;
-        appStore.setLang(selected);
+        setLang(selected);
     };
 
     const label = lang === "ko" ? "언어" : "Language";

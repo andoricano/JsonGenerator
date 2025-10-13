@@ -1,5 +1,4 @@
-import { useObservable } from "../../../../../hooks/useObservable";
-import { useStores } from "../../../../../AppProvider";
+import { useAppStore } from "../../../../../AppProvider";
 import { useState } from "react";
 import Dialog from "../../../../Dialog";
 import ImageUploader from "./Uploader";
@@ -7,13 +6,12 @@ import ImageUploader from "./Uploader";
 
 
 export default function User() {
-  const { appStore } = useStores();
-  const projectName = useObservable(appStore.projectName$, appStore.projectName);
+  const { projectName,setProjectName } = useAppStore();
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleConfirm = (newName: string) => {
-    appStore.setProjectName(newName);
+    setProjectName(newName);
     setDialogOpen(false);
   };
   return (

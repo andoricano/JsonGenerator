@@ -1,13 +1,8 @@
 import { useEffect, useRef } from "react";
-import { useStores } from "../../AppProvider";
-import { useObservable } from "../../hooks/useObservable";
+import { useAppStore } from "../../AppProvider";
 
 export default function ChatList() {
-  const { mainStore } = useStores();
-
-  const scriptList = useObservable(mainStore.scriptItems$, mainStore.scriptItems);
-
-  const selectedIndex = useObservable(mainStore.selectedIndex$, mainStore.selectedIndex);
+  const { scriptItems, selectedIndex, setSelectedIndex } = useAppStore();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -15,7 +10,7 @@ export default function ChatList() {
     const el = containerRef.current;
     if (!el) return;
     el.scrollTop = el.scrollHeight;
-  }, [scriptList]);
+  }, [scriptItems]);
 
   return (
     <div
@@ -29,12 +24,12 @@ export default function ChatList() {
         padding: "8px",
       }}
     >
-      {scriptList.map((item, idx) => {
+      {scriptItems.map((item, idx) => {
         const isSelected = idx === selectedIndex;
         return (
           <div
             key={item.id ?? idx}
-            onClick={() => (mainStore.selectedIndex = idx)}
+            onClick={() => setSelectedIndex(idx)}
             style={{
               marginBottom: "8px",
               padding: "8px",
