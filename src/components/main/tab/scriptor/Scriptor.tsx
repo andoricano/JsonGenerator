@@ -1,5 +1,5 @@
-import TextBoxSection from './TextBoxSection';
-import InputSection from './InputSection';
+import TextBoxSection from './TextBox/TextBoxSection';
+import InputSection from './TextBox/InputSection';
 import SideBar from '../../../aside/SideBar';
 import { useAppStore } from '../../../../AppProvider';
 

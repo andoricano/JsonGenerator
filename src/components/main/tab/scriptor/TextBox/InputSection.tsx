@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { t } from '../../../../lang/i18n';
-import { useAppStore } from "../../../../AppProvider";
-import { ScriptString } from '../../../../types';
+import React, { useState } from 'react';
+import { t } from '../../../../../lang/i18n';
+import { useAppStore } from "../../../../../AppProvider";
+import { ScriptString } from '../../../../../types';
 
 
 export default function InputSection() {
@@ -40,7 +40,7 @@ export default function InputSection() {
     };
 
     return (
-        <section
+        <div
             className="footer-input"
             style={{
                 display: 'flex',
@@ -79,6 +79,6 @@ export default function InputSection() {
             >
                 {t('send')}
             </button>
-        </section>
+        </div>
     );
 }

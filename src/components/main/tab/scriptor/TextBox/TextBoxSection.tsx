@@ -1,13 +1,19 @@
 import React from 'react';
-import { Character,ScriptString } from '../../../../types';
+import { useAppStore } from '../../../../../AppProvider';
+import TextChracter from './TextCharacter';
 
 
-export default function TextBoxSection({ scriptString }: { scriptString: ScriptString }) {
+
+export default function TextBoxSection() {
+  const { scriptItems, selectedIndex } = useAppStore();
+  const scriptString = scriptItems[selectedIndex].scriptString
+
   return (
     <div style={styles.container}>
+      <TextChracter/>
       {scriptString && (
         <div style={styles.bubble}>
-          <span style={{ color:'#fff' }}>
+          <span style={{ color: '#fff' }}>
             {scriptString.script}
           </span>
         </div>
