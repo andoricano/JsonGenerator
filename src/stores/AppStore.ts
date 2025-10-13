@@ -1,13 +1,5 @@
 import { useState } from "react";
-
-export interface ScriptItem {
-  id: number;
-  type: string;
-  name: string;
-  cmd1: number;
-  cmd2: number;
-  text: string;
-}
+import { ScriptItem, defaultScript } from "../types";
 
 export function useStoreLogic() {
   // ===== AppStore =====
@@ -27,22 +19,16 @@ export function useStoreLogic() {
 
   // ===== Logic Store =====
   const [images, setImages] = useState<{ id: number; url: string }[]>([]);
-  const defaultScriptItem: ScriptItem = {
-    id: 1,
-    type: "default",
-    name: "User",
-    cmd1: 0,
-    cmd2: 0,
-    text: "please input your text",
-  };
+  const defaultScriptItem: ScriptItem = defaultScript
   const [scriptItems, setScriptItems] = useState<ScriptItem[]>([defaultScriptItem]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const addScriptItem = (item: ScriptItem) => setScriptItems(prev => [...prev, item]);
 
   const addImage = (url: string) => setImages(prev => [...prev, { id: Date.now(), url }]);
   const removeImage = (id: number) => setImages(prev => prev.filter(img => img.id !== id));
 
-  const addScriptItem = (item: ScriptItem) => setScriptItems(prev => [...prev, item]);
-  const removeScriptItem = (id: number) => setScriptItems(prev => prev.filter(i => i.id !== id));
+  const removeScriptItem = (idx: number) =>
+    setScriptItems(prev => prev.filter((_, index) => index !== idx));
 
   const resetMainStore = () => {
     setImages([]);
@@ -77,6 +63,7 @@ export function useStoreLogic() {
     addImage,
     removeImage,
     scriptItems,
+    setScriptItems,
     addScriptItem,
     removeScriptItem,
     selectedIndex,

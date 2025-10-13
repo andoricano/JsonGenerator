@@ -44,7 +44,7 @@ export default function ChatList() {
             }}
           >
             <div style={{ fontWeight: "bold", color: "#555" }}>
-              {idx + 1}. {item.name}
+              {idx + 1}. {item.character.name}
             </div>
             <div
               style={{
@@ -57,7 +57,7 @@ export default function ChatList() {
                 lineHeight: "1.4",
               }}
             >
-              {item.text}
+              {item.scriptString.script}
             </div>
           </div>
         );

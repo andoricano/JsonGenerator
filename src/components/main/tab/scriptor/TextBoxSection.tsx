@@ -1,25 +1,14 @@
 import React from 'react';
-
-export type Message = {
-  id: number;
-  sender: 'npc' | 'player';
-  text: string;
-};
-
-type Props = {
-  messages: Message[];
-};
+import { Character,ScriptString } from '../../../../types';
 
 
-export default function TextBoxSection({ messages }: Props) {
-  const lastMessage = messages[messages.length - 1];
-
+export default function TextBoxSection({ scriptString }: { scriptString: ScriptString }) {
   return (
     <div style={styles.container}>
-      {lastMessage && (
+      {scriptString && (
         <div style={styles.bubble}>
-          <span style={{ color: lastMessage.sender === 'npc' ? 'red' : '#fff' }}>
-            {lastMessage.text}
+          <span style={{ color:'#fff' }}>
+            {scriptString.script}
           </span>
         </div>
       )}

@@ -1,34 +1,35 @@
-import React, { useState,useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { t } from '../../../../lang/i18n';
 import { useAppStore } from "../../../../AppProvider";
+import { ScriptString } from '../../../../types';
 
-type Props = {
-    onSend: (msg: string) => void;
-};
 
-export default function InputSection({ onSend }: Props) {
+export default function InputSection() {
+
+    const { scriptItems, selectedIndex, setScriptItems } = useAppStore();
+
+
+    const onUpdateScriptString = (newScriptString: ScriptString) => {
+        setScriptItems(prev =>
+            prev.map((item, idx) =>
+                idx === selectedIndex ? { ...item, scriptString: newScriptString } : item
+            )
+        );
+    };
     const [inputValue, setInputValue] = useState('');
     const [isComposing, setIsComposing] = useState(false);
-    const { addScriptItem } = useAppStore();
-    const aRef = useRef(0);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
     };
 
     const handleSend = () => {
-        aRef.current++;
         if (!inputValue.trim()) return;
-        addScriptItem({
-            id: Date.now(),
-            name: aRef.current % 2 === 0 ? "player" : "luna",
-            type: "text",
-            cmd1: 0,
-            cmd2: 0,
-            text: inputValue,
+
+        onUpdateScriptString({
+            ...scriptItems[selectedIndex].scriptString, 
+            script: inputValue,                        
         });
-        onSend(inputValue);
-        setInputValue('');
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
