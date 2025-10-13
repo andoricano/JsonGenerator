@@ -22,7 +22,12 @@ export function useStoreLogic() {
   const defaultScriptItem: ScriptItem = defaultScript
   const [scriptItems, setScriptItems] = useState<ScriptItem[]>([defaultScriptItem]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const addScriptItem = (item: ScriptItem) => setScriptItems(prev => [...prev, item]);
+  const addScriptItem = () => {
+    setScriptItems(prev => [
+      ...prev,
+      { ...defaultScriptItem, id: crypto.randomUUID() }
+    ]);
+  };
 
   const addImage = (url: string) => setImages(prev => [...prev, { id: Date.now(), url }]);
   const removeImage = (id: number) => setImages(prev => prev.filter(img => img.id !== id));

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useAppStore } from "../../AppProvider";
 
-export default function ChatList() {
+export default function ScriptList() {
   const { scriptItems, selectedIndex, setSelectedIndex } = useAppStore();
 
   const containerRef = useRef<HTMLDivElement>(null);
