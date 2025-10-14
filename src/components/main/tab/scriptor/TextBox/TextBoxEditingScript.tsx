@@ -1,54 +1,45 @@
 import React, { useState } from 'react';
-import { t } from '../../../../../lang/i18n';
-import { useAppStore } from "../../../../../AppProvider";
 import { ScriptString } from '../../../../../types';
 
+type TextBoxEditingScriptProps = {
+    scriptString: ScriptString;
+    onSave: (newScript: string) => void;
+    onCancel: () => void;
+};
 
-export default function InputSection() {
-
-    const { scriptItems, selectedIndex, setScriptItems } = useAppStore();
-
-
-    const onUpdateScriptString = (newScriptString: ScriptString) => {
-        setScriptItems(prev =>
-            prev.map((item, idx) =>
-                idx === selectedIndex ? { ...item, scriptString: newScriptString } : item
-            )
-        );
-    };
-    const [inputValue, setInputValue] = useState('');
+export default function TextBoxEditingScript({
+    scriptString,
+    onSave,
+    onCancel,
+}: TextBoxEditingScriptProps) {
+    const [inputValue, setInputValue] = useState(scriptString.script);
     const [isComposing, setIsComposing] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
     };
 
-    const handleSend = () => {
+    const handleSave = () => {
         if (!inputValue.trim()) return;
-
-        onUpdateScriptString({
-            ...scriptItems[selectedIndex].scriptString, 
-            script: inputValue,                        
-        });
+        onSave(inputValue);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && !isComposing) {
             e.preventDefault();
-            handleSend();
+            handleSave();
         }
     };
-
+    
     return (
         <div
-            className="footer-input"
             style={{
                 display: 'flex',
                 gap: '8px',
                 padding: '8px',
                 borderTop: '1px solid #ccc',
                 backgroundColor: '#fff',
-                marginBottom: '10px'
+                marginBottom: '10px',
             }}
         >
             <input
@@ -58,7 +49,7 @@ export default function InputSection() {
                 onKeyDown={handleKeyDown}
                 onCompositionStart={() => setIsComposing(true)}
                 onCompositionEnd={() => setIsComposing(false)}
-                placeholder={t('placeholder')}
+                autoFocus
                 style={{
                     flex: 1,
                     padding: '8px',
@@ -67,7 +58,7 @@ export default function InputSection() {
                 }}
             />
             <button
-                onClick={handleSend}
+                onClick={handleSave}
                 style={{
                     padding: '8px 12px',
                     borderRadius: '4px',
@@ -77,7 +68,20 @@ export default function InputSection() {
                     cursor: 'pointer',
                 }}
             >
-                {t('send')}
+                Save
+            </button>
+            <button
+                onClick={onCancel}
+                style={{
+                    padding: '8px 12px',
+                    borderRadius: '4px',
+                    border: 'none',
+                    backgroundColor: '#ccc',
+                    color: '#000',
+                    cursor: 'pointer',
+                }}
+            >
+                Cancel
             </button>
         </div>
     );

@@ -1,11 +1,8 @@
 import TextBoxSection from './TextBox/TextBoxSection';
-import InputSection from './TextBox/InputSection';
 import SideBar from '../../../aside/SideBar';
-import { useAppStore } from '../../../../AppProvider';
 
 
 export default function Scriptor() {
-    const { scriptItems,selectedIndex } = useAppStore();
 
     return (
         <div style={{ display: 'flex', height: '100%' }}>
@@ -33,8 +30,7 @@ export default function Scriptor() {
                     boxSizing: 'border-box',
                 }}
             >
-                <TextBoxSection scriptString ={scriptItems[selectedIndex].scriptString} />
-                <InputSection />
+                <TextBoxSection/>
             </div>
         </div>
     );

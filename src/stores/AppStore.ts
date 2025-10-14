@@ -41,16 +41,25 @@ export function useStoreLogic() {
     setSelectedIndex(0);
   };
 
-  const resetAll = () => {
-    resetAppStore();
-    resetMainStore();
-  };
 
   const scriptToJSON = () => ({
     images,
     scriptItems,
   });
 
+  //Scriptor
+  const [textEditing, setTextEditing] = useState(false);
+
+
+  const resetScriptorStore = () => {
+    setTextEditing(false)
+  };
+
+  const resetAll = () => {
+    resetAppStore();
+    resetMainStore();
+    resetScriptorStore();
+  };
   return {
     // AppStore
     projectName,
@@ -75,6 +84,11 @@ export function useStoreLogic() {
     setSelectedIndex,
     resetMainStore,
     scriptToJSON,
+
+    //Sctiptor
+    textEditing,
+    setTextEditing,
+    resetScriptorStore,
 
     // 전체 초기화
     resetAll,

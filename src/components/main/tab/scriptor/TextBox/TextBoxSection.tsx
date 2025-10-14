@@ -1,22 +1,42 @@
 import React from 'react';
-import { useAppStore } from '../../../../../AppProvider';
 import TextChracter from './TextCharacter';
+import TextBoxScript from './TextBoxScript';
+import { useAppStore } from '../../../../../AppProvider';
+import TextBoxEditingScript from './TextBoxEditingScript';
 
 
 
 export default function TextBoxSection() {
-  const { scriptItems, selectedIndex } = useAppStore();
-  const scriptString = scriptItems[selectedIndex].scriptString
+  const { scriptItems, selectedIndex, setScriptItems, textEditing, setTextEditing } = useAppStore();
+  const scriptString = scriptItems[selectedIndex].scriptString;
+
+  const handleSave = (script: string) => {
+    if (!script.trim()) return;
+
+    setScriptItems(prev =>
+      prev.map((item, idx) =>
+        idx === selectedIndex
+          ? { ...item, scriptString: { ...item.scriptString, script: script } }
+          : item
+      )
+    );
+    setTextEditing(false);
+  };
 
   return (
     <div style={styles.container}>
-      <TextChracter/>
-      {scriptString && (
-        <div style={styles.bubble}>
-          <span style={{ color: '#fff' }}>
-            {scriptString.script}
-          </span>
-        </div>
+      <TextChracter />
+      {textEditing ? (
+        <TextBoxEditingScript
+          scriptString={scriptString}
+          onSave={handleSave}
+          onCancel={() => setTextEditing(false)}
+        />
+      ) : (
+        <TextBoxScript
+          scriptString={scriptString}
+          onEditStart={() => setTextEditing(true)}
+        />
       )}
     </div>
   );
