@@ -15,10 +15,19 @@ export default function TextBoxScript(
         >
             {(
                 <div
-                    style={{ padding: '12px', borderRadius: '12px', maxWidth: '80%', cursor: 'pointer', backgroundColor: '#136415ff' }}
+                    style={{
+                        padding: '12px', borderRadius: '12px',
+                        minWidth: '10%', maxWidth: '90%', cursor: 'pointer', backgroundColor: '#136415ff'
+                    }}
                     onClick={onEditStart}
                 >
-                    <span style={{ color: '#fff' }}>{scriptString.script}</span>
+                    <span style={{ color: '#fff' }}>
+                        {
+                            scriptString.script != "" ?
+                            scriptString.script :
+                            "대사를 입력해주세요."
+                        }
+                    </span>
                 </div>
             )}
         </div>
