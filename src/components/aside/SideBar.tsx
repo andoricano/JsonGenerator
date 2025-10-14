@@ -9,7 +9,6 @@ export default function SideBar() {
     addScriptItem();
   };
 
-
     return (
         <div
             style={{
@@ -21,8 +20,6 @@ export default function SideBar() {
             }}
         >
             <ScriptList />
-
-
 
             <div
                 style={{
@@ -41,12 +38,8 @@ export default function SideBar() {
                         fontSize: "24px",
                         cursor: "pointer",
                     }}
-                    onClick={
-                        handleAdd
-                    }
-                >
-                    +
-                </button>
+                    onClick={() => handleAdd()}
+                >+</button>
             </div>
         </div>
     );

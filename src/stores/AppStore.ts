@@ -27,6 +27,7 @@ export function useStoreLogic() {
       ...prev,
       { ...defaultScriptItem, id: crypto.randomUUID() }
     ]);
+    setSelectedIndex(scriptItems.length)
   };
 
   const addImage = (url: string) => setImages(prev => [...prev, { id: Date.now(), url }]);

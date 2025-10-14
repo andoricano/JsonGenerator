@@ -61,7 +61,7 @@ const defaultSnapshot: Snapshot = {
 };
 
 const defaultScriptString: ScriptString = {
-  script: "please input your text",
+  script: "",
   fontSize: 16,
   fontStyle: 0,
   fontColor: 0,

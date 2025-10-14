@@ -57,7 +57,10 @@ export default function ScriptList() {
                 lineHeight: "1.4",
               }}
             >
-              {item.scriptString.script}
+              {item.scriptString.script.length == 0
+                ? "대사를 입력해주세요."
+                : item.scriptString.script
+              } 
             </div>
           </div>
         );
