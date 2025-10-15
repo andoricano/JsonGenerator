@@ -6,10 +6,10 @@ import ImageUploader from "./uploader/Uploader";
 
 
 export default function Character() {
-//   const { appStore } = useStores();
+  //   const { appStore } = useStores();
   return (
     <div>
-      <ImageUploader/>
+      <ImageUploader />
     </div>
   );
 }

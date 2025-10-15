@@ -3,6 +3,7 @@ import Scriptor from "./tab/scriptor/Scriptor";
 import Editer from "./tab/editer/Editer";
 import { TOOLS } from "./Workspace";
 import Character from "./tab/character/Character";
+import SideBar from "../aside/SideBar";
 
 export default function Canvas() {
   const { activeTool } = useAppStore();
@@ -14,9 +15,21 @@ export default function Canvas() {
         minHeight: '100px',
         flex: 1,
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
       }}
     >
+
+      <aside
+        style={{
+          width: '20%',
+          height: '100%',
+          background: '#ddd',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <SideBar />
+      </aside>
 
       {activeTool === TOOLS.SCRIPTOR && <Scriptor />}
       {activeTool === TOOLS.CHARACTER && <Character />}
