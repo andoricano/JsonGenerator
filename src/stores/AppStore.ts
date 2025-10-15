@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ScriptItem, defaultScript } from "../types";
+import { nanoid } from 'nanoid';
+import { ScriptItem, Character, defaultScript, defaultCharacter } from "../types";
 
 export function useStoreLogic() {
   // ===== AppStore =====
@@ -61,6 +62,31 @@ export function useStoreLogic() {
     resetMainStore();
     resetScriptorStore();
   };
+
+  //Chracter
+  const [chracterList, setCharacterList] = useState(defaultCharacter)
+  const getChracterList = () => {
+    return chracterList.map((character) => ({
+      ...character,
+      img: character.img.map((src) => `../assets/${src}`),
+    }));
+  };
+
+  const addChracterList = () => {
+    const newCharacter: Character = {
+      id: nanoid(),
+      name: "New Character",
+      role: "player",
+      position: chracterList.length,
+      tone: 0,
+      img: [],
+    };
+
+    setCharacterList([...chracterList, newCharacter]);
+  };
+
+  const [selectedCharacter, setSelectedCharacter] = useState(chracterList[0])
+
   return {
     // AppStore
     projectName,
@@ -91,6 +117,13 @@ export function useStoreLogic() {
     setTextEditing,
     resetScriptorStore,
 
+
+    //Chracter
+    getChracterList,
+    addChracterList,
+    selectedCharacter,
+    setSelectedCharacter,
+    
     // 전체 초기화
     resetAll,
   };

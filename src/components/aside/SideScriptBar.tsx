@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useAppStore } from "../../AppProvider";
 
-export default function ScriptList() {
+export default function SideScriptBar() {
   const { scriptItems, selectedIndex, setSelectedIndex } = useAppStore();
 
   const containerRef = useRef<HTMLDivElement>(null);
