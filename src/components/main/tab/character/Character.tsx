@@ -1,14 +1,21 @@
-// import { useObservable } from "../../../../hooks/useObservable";
-// import { useStores } from "../../../../AppProvider";
-// import { useState } from "react";
+import { useStoreLogic } from "../../../../stores/AppStore";
 import ImageUploader from "./uploader/Uploader";
 
 
 
 export default function Character() {
-  //   const { appStore } = useStores();
+
   return (
-    <div>
+
+    <div
+      style={{
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        boxSizing: 'border-box',
+      }}
+    >
       <ImageUploader />
     </div>
   );

@@ -13,7 +13,6 @@ export default function SideCharacterBar() {
         el.scrollTop = el.scrollHeight;
     }, [characterList]);
 
-
     return (
         <div
             ref={containerRef}
