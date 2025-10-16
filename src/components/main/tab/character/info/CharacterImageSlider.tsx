@@ -78,7 +78,7 @@ export const styles: { [key: string]: React.CSSProperties } = {
     container: {
         width: "70%",
         minWidth: "200px",
-        backgroundColor: "#b5d9b6",
+        backgroundColor: "black",
         height: "100%",
         boxSizing: "border-box",
         borderRadius: "12px",
@@ -104,7 +104,6 @@ export const styles: { [key: string]: React.CSSProperties } = {
         justifyContent: "center",
         overflow: "hidden",
         borderRadius: "8px",
-        background: "#fff",
     },
     mainImage: {
         maxWidth: "100%",
