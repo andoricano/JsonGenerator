@@ -7,7 +7,7 @@ export function useStoreLogic() {
   const [projectName, setProjectName] = useState("I Love yo yoU");
   const [lang, setLang] = useState<"en" | "ko">("en");
   const [darkMode, setDarkMode] = useState(false);
-  const [activeTool, setActiveTool] = useState("Scriptor");
+  const [activeTool, setActiveTool] = useState("Character");
 
   const toggleDarkMode = () => setDarkMode(prev => !prev);
 
@@ -78,7 +78,7 @@ export function useStoreLogic() {
       name: "New Character",
       role: "player",
       position: chracterList.length,
-      tone: 0,
+      represent: 0,
       img: [],
     };
 
@@ -123,7 +123,7 @@ export function useStoreLogic() {
     addChracterList,
     selectedCharacter,
     setSelectedCharacter,
-    
+
     // 전체 초기화
     resetAll,
   };

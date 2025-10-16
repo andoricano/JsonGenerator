@@ -27,7 +27,7 @@ export type Character = {
   name: string;
   role: "narration" | "player" | "npc";
   position: number;
-  tone: number;
+  represent: number;
   img: string[];
 }
 
@@ -49,16 +49,20 @@ export const defaultCharacter: Character[] = [
     name: "User",
     role: "player",
     position: 0,
-    tone: 0,
-    img: ["mascot.png"],
+    represent:0,
+    img: ["sanmi-draw.png","girl_skyblue_hip.png"],
   },
   {
     id: nanoid(),
     name: "User",
     role: "player",
     position: 0,
-    tone: 0,
-    img: ["sanmi-draw.png"],
+    represent:0,
+    img: [
+      "mascot.png",
+      "girl_school_black.png",
+      "girl_sport_black.png",
+    ],
   }
 ];
 

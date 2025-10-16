@@ -1,5 +1,8 @@
 import { useStoreLogic } from "../../../../stores/AppStore";
 import ImageUploader from "./uploader/Uploader";
+import { Character } from "../../../../types";
+import ChracterInfo from "./info/CharacterInfo";
+import CharacterImageSlider from "./info/CharacterImageSlider";
 
 
 
@@ -11,12 +14,13 @@ export default function Character() {
       style={{
         display: 'flex',
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        boxSizing: 'border-box',
+        flexDirection: 'row',
+        padding:'10px'
       }}
     >
-      <ImageUploader />
+      <ChracterInfo/>
+      <CharacterImageSlider/>
+      {/* <ImageUploader /> */}
     </div>
   );
 }

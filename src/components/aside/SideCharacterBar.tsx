@@ -48,14 +48,13 @@ export default function SideCharacterBar() {
                         <div style={{ fontWeight: "bold", color: "#555" }}>
                             {idx + 1}. {character.name}
                         </div>
-                        {character.img.map((src, i) => (
+                        {character && character.img.length > 0 && (
                             <img
-                                key={i}
-                                src={src}
-                                alt={`img-${i}`}
-                                style={{ width: 40, height: 40 }}
+                                src={`/assets/${character.img[character.represent]}`}
+                                alt={`${character.name}-represent`}
+                                style={{ width: 40, height: 40, borderRadius: "6px", objectFit: "cover" }}
                             />
-                        ))}
+                        )}
                     </div>
                 );
             })}
