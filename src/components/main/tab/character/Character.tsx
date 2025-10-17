@@ -1,26 +1,125 @@
-import { useStoreLogic } from "../../../../stores/AppStore";
-import ImageUploader from "./uploader/Uploader";
-import { Character } from "../../../../types";
-import ChracterInfo from "./info/CharacterInfo";
-import CharacterImageSlider from "./info/CharacterImageSlider";
+import React, { useEffect, useState } from "react";
+import { useAppStore } from "../../../../AppProvider";
+import Toolbox from "../../Toolbox";
 
 
+export default function CharacterImageSlider() {
+  const { selectedCharacter } = useAppStore();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-export default function Character() {
+  // 대표 이미지 인덱스로 초기화
+  useEffect(() => {
+    if (selectedCharacter) {
+      setCurrentIndex(selectedCharacter.represent ?? 0);
+    }
+  }, [selectedCharacter]);
+
+  // 캐릭터 없을 때
+  if (!selectedCharacter) {
+    return (
+      <div style={styles.container}>
+        <div style={{ color: "white", padding: "16px" }}>
+          선택된 캐릭터가 없습니다.
+        </div>
+      </div>
+    );
+  }
+
+  const images = selectedCharacter.img.map((src) => `/assets/${src}`);
+
+  const handleThumbnailClick = (index: number) => {
+    setCurrentIndex(index);
+  };
 
   return (
+    <div style={styles.container}>
+      <Toolbox />
+      <div style={styles.wrapper}>
+        <div style={styles.mainImageBox}>
+          <img
+            src={images[currentIndex] || "/assets/default.png"}
+            alt="main"
+            style={styles.mainImage}
+          />
+        </div>
 
-    <div
-      style={{
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'row',
-        padding:'10px'
-      }}
-    >
-      <ChracterInfo/>
-      <CharacterImageSlider/>
-      {/* <ImageUploader /> */}
+        <div style={styles.thumbnailContainer}>
+          {images.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt={`thumb-${i}`}
+              onClick={() => handleThumbnailClick(i)}
+              style={{
+                ...styles.thumbnail,
+                border:
+                  i === currentIndex
+                    ? "2px solid #4caf50"
+                    : "2px solid transparent",
+                opacity: i === currentIndex ? 1 : 0.6,
+              }}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
+
+export const styles: { [key: string]: React.CSSProperties } = {
+  container: {
+    width: "70%",
+    minWidth: "200px",
+    backgroundColor: "black",
+    height: "100%",
+    boxSizing: "border-box",
+    borderRadius: "12px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "12px",
+    marginRight: "10px",
+  },
+  wrapper: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "12px",
+  },
+  mainImageBox: {
+    width: "500px",
+    height: "500px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+    borderRadius: "8px",
+    backgroundColor: "#fff",
+  },
+  mainImage: {
+    maxWidth: "100%",
+    maxHeight: "100%",
+    objectFit: "contain",
+    display: "block",
+    margin: "0 auto",
+  },
+  thumbnailContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "6px",
+    overflowX: "auto",
+    width: "100%",
+  },
+  thumbnail: {
+    width: "48px",
+    height: "48px",
+    objectFit: "cover",
+    borderRadius: "6px",
+    cursor: "pointer",
+    transition: "all 0.2s",
+  },
+};
