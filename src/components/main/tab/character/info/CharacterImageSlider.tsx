@@ -106,11 +106,12 @@ export const styles: { [key: string]: React.CSSProperties } = {
         borderRadius: "8px",
     },
     mainImage: {
-        maxWidth: "100%",
-        maxHeight: "100%",
+        maxWidth: "1000%",
+        maxHeight: "90%",
         objectFit: "contain",
         display: "block",
-        margin: "0 auto", // ✅ 혹시 이미지 내부 비율 문제 시
+        margin: "0 auto",
+        boxSizing:"border-box"
     },
     thumbnailContainer: {
         display: "flex",

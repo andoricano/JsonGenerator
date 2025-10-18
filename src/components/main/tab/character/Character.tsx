@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAppStore } from "../../../../AppProvider";
 import Toolbox from "../../Toolbox";
+import CharacterImageSlider from "./info/CharacterImageSlider";
 
 
-export default function CharacterImageSlider() {
+export default function Character() {
   const { selectedCharacter } = useAppStore();
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -25,43 +26,10 @@ export default function CharacterImageSlider() {
     );
   }
 
-  const images = selectedCharacter.img.map((src) => `/assets/${src}`);
-
-  const handleThumbnailClick = (index: number) => {
-    setCurrentIndex(index);
-  };
-
   return (
     <div style={styles.container}>
-      <Toolbox />
-      <div style={styles.wrapper}>
-        <div style={styles.mainImageBox}>
-          <img
-            src={images[currentIndex] || "/assets/default.png"}
-            alt="main"
-            style={styles.mainImage}
-          />
-        </div>
-
-        <div style={styles.thumbnailContainer}>
-          {images.map((src, i) => (
-            <img
-              key={i}
-              src={src}
-              alt={`thumb-${i}`}
-              onClick={() => handleThumbnailClick(i)}
-              style={{
-                ...styles.thumbnail,
-                border:
-                  i === currentIndex
-                    ? "2px solid #4caf50"
-                    : "2px solid transparent",
-                opacity: i === currentIndex ? 1 : 0.6,
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      <Toolbox/>
+      <CharacterImageSlider/>
     </div>
   );
 }
@@ -70,7 +38,6 @@ export const styles: { [key: string]: React.CSSProperties } = {
   container: {
     width: "70%",
     minWidth: "200px",
-    backgroundColor: "black",
     height: "100%",
     boxSizing: "border-box",
     borderRadius: "12px",
