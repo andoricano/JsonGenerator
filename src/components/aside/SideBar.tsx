@@ -1,5 +1,5 @@
 import { useAppStore } from "../../AppProvider";
-import ScriptList from "./ScriptList";
+import ScriptList from "./SideScriptBar";
 
 export default function SideBar() {
     const { addScriptItem } = useAppStore();
