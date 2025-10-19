@@ -1,20 +1,15 @@
-import { useAppStore } from "../../AppProvider";
+type ButtonItem = {
+  label: string;
+  onClick: () => void;
+};
 
-export default function Toolbox() {
+type ToolboxProps = {
+  buttons: ButtonItem[];
+};
 
-  const handleNew = () => {
-    console.log("image upload");
-  };
 
-  const handleSetting = () => {
-    console.log("Sizing");
-  };
 
-  const buttons = [
-    { label: "image upload", onClick: handleNew },
-    { label: "Sizing", onClick: handleSetting },
-  ];
-
+export default function Toolbox({ buttons }: ToolboxProps) {
 
   return (
     <div

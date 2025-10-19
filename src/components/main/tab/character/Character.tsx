@@ -1,35 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useAppStore } from "../../../../AppProvider";
+import { useState } from "react";
 import Toolbox from "../../Toolbox";
 import CharacterImageSlider from "./info/CharacterImageSlider";
+import ImageUploaderDialog from "./CharacterImageUploader";
 
 
 export default function Character() {
-  const { selectedCharacter } = useAppStore();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // 대표 이미지 인덱스로 초기화
-  useEffect(() => {
-    if (selectedCharacter) {
-      setCurrentIndex(selectedCharacter.represent ?? 0);
-    }
-  }, [selectedCharacter]);
+  const handleUpload = () => {
+    setIsDialogOpen(true);
+  };
+  const handleResize = () => console.log("Resizing");
 
-  // 캐릭터 없을 때
-  if (!selectedCharacter) {
-    return (
-      <div style={styles.container}>
-        <div style={{ color: "white", padding: "16px" }}>
-          선택된 캐릭터가 없습니다.
-        </div>
-      </div>
-    );
-  }
+
+  const buttons = [
+    { label: "Image Upload", onClick: handleUpload },
+    { label: "Sizing", onClick: handleResize },
+  ];
 
   return (
     <div style={styles.container}>
-      <Toolbox/>
-      <CharacterImageSlider/>
+      <Toolbox buttons={buttons} />
+      <CharacterImageSlider />
+      <ImageUploaderDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+      />
     </div>
   );
 }
