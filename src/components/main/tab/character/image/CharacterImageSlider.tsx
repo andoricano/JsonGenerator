@@ -86,14 +86,11 @@ function ThumbnailList({
 
 export const styles: Record<string, React.CSSProperties> = {
   container: {
-    width: "70%",
+    width: "100%",
     minWidth: "200px",
     height: "100%",
-    marginRight: "10px",
-    padding: "12px",
     backgroundColor: "black",
     borderRadius: "12px",
-    boxSizing: "border-box",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -114,7 +111,6 @@ export const styles: Record<string, React.CSSProperties> = {
     justifyContent: "center",
     overflow: "hidden",
     borderRadius: "8px",
-    backgroundColor: "#fff",
   },
   mainImage: {
     maxWidth: "100%",

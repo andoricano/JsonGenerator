@@ -61,7 +61,7 @@ export const styles: Record<string, React.CSSProperties> = {
         width: "100%",
     },
     image: {
-        width: "80%",
+        width: "70%",
         aspectRatio: "1 / 1",
         borderRadius: "8px",
         objectFit: "cover",

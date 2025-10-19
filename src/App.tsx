@@ -3,6 +3,9 @@ import Canvas from './components/main/Canvas';
 import { AppProvider } from './AppProvider';
 
 export default function App() {
+    const topRatio = 15;
+    const heightRatio = 100 - topRatio;
+
     return (
         <AppProvider>
             <header
@@ -11,8 +14,8 @@ export default function App() {
                     top: 0,
                     left: 0,
                     right: 0,
-                    height: '20%',
-                    background: '#f5f5f5',
+                    height: `${topRatio}%`,
+                    background: 'skyblue',
                     zIndex: 1000,
                 }}
             >
@@ -21,15 +24,15 @@ export default function App() {
             <main
                 style={{
                     position: 'fixed',
-                    top: '20%',
+                    top:  `${topRatio}%`,
                     width: '100%',
-                    height: '80%',
+                    height: `${heightRatio}%`,
                     minWidth: '500px',
                     minHeight: '500px',
                     transition: 'left 0.3s ease, width 0.3s ease',
                     display: 'flex',
                     flexDirection: 'column',
-                    background: 'white'
+                    background: 'white',
                 }}
             >
                 <Canvas />
