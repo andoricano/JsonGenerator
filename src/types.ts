@@ -25,7 +25,7 @@ export type Snapshot = {
 export type Character = {
   id: string;
   name: string;
-  role: "narration" | "player" | "npc";
+  role: string;
   position: number;
   represent: number;
   img: string[];
@@ -54,8 +54,8 @@ export const defaultCharacter: Character[] = [
   },
   {
     id: nanoid(),
-    name: "User",
-    role: "player",
+    name: "mascot",
+    role: "npc",
     position: 0,
     represent:0,
     img: [
