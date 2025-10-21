@@ -1,28 +1,31 @@
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppStore } from "../../AppProvider";
+
 
 export default function SideCharacterBar() {
     const { characterList, selectedCharacter, setSelectedCharacter } = useAppStore();
     const containerRef = useRef<HTMLDivElement>(null);
 
+    const [characterUrls, setCharacterUrls] = useState<(string | null)[]>([]);
+
+    // 캐릭터 Object URL 생성
+    useEffect(() => {
+        const urls = characterList.map(char => 
+            char.img && char.img.length > 0 ? URL.createObjectURL(char.img[char.represent]) : null
+        );
+        setCharacterUrls(urls);
+
+        return () => {
+            urls.forEach(url => url && URL.revokeObjectURL(url));
+        };
+    }, [characterList]);
+
+    // 스크롤 항상 아래로
     useEffect(() => {
         const el = containerRef.current;
         if (!el) return;
         el.scrollTop = el.scrollHeight;
     }, [characterList]);
-
-    const characterUrls = useMemo(() => {
-        return characterList.map(character => {
-            if (!character.img || character.img.length === 0) return null;
-            return URL.createObjectURL(character.img[character.represent]);
-        });
-    }, [characterList]);
-
-    useEffect(() => {
-        return () => {
-            characterUrls.forEach(url => url && URL.revokeObjectURL(url));
-        };
-    }, [characterUrls]);
 
     return (
         <div
