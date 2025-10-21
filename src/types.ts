@@ -28,7 +28,7 @@ export type Character = {
   role: string;
   position: number;
   represent: number;
-  img: string[];
+  img: (string | File)[];
 }
 
 export type Resource = {

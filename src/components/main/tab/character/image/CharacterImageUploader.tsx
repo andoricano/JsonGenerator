@@ -1,23 +1,33 @@
 import React, { useState } from "react";
 
+
 type ImageUploaderDialogProps = {
   isOpen: boolean;
+  onConfirm: (file: File) => void;
   onClose: () => void;
 };
-
 const ImageUploaderDialog: React.FC<ImageUploaderDialogProps> = ({
   isOpen,
   onClose,
+  onConfirm,
 }) => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   if (!isOpen) return null;
-
   const handleFile = (file: File) => {
     if (!file.type.startsWith("image/")) return;
     const reader = new FileReader();
     reader.onloadend = () => setPreview(reader.result as string);
     reader.readAsDataURL(file);
+    setSelectedFile(file); 
+  };
+
+  const handleConfirm = () => {
+    if (selectedFile && onConfirm) {
+      onConfirm(selectedFile); 
+    }
+    onClose();
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +40,7 @@ const ImageUploaderDialog: React.FC<ImageUploaderDialogProps> = ({
     const file = e.dataTransfer.files?.[0];
     if (file) handleFile(file);
   };
+
 
   return (
     <div style={styles.overlay} onClick={onClose}>
@@ -45,7 +56,7 @@ const ImageUploaderDialog: React.FC<ImageUploaderDialogProps> = ({
         </div>
 
         <label style={styles.button}>
-          파일 선택
+          파일 찾기
           <input
             type="file"
             accept="image/*"
@@ -58,9 +69,14 @@ const ImageUploaderDialog: React.FC<ImageUploaderDialogProps> = ({
           <img src={preview} alt="preview" style={styles.previewImage} />
         )}
 
-        <button onClick={onClose} style={styles.closeButton}>
-          닫기
-        </button>
+        <div style={styles.buttonRow}>
+          <button onClick={handleConfirm} style={styles.confirmButton} disabled={!preview}>
+            확인
+          </button>
+          <button onClick={onClose} style={styles.closeButton}>
+            닫기
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -110,6 +126,19 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: "8px",
     cursor: "pointer",
   },
+  buttonRow: {
+    display: "flex",
+    gap: "8px",
+    marginTop: "8px",
+  },
+  confirmButton: {
+    backgroundColor: "#10b981",
+    color: "white",
+    border: "none",
+    padding: "8px 14px",
+    borderRadius: "6px",
+    cursor: "pointer",
+  },
   previewImage: {
     width: "200px",
     height: "200px",
@@ -119,7 +148,6 @@ const styles: Record<string, React.CSSProperties> = {
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
   },
   closeButton: {
-    marginTop: "8px",
     background: "#e5e7eb",
     border: "none",
     padding: "8px 14px",

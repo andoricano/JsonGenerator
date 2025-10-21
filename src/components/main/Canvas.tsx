@@ -3,7 +3,6 @@ import Scriptor from "./tab/scriptor/Scriptor";
 import Editer from "./tab/editer/Editer";
 import { TOOLS } from "./Workspace";
 import Character from "./tab/character/Character";
-import SideCharacterBar from "../aside/SideCharacterBar";
 import SideBar from "../aside/SideBar";
 
 export default function Canvas() {

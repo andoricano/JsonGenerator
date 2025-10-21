@@ -1,26 +1,25 @@
-import { useEffect, useState, useCallback } from "react";
+
+import { useEffect, useState, useMemo } from "react";
 import { useAppStore } from "../../../../../AppProvider";
 
 export default function CharacterImageSlider() {
   const { selectedCharacter } = useAppStore();
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // 선택된 캐릭터 변경 시 초기 인덱스 설정
   useEffect(() => {
-    if (selectedCharacter)
-      setCurrentIndex(selectedCharacter.represent ?? 0);
+    if (selectedCharacter) setCurrentIndex(selectedCharacter.represent ?? 0);
   }, [selectedCharacter]);
 
-  if (!selectedCharacter) {
-    return (
-      <EmptyState message="선택된 캐릭터가 없습니다." />
-    );
-  }
+  if (!selectedCharacter) return <EmptyState message="선택된 캐릭터가 없습니다." />;
 
-  const images = selectedCharacter.img.map((src) => `/assets/${src}`);
-
-  const handleThumbnailClick = useCallback(
-    (index: number) => setCurrentIndex(index),
-    []
+  // images 배열을 string | File 혼합 처리
+  const images = useMemo(
+    () =>
+      selectedCharacter.img.map((imgItem) =>
+        typeof imgItem === "string" ? `/assets/${imgItem}` : URL.createObjectURL(imgItem)
+      ),
+    [selectedCharacter]
   );
 
   return (
@@ -30,17 +29,20 @@ export default function CharacterImageSlider() {
         <ThumbnailList
           images={images}
           currentIndex={currentIndex}
-          onClick={handleThumbnailClick}
+          onClick={setCurrentIndex}
         />
       </div>
     </div>
   );
 }
 
+// -------------------
+// 컴포넌트 분리
+// -------------------
 function EmptyState({ message }: { message: string }) {
   return (
-    <div style={styles.container}>
-      <div style={{ color: "white", padding: "16px" }}>{message}</div>
+    <div style={styles.emptyState}>
+      {message}
     </div>
   );
 }
@@ -65,24 +67,40 @@ function ThumbnailList({
   return (
     <div style={styles.thumbnailContainer}>
       {images.map((src, i) => (
-        <img
+        <Thumbnail
           key={i}
           src={src}
-          alt={`thumb-${i}`}
+          isActive={i === currentIndex}
           onClick={() => onClick(i)}
-          style={{
-            ...styles.thumbnail,
-            border:
-              i === currentIndex
-                ? "2px solid #4caf50"
-                : "2px solid transparent",
-            opacity: i === currentIndex ? 1 : 0.6,
-          }}
         />
       ))}
     </div>
   );
 }
+
+function Thumbnail({
+  src,
+  isActive,
+  onClick,
+}: {
+  src: string;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <img
+      src={src}
+      alt="thumbnail"
+      onClick={onClick}
+      style={{
+        ...styles.thumbnail,
+        border: isActive ? "2px solid #4caf50" : "2px solid transparent",
+        opacity: isActive ? 1 : 0.6,
+      }}
+    />
+  );
+}
+
 
 export const styles: Record<string, React.CSSProperties> = {
   container: {

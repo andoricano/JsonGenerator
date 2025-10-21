@@ -2,8 +2,10 @@ import { useState, useCallback } from "react";
 import AsideToolbar from "../image/AsideToolbar";
 import CharacterImageSlider from "./CharacterImageSlider";
 import ImageUploaderDialog from "./CharacterImageUploader";
+import { useAppStore } from "../../../../../AppProvider";
 
 export default function CharacterWorkspace() {
+  const { setSelectedCharacter } = useAppStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const openDialog = useCallback(() => setIsDialogOpen(true), []);
@@ -24,7 +26,15 @@ export default function CharacterWorkspace() {
         <CharacterImageSlider />
       </div>
 
-      <ImageUploaderDialog isOpen={isDialogOpen} onClose={closeDialog} />
+      <ImageUploaderDialog
+        isOpen={isDialogOpen}
+        onConfirm={(file: File) => {
+          setSelectedCharacter(prev => ({
+            ...prev,
+            img: [...prev.img, file],
+          }));
+        }}
+        onClose={closeDialog} />
     </div>
   );
 }
