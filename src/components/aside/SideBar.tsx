@@ -1,13 +1,28 @@
 import { useAppStore } from "../../AppProvider";
-import ScriptList from "./SideScriptBar";
+import { TOOLS } from "../main/Workspace";
+import SideCharacterBar from "./SideCharacterBar";
+import SideScriptBar from "./SideScriptBar";
 
 export default function SideBar() {
-    const { addScriptItem } = useAppStore();
+    const { addScriptItem, addChracterList, activeTool } = useAppStore();
 
 
-  const handleAdd = () => {
-    addScriptItem();
-  };
+
+    const handleAdd = () => {
+        switch (activeTool) {
+            case TOOLS.SCRIPTOR:
+                addScriptItem();
+                break;
+
+            case TOOLS.CHARACTER:
+                addChracterList();
+                break;
+
+            default:
+                break;
+        }
+    };
+
 
     return (
         <div
@@ -19,7 +34,9 @@ export default function SideBar() {
                 minHeight: 0,
             }}
         >
-            <ScriptList />
+
+            {activeTool === TOOLS.SCRIPTOR && <SideScriptBar />}
+            {activeTool === TOOLS.CHARACTER && <SideCharacterBar />}
 
             <div
                 style={{

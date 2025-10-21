@@ -3,8 +3,8 @@ import Scriptor from "./tab/scriptor/Scriptor";
 import Editer from "./tab/editer/Editer";
 import { TOOLS } from "./Workspace";
 import Character from "./tab/character/Character";
-import SideScriptBar from "../aside/SideScriptBar";
 import SideCharacterBar from "../aside/SideCharacterBar";
+import SideBar from "../aside/SideBar";
 
 export default function Canvas() {
   const { activeTool } = useAppStore();
@@ -12,8 +12,7 @@ export default function Canvas() {
   return (
     <div style={styles.canvas}>
       <aside style={styles.aside}>
-        {activeTool === TOOLS.SCRIPTOR && <SideScriptBar />}
-        {activeTool === TOOLS.CHARACTER && <SideCharacterBar />}
+        <SideBar />
       </aside>
 
       <div style={styles.workspace}>

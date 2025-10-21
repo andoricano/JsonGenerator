@@ -7,14 +7,26 @@ export default function CharacterInfo() {
         return <EmptyState message="선택된 캐릭터가 없습니다." />;
     }
 
-    const { name, role, img } = selectedCharacter;
-    const profileImg = img?.[0] ? `/assets/${img[0]}` : null;
+    const profileImg = selectedCharacter.img?.[0]
+        ? `/assets/${selectedCharacter.img[0]}`
+        : null;
 
     return (
         <div style={styles.container}>
             <div style={styles.content}>
-                {profileImg && <ProfileImage src={profileImg} alt={name} />}
-                <CharacterDetails name={name} role={role} />
+                <div style={styles.imageWrapper}>
+                    {profileImg ? (
+                        <ProfileImage src={profileImg} alt={selectedCharacter.name} />
+                    ) : (
+                        <div style={styles.placeholderImage}></div>
+                    )}
+                </div>
+
+
+                <CharacterDetails
+                    name={selectedCharacter.name}
+                    role={selectedCharacter.role}
+                />
             </div>
         </div>
     );
@@ -22,8 +34,8 @@ export default function CharacterInfo() {
 
 function EmptyState({ message }: { message: string }) {
     return (
-        <div style={styles.container}>
-            <div style={styles.emptyMessage}>{message}</div>
+        <div style={{ ...styles.content, ...styles.emptyState }}>
+            {message}
         </div>
     );
 }
@@ -43,7 +55,7 @@ function CharacterDetails({ name, role }: { name: string; role: string }) {
 
 export const styles: Record<string, React.CSSProperties> = {
     container: {
-        width: "20%",
+        width: "30%",
         minWidth: "200px",
         height: "100%",
         minHeight: "500px",
@@ -51,20 +63,40 @@ export const styles: Record<string, React.CSSProperties> = {
         backgroundColor: "#b5d9b6ff",
         borderRadius: "12px",
         boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "column",
     },
     content: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         gap: "20px",
         padding: "16px",
+    },
+    emptyState: {
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+        color: "white",
+        backgroundColor: "#b5d9b6ff",
+        minHeight: "500px",
+    },
+    imageWrapper: {
+        display: "flex",
+        justifyContent: "center",
         width: "100%",
     },
     image: {
-        width: "70%",
+        width: "60%",
         aspectRatio: "1 / 1",
         borderRadius: "8px",
         objectFit: "cover",
+    },
+    placeholderImage: {
+        width: "80%",
+        aspectRatio: "1 / 1",
+        borderRadius: "8px",
+        backgroundColor: "#ddd",
+        marginBottom: "16px",
     },
     textContainer: {
         width: "80%",
@@ -73,9 +105,5 @@ export const styles: Record<string, React.CSSProperties> = {
     characterInfo: {
         fontWeight: "bold",
         fontSize: "18px",
-    },
-    emptyMessage: {
-        color: "white",
-        padding: "16px",
     },
 };
