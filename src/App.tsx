@@ -24,15 +24,16 @@ export default function App() {
             <main
                 style={{
                     position: 'fixed',
-                    top:  `${topRatio}%`,
+                    top: `${topRatio}%`,
                     width: '100%',
                     height: `${heightRatio}%`,
                     minWidth: '500px',
-                    minHeight: '500px',
+                    minHeight: '300px',
                     transition: 'left 0.3s ease, width 0.3s ease',
                     display: 'flex',
                     flexDirection: 'column',
                     background: 'white',
+                    overflow: 'auto',
                 }}
             >
                 <Canvas />

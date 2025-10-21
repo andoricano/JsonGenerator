@@ -25,11 +25,12 @@ export default function Workspace() {
         gap: "30px",
         borderBottom: "2px solid #ccc",
         padding: "6px 10px",
+        backgroundColor:"white"
       }}
     >
       <h1
         style={{
-          width: "10%",
+          width: "20%",
           margin: "0px",
           fontSize: "18px",
           textAlign: "center",

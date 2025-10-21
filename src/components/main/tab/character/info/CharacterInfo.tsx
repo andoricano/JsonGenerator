@@ -43,7 +43,7 @@ function CharacterDetails({ name, role }: { name: string; role: string }) {
 
 export const styles: Record<string, React.CSSProperties> = {
     container: {
-        width: "30%",
+        width: "20%",
         minWidth: "200px",
         height: "100%",
         minHeight: "500px",
