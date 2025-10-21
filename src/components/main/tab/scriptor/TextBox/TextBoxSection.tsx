@@ -4,11 +4,12 @@ import TextBoxScript from './TextBoxScript';
 import { useAppStore } from '../../../../../AppProvider';
 import TextBoxEditingScript from './TextBoxEditingScript';
 
-
-
 export default function TextBoxSection() {
   const { scriptItems, selectedIndex, setScriptItems, textEditing, setTextEditing } = useAppStore();
-  const scriptString = scriptItems[selectedIndex].scriptString;
+
+  // 안전하게 접근, 기본값 설정
+  const currentItem = scriptItems[selectedIndex] ?? { scriptString: { script: "" } };
+  const scriptString = currentItem.scriptString;
 
   const handleSave = (script: string) => {
     if (!script.trim()) return;
@@ -16,7 +17,7 @@ export default function TextBoxSection() {
     setScriptItems(prev =>
       prev.map((item, idx) =>
         idx === selectedIndex
-          ? { ...item, scriptString: { ...item.scriptString, script: script } }
+          ? { ...item, scriptString: { ...item.scriptString, script } }
           : item
       )
     );

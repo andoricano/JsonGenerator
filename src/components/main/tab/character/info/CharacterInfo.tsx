@@ -1,5 +1,6 @@
 import { useAppStore } from "../../../../../AppProvider";
 
+
 export default function CharacterInfo() {
     const { selectedCharacter } = useAppStore();
 
@@ -8,7 +9,7 @@ export default function CharacterInfo() {
     }
 
     const profileImg = selectedCharacter.img?.[0]
-        ? `/assets/${selectedCharacter.img[0]}`
+        ? URL.createObjectURL(selectedCharacter.img[0])
         : null;
 
     return (
@@ -21,7 +22,6 @@ export default function CharacterInfo() {
                         <div style={styles.placeholderImage}></div>
                     )}
                 </div>
-
 
                 <CharacterDetails
                     name={selectedCharacter.name}

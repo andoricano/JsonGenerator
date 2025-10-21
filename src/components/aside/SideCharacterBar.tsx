@@ -1,17 +1,28 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { useAppStore } from "../../AppProvider";
 
 export default function SideCharacterBar() {
-    const { getChracterList, selectedCharacter, setSelectedCharacter } = useAppStore();
-
+    const { characterList, selectedCharacter, setSelectedCharacter } = useAppStore();
     const containerRef = useRef<HTMLDivElement>(null);
-    const characterList = getChracterList();
 
     useEffect(() => {
         const el = containerRef.current;
         if (!el) return;
         el.scrollTop = el.scrollHeight;
     }, [characterList]);
+
+    const characterUrls = useMemo(() => {
+        return characterList.map(character => {
+            if (!character.img || character.img.length === 0) return null;
+            return URL.createObjectURL(character.img[character.represent]);
+        });
+    }, [characterList]);
+
+    useEffect(() => {
+        return () => {
+            characterUrls.forEach(url => url && URL.revokeObjectURL(url));
+        };
+    }, [characterUrls]);
 
     return (
         <div
@@ -27,6 +38,7 @@ export default function SideCharacterBar() {
         >
             {characterList.map((character, idx) => {
                 const isSelected = selectedCharacter?.id === character.id;
+                const profileUrl = characterUrls[idx];
 
                 return (
                     <div
@@ -48,9 +60,9 @@ export default function SideCharacterBar() {
                         <div style={{ fontWeight: "bold", color: "#555" }}>
                             {idx + 1}. {character.name}
                         </div>
-                        {character && character.img.length > 0 && (
+                        {profileUrl && (
                             <img
-                                src={`/assets/${character.img[character.represent]}`}
+                                src={profileUrl}
                                 alt={`${character.name}-represent`}
                                 style={{ width: 40, height: 40, borderRadius: "6px", objectFit: "cover" }}
                             />

@@ -44,7 +44,7 @@ export default function SideScriptBar() {
             }}
           >
             <div style={{ fontWeight: "bold", color: "#555" }}>
-              {idx + 1}. {item.character.name}
+              {idx + 1}. {item.character?.name ?? "알 수 없음"}
             </div>
             <div
               style={{
@@ -57,10 +57,9 @@ export default function SideScriptBar() {
                 lineHeight: "1.4",
               }}
             >
-              {item.scriptString.script.length == 0
+              {item.scriptString?.script?.length === 0
                 ? "대사를 입력해주세요."
-                : item.scriptString.script
-              } 
+                : item.scriptString?.script ?? ""}
             </div>
           </div>
         );

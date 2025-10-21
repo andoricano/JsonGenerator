@@ -4,9 +4,7 @@ import SideCharacterBar from "./SideCharacterBar";
 import SideScriptBar from "./SideScriptBar";
 
 export default function SideBar() {
-    const { addScriptItem, addChracterList, activeTool } = useAppStore();
-
-
+    const { addScriptItem, addCharacter, activeTool } = useAppStore();
 
     const handleAdd = () => {
         switch (activeTool) {
@@ -15,7 +13,7 @@ export default function SideBar() {
                 break;
 
             case TOOLS.CHARACTER:
-                addChracterList();
+                addCharacter();
                 break;
 
             default:

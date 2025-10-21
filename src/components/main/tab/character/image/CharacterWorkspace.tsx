@@ -1,43 +1,69 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import AsideToolbar from "../image/AsideToolbar";
 import CharacterImageSlider from "./CharacterImageSlider";
 import ImageUploaderDialog from "./CharacterImageUploader";
 import { useAppStore } from "../../../../../AppProvider";
 
+
 export default function CharacterWorkspace() {
-  const { setSelectedCharacter } = useAppStore();
+  const { selectedCharacter, addCharacterImage } = useAppStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [fileList, setFileList] = useState<File[]>([]);
 
   const openDialog = useCallback(() => setIsDialogOpen(true), []);
   const closeDialog = useCallback(() => setIsDialogOpen(false), []);
-  const handleResize = useCallback(() => console.log("Thumnail"), []);
+
+  const handleAddImage = useCallback(
+    (file: File) => {
+      if (!selectedCharacter) return;
+      addCharacterImage(file);
+      // selectedCharacter.img는 이미 최신 상태이므로 fileList를 동기화
+      setFileList((prev) => [...prev, file]);
+    },
+    [selectedCharacter, addCharacterImage]
+  );
+
+  useEffect(() => {
+    if (!selectedCharacter) {
+      setFileList([]);
+      return;
+    }
+    setFileList(selectedCharacter.img);
+  }, [selectedCharacter]);
 
   const buttons = [
     { label: "Upload", onClick: openDialog },
-    { label: "Thumnail", onClick: handleResize },
-    { label: "Background", onClick: handleResize },
-    { label: "order", onClick: handleResize },
+    { label: "Thumbnail", onClick: () => console.log("Thumbnail") },
+    { label: "Background", onClick: () => console.log("Background") },
+    { label: "Order", onClick: () => console.log("Order") },
   ];
 
   return (
     <div style={styles.container}>
       <AsideToolbar buttons={buttons} />
+
       <div style={styles.mainArea}>
-        <CharacterImageSlider />
+        {selectedCharacter && (
+          <CharacterImageSlider
+            imgList={fileList}
+            selectedIdx={selectedCharacter.represent}
+          />
+        )}
       </div>
 
       <ImageUploaderDialog
         isOpen={isDialogOpen}
-        onConfirm={(file: File) => {
-          setSelectedCharacter(prev => ({
-            ...prev,
-            img: [...prev.img, file],
-          }));
-        }}
-        onClose={closeDialog} />
+        onConfirm={handleAddImage}
+        onClose={closeDialog}
+      />
     </div>
   );
 }
+
+
+
+
+
 
 const styles: Record<string, React.CSSProperties> = {
   container: {

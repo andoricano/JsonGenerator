@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 
+
 export type ScriptItem = {
   id: string;
   character: Character;
@@ -28,7 +29,7 @@ export type Character = {
   role: string;
   position: number;
   represent: number;
-  img: (string | File)[];
+  img: File[];
 }
 
 export type Resource = {
@@ -36,6 +37,8 @@ export type Resource = {
   name: string;
   type: string;
 }
+
+
 
 export const defaultResource: Resource = {
   id: nanoid(),
@@ -50,7 +53,7 @@ export const defaultCharacter: Character[] = [
     role: "player",
     position: 0,
     represent:0,
-    img: ["sanmi-draw.png","girl_skyblue_hip.png"],
+    img: [],
   },
   {
     id: nanoid(),
@@ -58,11 +61,7 @@ export const defaultCharacter: Character[] = [
     role: "npc",
     position: 0,
     represent:0,
-    img: [
-      "mascot.png",
-      "girl_school_black.png",
-      "girl_sport_black.png",
-    ],
+    img: [],
   }
 ];
 

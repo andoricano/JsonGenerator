@@ -1,6 +1,7 @@
 import Header from './components/header/Header';
 import Canvas from './components/main/Canvas';
-import { AppProvider } from './AppProvider';
+import { AppProvider, useAppStore } from './AppProvider';
+import { useEffect } from 'react';
 
 export default function App() {
     const topRatio = 15;
@@ -8,6 +9,7 @@ export default function App() {
 
     return (
         <AppProvider>
+            <Initializer />
             <header
                 style={{
                     position: 'fixed',
@@ -40,4 +42,15 @@ export default function App() {
             </main>
         </AppProvider>
     );
+}
+
+function Initializer() {
+    const { characterList, initDefaultCharacterImages } = useAppStore();
+
+    useEffect(() => {
+        initDefaultCharacterImages();
+        console.log(characterList)
+    }, []);
+
+    return null;
 }

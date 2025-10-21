@@ -1,48 +1,51 @@
-
 import { useEffect, useState, useMemo } from "react";
-import { useAppStore } from "../../../../../AppProvider";
+type CharacterImageSliderProps = {
+  imgList: File[];
+  selectedIdx?: number;
+  onSelected?: (index: number) => void;
+};
 
-export default function CharacterImageSlider() {
-  const { selectedCharacter } = useAppStore();
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function CharacterImageSlider({
+  imgList,
+  selectedIdx = 0,
+  onSelected,
+}: CharacterImageSliderProps) {
+  const [currentIndex, setCurrentIndex] = useState(
+    selectedIdx >= imgList.length ? 0 : selectedIdx
+  );
 
-  // 선택된 캐릭터 변경 시 초기 인덱스 설정
   useEffect(() => {
-    if (selectedCharacter) setCurrentIndex(selectedCharacter.represent ?? 0);
-  }, [selectedCharacter]);
+    setCurrentIndex(selectedIdx >= imgList.length ? 0 : selectedIdx);
+  }, [selectedIdx, imgList.length]);
 
-  if (!selectedCharacter) return <EmptyState message="선택된 캐릭터가 없습니다." />;
+  const images = useMemo(() => {
+    const urls = imgList.map((file) => URL.createObjectURL(file));
+    return urls;
+  }, [imgList]);
 
-  // images 배열을 string | File 혼합 처리
-  const images = useMemo(
-    () =>
-      selectedCharacter.img.map((imgItem) =>
-        typeof imgItem === "string" ? `/assets/${imgItem}` : URL.createObjectURL(imgItem)
-      ),
-    [selectedCharacter]
-  );
+  useEffect(() => {
+    return () => {
+      images.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [images]);
+
+  const handleThumbnailClick = (index: number) => {
+    setCurrentIndex(index);
+    onSelected?.(index);
+  };
+
+  if (imgList.length === 0) {
+    return <div style={{ padding: "20px", color: "#ccc" }}>이미지가 없습니다.</div>;
+  }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.wrapper}>
-        <MainImage src={images[currentIndex]} />
-        <ThumbnailList
-          images={images}
-          currentIndex={currentIndex}
-          onClick={setCurrentIndex}
-        />
-      </div>
-    </div>
-  );
-}
-
-// -------------------
-// 컴포넌트 분리
-// -------------------
-function EmptyState({ message }: { message: string }) {
-  return (
-    <div style={styles.emptyState}>
-      {message}
+    <div>
+      <MainImage src={images[currentIndex]} />
+      <ThumbnailList
+        images={images}
+        currentIndex={currentIndex}
+        onClick={handleThumbnailClick}
+      />
     </div>
   );
 }
@@ -100,7 +103,6 @@ function Thumbnail({
     />
   );
 }
-
 
 export const styles: Record<string, React.CSSProperties> = {
   container: {

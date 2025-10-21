@@ -5,6 +5,8 @@ const AppContext = createContext<ReturnType<typeof useStoreLogic> | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const store = useStoreLogic();
+
+
   return <AppContext.Provider value={store}>{children}</AppContext.Provider>;
 }
 
