@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 
 export type ScriptItem = {
   id: string;
-  character: Character;
+  character: Character[];
   snapshot: Snapshot;
   scriptString: ScriptString;
 }
@@ -82,7 +82,7 @@ export const defaultScriptString: ScriptString = {
 
 export const defaultScript: ScriptItem = {
   id: nanoid(),
-  character: defaultCharacter[0],
+  character: defaultCharacter,
   snapshot: defaultSnapshot,
   scriptString: defaultScriptString
 };

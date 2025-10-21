@@ -12,7 +12,7 @@ export function useStoreLogic() {
   const [projectName, setProjectName] = useState("I Love yo yoU");
   const [lang, setLang] = useState<"en" | "ko">("en");
   const [darkMode, setDarkMode] = useState(false);
-  const [activeTool, setActiveTool] = useState("Character");
+  const [activeTool, setActiveTool] = useState("Scriptor");
 
   const toggleDarkMode = () => setDarkMode(prev => !prev);
 
@@ -36,6 +36,15 @@ export function useStoreLogic() {
     setSelectedIndex(scriptItems.length)
   };
 
+  const updateScriptCharacter = (newCharacters: Character[]) => {
+    setScriptItems(prev =>
+      prev.map(item => ({
+        ...item,
+        character: newCharacters,
+      }))
+    );
+  };
+
   const addImage = (url: string) => setImages(prev => [...prev, { id: Date.now(), url }]);
   const removeImage = (id: number) => setImages(prev => prev.filter(img => img.id !== id));
 
@@ -55,6 +64,7 @@ export function useStoreLogic() {
   });
 
   //Scriptor
+
   const [textEditing, setTextEditing] = useState(false);
 
 
@@ -121,6 +131,8 @@ export function useStoreLogic() {
   };
 
 
+
+
   const initDefaultCharacterImages = async () => {
     if (!characterList || characterList.length < 2) return;
 
@@ -141,12 +153,18 @@ export function useStoreLogic() {
     const firstCharacter = { ...characterList[0], img: defaultFiles.slice(0, 2) };
     const secondCharacter = { ...characterList[1], img: defaultFiles.slice(2) };
 
-    setCharacterList([firstCharacter, secondCharacter]);
+    const newCharacterList = [firstCharacter, secondCharacter];
+
+    setCharacterList(newCharacterList);
     setSelectedCharacter(firstCharacter);
 
-    console.log(characterList)
+    // ScriptItem에도 새 캐릭터 연결
+    updateScriptCharacter(newCharacterList);
 
+    console.log(newCharacterList);
   };
+
+
 
   return {
     // AppStore
@@ -163,6 +181,7 @@ export function useStoreLogic() {
     // Logic Store
     images,
     addImage,
+    updateScriptCharacter,
     removeImage,
     scriptItems,
     setScriptItems,

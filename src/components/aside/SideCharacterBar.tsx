@@ -8,7 +8,6 @@ export default function SideCharacterBar() {
 
     const [characterUrls, setCharacterUrls] = useState<(string | null)[]>([]);
 
-    // 캐릭터 Object URL 생성
     useEffect(() => {
         const urls = characterList.map(char => 
             char.img && char.img.length > 0 ? URL.createObjectURL(char.img[char.represent]) : null
@@ -20,7 +19,6 @@ export default function SideCharacterBar() {
         };
     }, [characterList]);
 
-    // 스크롤 항상 아래로
     useEffect(() => {
         const el = containerRef.current;
         if (!el) return;
