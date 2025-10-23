@@ -46,32 +46,6 @@ export const defaultResource: Resource = {
   type: "image",
 };
 
-export const defaultCharacter: Character[] = [
-  {
-    id: nanoid(),
-    name: "User",
-    role: "player",
-    position: 0,
-    represent:0,
-    img: [],
-  },
-  {
-    id: nanoid(),
-    name: "mascot",
-    role: "npc",
-    position: 0,
-    represent:0,
-    img: [],
-  }
-];
-
-export const defaultSnapshot: Snapshot = {
-  id: nanoid(),
-  name: "Default Snapshot",
-  character: defaultCharacter,
-  background: defaultResource,
-  resources: [defaultResource],
-};
 
 export const defaultScriptString: ScriptString = {
   script: "",
@@ -79,10 +53,3 @@ export const defaultScriptString: ScriptString = {
   fontStyle: 0,
   fontColor: 0,
 }
-
-export const defaultScript: ScriptItem = {
-  id: nanoid(),
-  character: defaultCharacter,
-  snapshot: defaultSnapshot,
-  scriptString: defaultScriptString
-};

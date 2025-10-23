@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ScriptString } from '../../../../../types';
+import { Script } from '../../../../../scene';
 
 type TextBoxEditingScriptProps = {
-    scriptString: ScriptString;
+    scriptString: Script;
     onSave: (newScript: string) => void;
     onCancel: () => void;
 };
@@ -12,7 +12,7 @@ export default function TextBoxEditingScript({
     onSave,
     onCancel,
 }: TextBoxEditingScriptProps) {
-    const [inputValue, setInputValue] = useState(scriptString.script);
+    const [inputValue, setInputValue] = useState(scriptString.text);
     const [isComposing, setIsComposing] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

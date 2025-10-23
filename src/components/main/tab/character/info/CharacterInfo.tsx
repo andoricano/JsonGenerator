@@ -25,7 +25,6 @@ export default function CharacterInfo() {
 
                 <CharacterDetails
                     name={selectedCharacter.name}
-                    role={selectedCharacter.role}
                 />
             </div>
         </div>
@@ -44,11 +43,10 @@ function ProfileImage({ src, alt }: { src: string; alt: string }) {
     return <img src={src} alt={alt} style={styles.image} />;
 }
 
-function CharacterDetails({ name, role }: { name: string; role: string }) {
+function CharacterDetails({ name }: { name: string; }) {
     return (
         <div style={styles.textContainer}>
             <div style={styles.characterInfo}>이름: {name}</div>
-            <div style={styles.characterInfo}>역할: {role}</div>
         </div>
     );
 }

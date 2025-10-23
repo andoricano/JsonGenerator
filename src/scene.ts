@@ -1,4 +1,7 @@
-type Character = {
+import { nanoid } from 'nanoid';
+
+
+export type Character = {
   name: string;
   img: File[];
   selectedImageIndex: number;
@@ -6,12 +9,12 @@ type Character = {
 
 type ScriptCharacter = {
   character: Character;
-  position: number;    
-  tone: number;        
+  position: number;
+  tone: number;
 };
 
 
-type Script = {
+export type Script = {
   id: string;
   character: ScriptCharacter[];
   text: string;
@@ -20,4 +23,28 @@ type Script = {
 type Scene = {
   id: string;
   script: Script[];
+};
+
+export const defaultCharacter: Character[] = [
+  {
+    name: "User",
+    img: [],
+    selectedImageIndex: -1
+  },
+  {
+    name: "mascot",
+    img: [],
+    selectedImageIndex: -1
+  }
+];
+export const defaultScript: Script = {
+  id: nanoid(),
+  character: [
+    {
+      character: defaultCharacter[0],
+      position: 0,
+      tone: 1,
+    },
+  ],
+  text: "",
 };

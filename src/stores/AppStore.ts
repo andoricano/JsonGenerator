@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { nanoid } from 'nanoid';
-import { ScriptItem, Character, defaultScript, defaultCharacter } from "../types";
 import sanmiDraw from "/assets/sanmi-draw.png";
 import girlSkyBlueHip from "/assets/girl_skyblue_hip.png";
 import mascot from "/assets/mascot.png";
 import girlSchoolBlack from "/assets/girl_school_black.png";
 import girlSportBlack from "/assets/girl_sport_black.png";
+import { Script ,defaultScript,defaultCharacter, Character } from "../scene";
 
 export function useStoreLogic() {
   // ===== AppStore =====
   const [projectName, setProjectName] = useState("I Love yo yoU");
   const [lang, setLang] = useState<"en" | "ko">("en");
   const [darkMode, setDarkMode] = useState(false);
-  const [activeTool, setActiveTool] = useState("Scriptor");
+  const [activeTool, setActiveTool] = useState("Character");
 
   const toggleDarkMode = () => setDarkMode(prev => !prev);
 
@@ -25,24 +25,23 @@ export function useStoreLogic() {
 
   // ===== Logic Store =====
   const [images, setImages] = useState<{ id: number; url: string }[]>([]);
-  const defaultScriptItem: ScriptItem = defaultScript
-  const [scriptItems, setScriptItems] = useState<ScriptItem[]>([defaultScriptItem]);
+  const [scriptItems, setScriptItems] = useState<Script[]>([defaultScript]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const addScriptItem = () => {
     setScriptItems(prev => [
       ...prev,
-      { ...defaultScriptItem, id: crypto.randomUUID() }
+      { ...defaultScript, id: crypto.randomUUID() }
     ]);
     setSelectedIndex(scriptItems.length)
   };
 
   const updateScriptCharacter = (newCharacters: Character[]) => {
-    setScriptItems(prev =>
-      prev.map(item => ({
-        ...item,
-        character: newCharacters,
-      }))
-    );
+    // setScriptItems(prev =>
+    //   prev.map(item => ({
+    //     ...item,
+    //     character: newCharacters,
+    //   }))
+    // );
   };
 
   const addImage = (url: string) => setImages(prev => [...prev, { id: Date.now(), url }]);
@@ -53,7 +52,7 @@ export function useStoreLogic() {
 
   const resetMainStore = () => {
     setImages([]);
-    setScriptItems([defaultScriptItem]);
+    setScriptItems([defaultScript]);
     setSelectedIndex(0);
   };
 
@@ -87,19 +86,13 @@ export function useStoreLogic() {
 
   const updateSelectedCharacter = (updated: Character) => {
     setSelectedCharacter(updated);
-    setCharacterList((prev) =>
-      prev.map((c) => (c.id === updated.id ? updated : c))
-    );
   };
 
   const addCharacter = () => {
     const newCharacter: Character = {
-      id: nanoid(),
       name: "New Character",
-      role: "player",
-      position: characterList.length,
-      represent: 0,
       img: [],
+      selectedImageIndex: -1
     };
 
     setCharacterList((prev) => [...prev, newCharacter]);

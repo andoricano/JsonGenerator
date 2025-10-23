@@ -8,16 +8,16 @@ export default function SideCharacterBar() {
 
     const [characterUrls, setCharacterUrls] = useState<(string | null)[]>([]);
 
-    useEffect(() => {
-        const urls = characterList.map(char => 
-            char.img && char.img.length > 0 ? URL.createObjectURL(char.img[char.represent]) : null
-        );
-        setCharacterUrls(urls);
+    // useEffect(() => {
+    //     const urls = characterList.map(char => 
+    //         char.img && char.img.length > 0 ? URL.createObjectURL(char.img[char.represent]) : null
+    //     );
+    //     setCharacterUrls(urls);
 
-        return () => {
-            urls.forEach(url => url && URL.revokeObjectURL(url));
-        };
-    }, [characterList]);
+    //     return () => {
+    //         urls.forEach(url => url && URL.revokeObjectURL(url));
+    //     };
+    // }, [characterList]);
 
     useEffect(() => {
         const el = containerRef.current;
@@ -38,12 +38,10 @@ export default function SideCharacterBar() {
             }}
         >
             {characterList.map((character, idx) => {
-                const isSelected = selectedCharacter?.id === character.id;
                 const profileUrl = characterUrls[idx];
 
                 return (
                     <div
-                        key={character.id ?? idx}
                         onClick={() => setSelectedCharacter(character)}
                         style={{
                             marginBottom: "8px",
@@ -54,7 +52,7 @@ export default function SideCharacterBar() {
                             gap: "8px",
                             flexDirection: "column",
                             cursor: "pointer",
-                            background: isSelected ? "#cde4ff" : "#f0f0f0",
+                            // background: isSelected ? "#cde4ff" : "#f0f0f0",
                             transition: "background 0.2s",
                         }}
                     >

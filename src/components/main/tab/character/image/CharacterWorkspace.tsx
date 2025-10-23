@@ -46,7 +46,7 @@ export default function CharacterWorkspace() {
         {selectedCharacter && (
           <CharacterImageSlider
             imgList={fileList}
-            selectedIdx={selectedCharacter.represent}
+            selectedIdx={0}
           />
         )}
       </div>

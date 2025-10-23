@@ -18,9 +18,9 @@ export default function SideScriptBar() {
       {scriptItems.map((item, idx) => {
         const isSelected = idx === selectedIndex;
         const char = item.character[0];
-        const profileUrl = char?.img?.[char.represent]
-          ? URL.createObjectURL(char.img[char.represent])
-          : null;
+        // const profileUrl = char?.img?.[char.represent]
+        //   ? URL.createObjectURL(char.img[char.represent])
+        //   : null;
 
         return (
           <div
@@ -31,7 +31,7 @@ export default function SideScriptBar() {
               background: isSelected ? "#cde4ff" : "#f0f0f0",
             }}
           >
-            <div style={styles.row}>
+            {/* <div style={styles.row}>
               {profileUrl ? (
                 <img
                   src={profileUrl}
@@ -52,7 +52,7 @@ export default function SideScriptBar() {
                     : item.scriptString?.script ?? ""}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         );
       })}

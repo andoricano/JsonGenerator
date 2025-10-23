@@ -9,36 +9,34 @@ export default function TextBoxSection() {
 
   // 안전하게 접근, 기본값 설정
   const currentItem = scriptItems[selectedIndex] ?? { scriptString: { script: "" } };
-  const scriptString = currentItem.scriptString;
+  const scriptString = currentItem;
 
-  const handleSave = (script: string) => {
-    if (!script.trim()) return;
+  // const handleSave = (script: string) => {
+  //   if (!script.trim()) return;
 
-    setScriptItems(prev =>
-      prev.map((item, idx) =>
-        idx === selectedIndex
-          ? { ...item, scriptString: { ...item.scriptString, script } }
-          : item
-      )
-    );
-    setTextEditing(false);
-  };
+  //   setScriptItems(prev =>
+  //     prev.map((item, idx) =>
+        
+  //     )
+  //   );
+  //   setTextEditing(false);
+  // };
 
   return (
     <div style={styles.container}>
       <TextChracter />
-      {textEditing ? (
+      {/* {textEditing ? (
         <TextBoxEditingScript
           scriptString={scriptString}
           onSave={handleSave}
           onCancel={() => setTextEditing(false)}
         />
       ) : (
-        <TextBoxScript
-          scriptString={scriptString}
-          onEditStart={() => setTextEditing(true)}
-        />
-      )}
+        // <TextBoxScript
+        //   scriptString={scriptString}
+        //   onEditStart={() => setTextEditing(true)}
+        // />
+      )} */}
     </div>
   );
 }

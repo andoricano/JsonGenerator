@@ -17,7 +17,7 @@ export default function TextChracter() {
           paddingLeft: "15px",
         }}
       >
-        {scriptCharacter[0].name}
+        {scriptCharacter[0].character.name}
       </p>
     </div>
   );
