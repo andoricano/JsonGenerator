@@ -38,7 +38,7 @@ export function useStoreLogic() {
     const updated = newCharacters.map((char, idx) => ({
       character: char,
       position: idx,
-      tone: 0,      
+      tone: 0,
     }));
 
     setScriptItems(prev =>
@@ -115,8 +115,6 @@ export function useStoreLogic() {
     updateSelectedCharacter(updatedCharacter);
   };
 
-
-
   const removeImageFromCharacter = (index: number) => {
     if (!selectedCharacter) return;
 
@@ -128,9 +126,21 @@ export function useStoreLogic() {
     updateSelectedCharacter(updatedCharacter);
   };
 
+  //Character img
+  const changeCharacterThumbnail = (index: number) => {
+    if (!selectedCharacter) return;
+    if (index < 0 || index >= selectedCharacter.img.length) return;
 
+    const updatedCharacter: Character = {
+      ...selectedCharacter,
+      selectedImageIndex: index,
+    };
 
+    console.log(updatedCharacter)
+    updateSelectedCharacter(updatedCharacter);
+  };
 
+  
   const initDefaultCharacterImages = async () => {
     if (!characterList || characterList.length < 2) return;
 
@@ -156,12 +166,13 @@ export function useStoreLogic() {
     setCharacterList(newCharacterList);
     setSelectedCharacter(firstCharacter);
 
+
+
     // ScriptItem에도 새 캐릭터 연결
     updateScriptCharacter(newCharacterList);
 
     console.log(newCharacterList);
   };
-
 
 
   return {
@@ -204,7 +215,7 @@ export function useStoreLogic() {
     setSelectedCharacter,
     addCharacterImage,
     removeImageFromCharacter,
-
+    changeCharacterThumbnail,
     // 전체 초기화
     resetAll,
 

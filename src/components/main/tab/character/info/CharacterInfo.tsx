@@ -1,6 +1,5 @@
 import { useAppStore } from "../../../../../AppProvider";
 
-
 export default function CharacterInfo() {
     const { selectedCharacter } = useAppStore();
 
@@ -8,10 +7,12 @@ export default function CharacterInfo() {
         return <EmptyState message="선택된 캐릭터가 없습니다." />;
     }
 
-    const profileImg = selectedCharacter.img?.[0]
-        ? URL.createObjectURL(selectedCharacter.img[0])
+    const selectedIdx = selectedCharacter.selectedImageIndex;
+    const profileImg = selectedCharacter.img?.[selectedIdx]
+        ? URL.createObjectURL(selectedCharacter.img[selectedIdx])
         : null;
 
+    console.log(selectedIdx)
     return (
         <div style={styles.container}>
             <div style={styles.content}>
@@ -23,9 +24,7 @@ export default function CharacterInfo() {
                     )}
                 </div>
 
-                <CharacterDetails
-                    name={selectedCharacter.name}
-                />
+                <CharacterDetails name={selectedCharacter.name} />
             </div>
         </div>
     );
@@ -92,7 +91,7 @@ export const styles: Record<string, React.CSSProperties> = {
         aspectRatio: "1 / 1",
         borderRadius: "8px",
         objectFit: "cover",
-        padding:"10px",
+        padding: "10px",
         border: "2px solid #2a5b2e",
     },
     placeholderImage: {

@@ -20,10 +20,10 @@ export type Script = {
   text: string;
 };
 
-type Scene = {
-  id: string;
-  script: Script[];
-};
+// type Scene = {
+//   id: string;
+//   script: Script[];
+// };
 
 
 export const defaultCharacter: Character[] = [

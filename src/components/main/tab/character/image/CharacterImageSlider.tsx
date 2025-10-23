@@ -1,37 +1,30 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo,useState } from "react";
+
 type CharacterImageSliderProps = {
   imgList: File[];
-  selectedIdx?: number;
-  onSelected?: (index: number) => void;
+  selectedIdx: number;
+  onSelected: (index: number) => void;
 };
-
 export default function CharacterImageSlider({
   imgList,
-  selectedIdx = 0,
+  selectedIdx,
   onSelected,
 }: CharacterImageSliderProps) {
-  const [currentIndex, setCurrentIndex] = useState(
-    selectedIdx >= imgList.length ? 0 : selectedIdx
-  );
+  const [currentIndex, setCurrentIndex] = useState(selectedIdx);
+
+  const images = useMemo(() => imgList.map((file) => URL.createObjectURL(file)), [imgList]);
 
   useEffect(() => {
-    setCurrentIndex(selectedIdx >= imgList.length ? 0 : selectedIdx);
-  }, [selectedIdx, imgList.length]);
-
-  const images = useMemo(() => {
-    const urls = imgList.map((file) => URL.createObjectURL(file));
-    return urls;
-  }, [imgList]);
-
-  useEffect(() => {
-    return () => {
-      images.forEach((url) => URL.revokeObjectURL(url));
-    };
+    return () => images.forEach((url) => URL.revokeObjectURL(url));
   }, [images]);
 
-  const handleThumbnailClick = (index: number) => {
+  useEffect(() => {
+    setCurrentIndex(selectedIdx);
+  }, [selectedIdx]);
+
+  const handleClick = (index: number) => {
     setCurrentIndex(index);
-    onSelected?.(index);
+    onSelected(index);
   };
 
   if (imgList.length === 0) {
@@ -44,7 +37,7 @@ export default function CharacterImageSlider({
       <ThumbnailList
         images={images}
         currentIndex={currentIndex}
-        onClick={handleThumbnailClick}
+        onClick={handleClick}
       />
     </div>
   );

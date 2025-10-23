@@ -1,43 +1,34 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState } from "react";
 import AsideToolbar from "../image/AsideToolbar";
 import CharacterImageSlider from "./CharacterImageSlider";
 import ImageUploaderDialog from "./CharacterImageUploader";
 import { useAppStore } from "../../../../../AppProvider";
 
-
 export default function CharacterWorkspace() {
-  const { selectedCharacter, addCharacterImage } = useAppStore();
+  const { selectedCharacter, addCharacterImage, changeCharacterThumbnail } = useAppStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [fileList, setFileList] = useState<File[]>([]);
 
-  const openDialog = useCallback(() => setIsDialogOpen(true), []);
-  const closeDialog = useCallback(() => setIsDialogOpen(false), []);
+  const [selectedIdx, setSelectedIdx] = useState<number>(0);
 
-  const handleAddImage = useCallback(
-    (file: File) => {
-      if (!selectedCharacter) return;
-      addCharacterImage(file);
-      // selectedCharacter.img는 이미 최신 상태이므로 fileList를 동기화
-      setFileList((prev) => [...prev, file]);
-    },
-    [selectedCharacter, addCharacterImage]
-  );
+  const openDialog = () => setIsDialogOpen(true);
+  const closeDialog = () => setIsDialogOpen(false);
 
-  useEffect(() => {
-    if (!selectedCharacter) {
-      setFileList([]);
-      return;
-    }
-    setFileList(selectedCharacter.img);
-  }, [selectedCharacter]);
+  const handleAddImage = (file: File) => {
+    if (!selectedCharacter) return;
+    addCharacterImage(file);
+    setSelectedIdx(selectedCharacter.img.length);
+  };
+
+  const fileList = selectedCharacter?.img ?? [];
 
   const buttons = [
     { label: "Upload", onClick: openDialog },
-    { label: "Thumbnail", onClick: () => console.log("Thumbnail") },
+    { label: "Thumbnail", onClick: () => changeCharacterThumbnail(selectedIdx) },
     { label: "Background", onClick: () => console.log("Background") },
     { label: "Order", onClick: () => console.log("Order") },
     { label: "Delete", onClick: () => console.log("Delete") },
   ];
+
 
   return (
     <div style={styles.container}>
@@ -47,7 +38,8 @@ export default function CharacterWorkspace() {
         {selectedCharacter && (
           <CharacterImageSlider
             imgList={fileList}
-            selectedIdx={0}
+            selectedIdx={selectedIdx}
+            onSelected={setSelectedIdx}
           />
         )}
       </div>
@@ -60,9 +52,6 @@ export default function CharacterWorkspace() {
     </div>
   );
 }
-
-
-
 
 
 
