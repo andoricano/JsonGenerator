@@ -1,7 +1,7 @@
-import { ScriptString } from "../../../../../types";
+import { Script } from "../../../../../scene";
 
 type TextBoxScriptProps = {
-    scriptString: ScriptString;
+    scriptString: Script;
     onEditStart: () => void;
 };
 
@@ -23,8 +23,8 @@ export default function TextBoxScript(
                 >
                     <span style={{ color: '#fff' }}>
                         {
-                            scriptString.script != "" ?
-                            scriptString.script :
+                            scriptString.text != "" ?
+                            scriptString.text :
                             "대사를 입력해주세요."
                         }
                     </span>

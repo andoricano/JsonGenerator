@@ -25,6 +25,7 @@ type Scene = {
   script: Script[];
 };
 
+
 export const defaultCharacter: Character[] = [
   {
     name: "User",
@@ -37,6 +38,14 @@ export const defaultCharacter: Character[] = [
     selectedImageIndex: -1
   }
 ];
+export const defaultScriptCharacter: ScriptCharacter[] = [
+  {
+    character: defaultCharacter[0],
+    position: 0,
+    tone: 1,
+  },
+];
+
 export const defaultScript: Script = {
   id: nanoid(),
   character: [
