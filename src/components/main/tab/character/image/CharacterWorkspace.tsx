@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AsideToolbar from "../image/AsideToolbar";
 import CharacterImageSlider from "./CharacterImageSlider";
 import ImageUploaderDialog from "./CharacterImageUploader";
@@ -8,7 +8,14 @@ export default function CharacterWorkspace() {
   const { selectedCharacter, addCharacterImage, changeCharacterThumbnail } = useAppStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
+
+  useEffect(() => {
+    if (selectedCharacter) {
+      setSelectedIdx(selectedCharacter.selectedImageIndex);
+    }
+  }, [selectedCharacter?.selectedImageIndex]);
 
   const openDialog = () => setIsDialogOpen(true);
   const closeDialog = () => setIsDialogOpen(false);

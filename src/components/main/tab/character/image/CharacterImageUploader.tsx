@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 
 type ImageUploaderDialogProps = {
@@ -13,6 +13,15 @@ const ImageUploaderDialog: React.FC<ImageUploaderDialogProps> = ({
 }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+
+  useEffect(() => {
+    if (isOpen) {
+      setPreview(null);
+      setSelectedFile(null);
+    }
+  }, [isOpen]);
+
 
   if (!isOpen) return null;
   const handleFile = (file: File) => {

@@ -30,12 +30,12 @@ export const defaultCharacter: Character[] = [
   {
     name: "User",
     img: [],
-    selectedImageIndex: -1
+    selectedImageIndex: 0
   },
   {
     name: "mascot",
     img: [],
-    selectedImageIndex: -1
+    selectedImageIndex: 0
   }
 ];
 export const defaultScriptCharacter: ScriptCharacter[] = [

@@ -91,13 +91,16 @@ export function useStoreLogic() {
 
   const updateSelectedCharacter = (updated: Character) => {
     setSelectedCharacter(updated);
+    setCharacterList(prev =>
+      prev.map(char => char === selectedCharacter ? updated : char)
+    );
   };
 
   const addCharacter = () => {
     const newCharacter: Character = {
       name: "New Character",
       img: [],
-      selectedImageIndex: -1
+      selectedImageIndex: 0
     };
 
     setCharacterList((prev) => [...prev, newCharacter]);
@@ -140,7 +143,7 @@ export function useStoreLogic() {
     updateSelectedCharacter(updatedCharacter);
   };
 
-  
+
   const initDefaultCharacterImages = async () => {
     if (!characterList || characterList.length < 2) return;
 
