@@ -20,13 +20,15 @@ const ImageUploaderDialog: React.FC<ImageUploaderDialogProps> = ({
     const reader = new FileReader();
     reader.onloadend = () => setPreview(reader.result as string);
     reader.readAsDataURL(file);
-    setSelectedFile(file); 
+    setSelectedFile(file);
   };
 
   const handleConfirm = () => {
     if (selectedFile && onConfirm) {
-      onConfirm(selectedFile); 
+      onConfirm(selectedFile);
     }
+    setPreview(null);
+    setSelectedFile(null);
     onClose();
   };
 
@@ -73,12 +75,18 @@ const ImageUploaderDialog: React.FC<ImageUploaderDialogProps> = ({
           <button onClick={handleConfirm} style={styles.confirmButton} disabled={!preview}>
             확인
           </button>
-          <button onClick={onClose} style={styles.closeButton}>
+          <button
+            onClick={() => {
+              setPreview(null);
+              setSelectedFile(null);
+              onClose()
+            }}
+            style={styles.closeButton}>
             닫기
           </button>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

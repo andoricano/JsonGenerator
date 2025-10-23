@@ -38,9 +38,13 @@ function EmptyState({ message }: { message: string }) {
         </div>
     );
 }
-
 function ProfileImage({ src, alt }: { src: string; alt: string }) {
-    return <img src={src} alt={alt} style={styles.image} />;
+    return (
+        <div style={styles.imageContainer}>
+            <div style={styles.imageLabel}>대표 이미지</div>
+            <img src={src} alt={alt} style={styles.image} />
+        </div>
+    );
 }
 
 function CharacterDetails({ name }: { name: string; }) {
@@ -84,10 +88,12 @@ export const styles: Record<string, React.CSSProperties> = {
         width: "100%",
     },
     image: {
-        width: "60%",
+        width: "70%",
         aspectRatio: "1 / 1",
         borderRadius: "8px",
         objectFit: "cover",
+        padding:"10px",
+        border: "2px solid #2a5b2e",
     },
     placeholderImage: {
         width: "80%",
@@ -104,4 +110,35 @@ export const styles: Record<string, React.CSSProperties> = {
         fontWeight: "bold",
         fontSize: "18px",
     },
+
+    wrapper: {
+        position: "relative",
+        display: "inline-block",
+        width: "80px",
+        height: "80px",
+        borderRadius: "8px",
+        overflow: "hidden",
+    },
+    label: {
+        position: "absolute",
+        top: "4px",
+        left: "4px",
+        background: "rgba(0, 0, 0, 0.6)",
+        color: "white",
+        padding: "2px 6px",
+        fontSize: "12px",
+        borderRadius: "4px",
+    },
+    imageContainer: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "8px",
+    },
+    imageLabel: {
+        fontWeight: "bold",
+        fontSize: "14px",
+        color: "#053b07ff",
+    },
+
 };

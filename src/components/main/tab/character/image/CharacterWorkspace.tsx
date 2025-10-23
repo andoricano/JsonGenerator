@@ -36,6 +36,7 @@ export default function CharacterWorkspace() {
     { label: "Thumbnail", onClick: () => console.log("Thumbnail") },
     { label: "Background", onClick: () => console.log("Background") },
     { label: "Order", onClick: () => console.log("Order") },
+    { label: "Delete", onClick: () => console.log("Delete") },
   ];
 
   return (

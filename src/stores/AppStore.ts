@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { nanoid } from 'nanoid';
 import sanmiDraw from "/assets/sanmi-draw.png";
 import girlSkyBlueHip from "/assets/girl_skyblue_hip.png";
 import mascot from "/assets/mascot.png";
 import girlSchoolBlack from "/assets/girl_school_black.png";
 import girlSportBlack from "/assets/girl_sport_black.png";
-import { Script ,defaultScript,defaultCharacter, Character } from "../scene";
+import { Script, defaultScript, defaultCharacter, Character } from "../scene";
 
 export function useStoreLogic() {
   // ===== AppStore =====
@@ -36,12 +35,18 @@ export function useStoreLogic() {
   };
 
   const updateScriptCharacter = (newCharacters: Character[]) => {
-    // setScriptItems(prev =>
-    //   prev.map(item => ({
-    //     ...item,
-    //     character: newCharacters,
-    //   }))
-    // );
+    const updated = newCharacters.map((char, idx) => ({
+      character: char,
+      position: idx,
+      tone: 0,      
+    }));
+
+    setScriptItems(prev =>
+      prev.map(item => ({
+        ...item,
+        character: updated,
+      }))
+    );
   };
 
   const addImage = (url: string) => setImages(prev => [...prev, { id: Date.now(), url }]);
