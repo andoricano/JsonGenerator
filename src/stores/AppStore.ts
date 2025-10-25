@@ -68,9 +68,17 @@ export function useStoreLogic() {
   });
 
   //Scriptor
+  const updateScriptText = (newText: string) => {
+    setScriptItems(prev =>
+      prev.map((item, idx) =>
+        idx === selectedIndex
+          ? { ...item, text: newText }
+          : item
+      )
+    );
+  };
 
   const [textEditing, setTextEditing] = useState(false);
-
 
   const resetScriptorStore = () => {
     setTextEditing(false)
@@ -193,6 +201,7 @@ export function useStoreLogic() {
     // Logic Store
     images,
     addImage,
+    updateScriptText,
     updateScriptCharacter,
     removeImage,
     scriptItems,

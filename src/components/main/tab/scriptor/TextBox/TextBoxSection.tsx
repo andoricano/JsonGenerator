@@ -5,38 +5,32 @@ import { useAppStore } from '../../../../../AppProvider';
 import TextBoxEditingScript from './TextBoxEditingScript';
 
 export default function TextBoxSection() {
-  const { scriptItems, selectedIndex, setScriptItems, textEditing, setTextEditing } = useAppStore();
+  const { scriptItems, selectedIndex, updateScriptText, textEditing, setTextEditing } = useAppStore();
 
-  // 안전하게 접근, 기본값 설정
   const currentItem = scriptItems[selectedIndex] ?? { scriptString: { script: "" } };
   const scriptString = currentItem;
 
-  // const handleSave = (script: string) => {
-  //   if (!script.trim()) return;
-
-  //   setScriptItems(prev =>
-  //     prev.map((item, idx) =>
-        
-  //     )
-  //   );
-  //   setTextEditing(false);
-  // };
+  const handleSave = (script: string) => {
+    if (!script.trim()) return;
+    updateScriptText(script)
+    setTextEditing(false);
+  };
 
   return (
     <div style={styles.container}>
       <TextChracter />
-      {/* {textEditing ? (
+      {textEditing ? (
         <TextBoxEditingScript
           scriptString={scriptString}
           onSave={handleSave}
           onCancel={() => setTextEditing(false)}
         />
       ) : (
-        // <TextBoxScript
-        //   scriptString={scriptString}
-        //   onEditStart={() => setTextEditing(true)}
-        // />
-      )} */}
+        <TextBoxScript
+          scriptString={scriptString}
+          onEditStart={() => setTextEditing(true)}
+        />
+      )}
     </div>
   );
 }
