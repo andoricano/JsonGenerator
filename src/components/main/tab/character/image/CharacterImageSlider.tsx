@@ -1,4 +1,4 @@
-import { useEffect, useMemo,useState } from "react";
+import { useEffect, useState } from "react";
 
 type CharacterImageSliderProps = {
   imgList: File[];
@@ -11,12 +11,16 @@ export default function CharacterImageSlider({
   onSelected,
 }: CharacterImageSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(selectedIdx);
-
-  const images = useMemo(() => imgList.map((file) => URL.createObjectURL(file)), [imgList]);
+  const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
-    return () => images.forEach((url) => URL.revokeObjectURL(url));
-  }, [images]);
+    const urls = imgList.map(file => URL.createObjectURL(file));
+    setImages(urls);
+
+    return () => {
+      urls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, [imgList]);
 
   useEffect(() => {
     setCurrentIndex(selectedIdx);
