@@ -11,7 +11,7 @@ export function useStoreLogic() {
   const [projectName, setProjectName] = useState("I Love yo yoU");
   const [lang, setLang] = useState<"en" | "ko">("en");
   const [darkMode, setDarkMode] = useState(false);
-  const [activeTool, setActiveTool] = useState("Character");
+  const [activeTool, setActiveTool] = useState("Scriptor");
 
   const toggleDarkMode = () => setDarkMode(prev => !prev);
 
