@@ -1,11 +1,16 @@
-import React from 'react';
-import TextChracter from './TextCharacter';
+import React, { useState } from 'react';
+import TextBoxChracter from './TextBoxCharacter';
 import TextBoxScript from './TextBoxScript';
 import { useAppStore } from '../../../../../AppProvider';
 import TextBoxEditingScript from './TextBoxEditingScript';
+import { Character } from '../../../../../scene';
 
 export default function TextBoxSection() {
-  const { scriptItems, selectedIndex, updateScriptText, textEditing, setTextEditing } = useAppStore();
+  const { scriptItems, selectedIndex, updateScriptText, textEditing, setTextEditing, updateScriptorCharacter } = useAppStore();
+
+  const [editingScript] = useState(scriptItems[selectedIndex]);
+  console.log("??:" + editingScript.text)
+
 
   const currentItem = scriptItems[selectedIndex] ?? { scriptString: { script: "" } };
   const scriptString = currentItem;
@@ -16,9 +21,15 @@ export default function TextBoxSection() {
     setTextEditing(false);
   };
 
+  const handleSelectingCharacter = (character: Character) => {
+    updateScriptorCharacter(character);
+  };
   return (
     <div style={styles.container}>
-      <TextChracter />
+      <TextBoxChracter 
+        scriptString ={scriptItems[selectedIndex]}
+        onCharacter = {handleSelectingCharacter}
+       />
       {textEditing ? (
         <TextBoxEditingScript
           scriptString={scriptString}

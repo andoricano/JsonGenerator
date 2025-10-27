@@ -7,7 +7,7 @@ export type Character = {
   selectedImageIndex: number;
 };
 
-type ScriptCharacter = {
+export type ScriptCharacter = {
   character: Character;
   position: number;
   tone: number;

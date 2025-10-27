@@ -80,6 +80,25 @@ export function useStoreLogic() {
 
   const [textEditing, setTextEditing] = useState(false);
 
+  const updateScriptorCharacter = (character: Character) => {
+    setScriptItems(prev =>
+      prev.map((item, idx) =>
+        idx === selectedIndex
+          ? {
+            ...item,
+            character: [
+              ...item.character,
+              {
+                character: character,
+                position: 0,
+                tone: 0,
+              },
+            ],
+          }
+          : item
+      )
+    );
+  };
   const resetScriptorStore = () => {
     setTextEditing(false)
   };
@@ -216,6 +235,7 @@ export function useStoreLogic() {
     //Sctiptor
     textEditing,
     setTextEditing,
+    updateScriptorCharacter,
     resetScriptorStore,
 
 
