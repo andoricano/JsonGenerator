@@ -1,21 +1,28 @@
 import { Character, Script } from "../../../../../scene";
 
 type TextBoxChracterProps = {
-    scriptString: Script;
-    onCharacter: (character: Character) => void;
+  scriptString: Script;
+  onCharacter: (character: Character) => void;
 };
 
 export default function TextBoxChracter(
-  { scriptString, onCharacter } : TextBoxChracterProps
+  { scriptString, onCharacter }: TextBoxChracterProps
 ) {
 
-  const scriptCharacter = scriptString?.character ?? { name: "Unknown" };
+  const scriptCharacter = scriptString?.character ?? [];
+  const firstCharacter = scriptCharacter[0]?.character;
+  const characterName = firstCharacter?.name ?? "Unknown";
+
 
   return (
     <div
       style={{
         margin: "5px",
         borderBottom: "1px solid #ccc",
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        console.log("Character clicked:", firstCharacter);
       }}
     >
       <p
