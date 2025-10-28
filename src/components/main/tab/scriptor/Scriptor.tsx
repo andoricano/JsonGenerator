@@ -1,18 +1,11 @@
 import { useAppStore } from '../../../../AppProvider';
-import { Character } from '../../../../scene';
-import TextBoxChracter from './TextBox/TextBoxCharacter';
 import TextBoxSection from './TextBox/TextBoxSection';
 
 export default function Scriptor() {
 
-    const { scriptItems, selectedIndex, updateScriptText, textEditing, setTextEditing, updateScriptorCharacter } = useAppStore();
-
-    const handleSelectingCharacter = (character: Character) => {
-        updateScriptorCharacter(character);
-    };
+    const { scriptItems, selectedIndex, updateScriptText, updateScriptorCharacter } = useAppStore();
 
     return (
-
         <div
             style={{
                 display: 'flex',
@@ -23,11 +16,11 @@ export default function Scriptor() {
                 boxSizing: 'border-box',
             }}
         >
-            <TextBoxChracter
+            <TextBoxSection 
                 scriptString={scriptItems[selectedIndex]}
-                onCharacter={handleSelectingCharacter}
+                updateScriptText={updateScriptText}
+                onCharacter={updateScriptorCharacter}
             />
-            <TextBoxSection />
         </div>
     );
 }

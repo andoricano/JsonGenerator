@@ -1,39 +1,44 @@
 import React, { useState } from 'react';
 import TextBoxChracter from './TextBoxCharacter';
 import TextBoxScript from './TextBoxScript';
-import { useAppStore } from '../../../../../AppProvider';
 import TextBoxEditingScript from './TextBoxEditingScript';
-import { Character } from '../../../../../scene';
-
-export default function TextBoxSection() {
-  const { scriptItems, selectedIndex, updateScriptText, textEditing, setTextEditing, updateScriptorCharacter } = useAppStore();
-  
-
-  const [editingScript] = useState(scriptItems[selectedIndex]);
-  console.log("??:" + editingScript.text)
+import { Character, Script } from '../../../../../scene';
 
 
-  const currentItem = scriptItems[selectedIndex] ?? { scriptString: { script: "" } };
-  const scriptString = currentItem;
+type TextBoxSectionProps = {
+  scriptString: Script;
+  updateScriptText: (script: string) => void;
+  onCharacter: (character: Character) => void;
+};
+export default function TextBoxSection(
+  {
+    scriptString, updateScriptText, onCharacter
+  }: TextBoxSectionProps
+) {
+  var [editing,setEditing]= useState(false);
 
   const handleSave = (script: string) => {
     if (!script.trim()) return;
     updateScriptText(script)
-    setTextEditing(false);
+    setEditing(false);
   };
 
   return (
     <div style={styles.container}>
-      {textEditing ? (
+      <TextBoxChracter
+        scriptString={scriptString}
+        onCharacter={onCharacter}
+      />
+      {editing ? (
         <TextBoxEditingScript
           scriptString={scriptString}
           onSave={handleSave}
-          onCancel={() => setTextEditing(false)}
+          onCancel={() => handleSave}
         />
       ) : (
         <TextBoxScript
           scriptString={scriptString}
-          onEditStart={() => setTextEditing(true)}
+          onEditStart={() => handleSave}
         />
       )}
     </div>

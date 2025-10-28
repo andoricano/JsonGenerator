@@ -78,7 +78,7 @@ export function useStoreLogic() {
     );
   };
 
-  const [textEditing, setTextEditing] = useState(false);
+  const [scripttextEditing, setscripttextEditing] = useState(false);
 
   const updateScriptorCharacter = (character: Character) => {
     setScriptItems(prev =>
@@ -100,7 +100,7 @@ export function useStoreLogic() {
     );
   };
   const resetScriptorStore = () => {
-    setTextEditing(false)
+    setscripttextEditing(false)
   };
 
   const resetAll = () => {
@@ -233,8 +233,8 @@ export function useStoreLogic() {
     scriptToJSON,
 
     //Sctiptor
-    textEditing,
-    setTextEditing,
+    scripttextEditing,
+    setscripttextEditing,
     updateScriptorCharacter,
     resetScriptorStore,
 
