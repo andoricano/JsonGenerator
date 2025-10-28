@@ -7,6 +7,7 @@ import { Character } from '../../../../../scene';
 
 export default function TextBoxSection() {
   const { scriptItems, selectedIndex, updateScriptText, textEditing, setTextEditing, updateScriptorCharacter } = useAppStore();
+  
 
   const [editingScript] = useState(scriptItems[selectedIndex]);
   console.log("??:" + editingScript.text)
@@ -21,15 +22,8 @@ export default function TextBoxSection() {
     setTextEditing(false);
   };
 
-  const handleSelectingCharacter = (character: Character) => {
-    updateScriptorCharacter(character);
-  };
   return (
     <div style={styles.container}>
-      <TextBoxChracter 
-        scriptString ={scriptItems[selectedIndex]}
-        onCharacter = {handleSelectingCharacter}
-       />
       {textEditing ? (
         <TextBoxEditingScript
           scriptString={scriptString}
