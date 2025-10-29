@@ -19,10 +19,6 @@ export default function TextBoxChracter(
       style={{
         margin: "5px",
         borderBottom: "1px solid #ccc",
-        cursor: "pointer",
-      }}
-      onClick={() => {
-        console.log("Character clicked:", firstCharacter);
       }}
     >
       <p

@@ -10,12 +10,13 @@ type TextBoxSectionProps = {
   updateScriptText: (script: string) => void;
   onCharacter: (character: Character) => void;
 };
+
 export default function TextBoxSection(
   {
     scriptString, updateScriptText, onCharacter
   }: TextBoxSectionProps
 ) {
-  var [editing,setEditing]= useState(false);
+  var [editing, setEditing] = useState(false);
 
   const handleSave = (script: string) => {
     if (!script.trim()) return;
@@ -24,7 +25,9 @@ export default function TextBoxSection(
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.container}
+      onClick={() => setEditing(true)}
+    >
       <TextBoxChracter
         scriptString={scriptString}
         onCharacter={onCharacter}
@@ -38,7 +41,6 @@ export default function TextBoxSection(
       ) : (
         <TextBoxScript
           scriptString={scriptString}
-          onEditStart={() => handleSave}
         />
       )}
     </div>
@@ -53,6 +55,7 @@ export const styles: { [key: string]: React.CSSProperties } = {
     bottom: 20,
     height: '200px',
     boxSizing: 'border-box',
+    cursor: "pointer",
   },
   bubble: {
     padding: '12px',

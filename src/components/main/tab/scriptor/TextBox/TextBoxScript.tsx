@@ -2,11 +2,10 @@ import { Script } from "../../../../../scene";
 
 type TextBoxScriptProps = {
     scriptString: Script;
-    onEditStart: () => void;
 };
 
 export default function TextBoxScript(
-    { scriptString, onEditStart }: TextBoxScriptProps
+    { scriptString }: TextBoxScriptProps
 ) {
 
     return (
@@ -17,9 +16,8 @@ export default function TextBoxScript(
                 <div
                     style={{
                         padding: '12px', borderRadius: '12px',
-                        minWidth: '10%', maxWidth: '90%', cursor: 'pointer', backgroundColor: '#136415ff'
+                        minWidth: '10%', maxWidth: '90%', backgroundColor: '#136415ff'
                     }}
-                    onClick={onEditStart}
                 >
                     <span style={{ color: '#fff' }}>
                         {
