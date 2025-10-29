@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Script } from '../../../../../scene';
+import { Script } from '../../../../../../scene';
 
 type TextBoxEditingScriptProps = {
     scriptString: Script;

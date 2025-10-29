@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import TextBoxChracter from './TextBoxCharacter';
 import TextBoxScript from './TextBoxScript';
-import TextBoxEditingScript from './TextBoxEditingScript';
+import TextBoxEditingScript from './TextBoxEditing/TextBoxEditingScript';
 import { Character, Script } from '../../../../../scene';
+import TextBoxChracterEditing from './TextBoxEditing/TextBoxEditingCharacter';
 
 
 type TextBoxSectionProps = {
@@ -28,20 +29,31 @@ export default function TextBoxSection(
     <div style={styles.container}
       onClick={() => setEditing(true)}
     >
-      <TextBoxChracter
-        scriptString={scriptString}
-        onCharacter={onCharacter}
-      />
+
       {editing ? (
-        <TextBoxEditingScript
-          scriptString={scriptString}
-          onSave={handleSave}
-          onCancel={() => handleSave}
-        />
+        <div>
+          <TextBoxChracterEditing
+            scriptString={scriptString}
+            onSave={handleSave}
+            onCancel={() => handleSave}
+          />
+          <TextBoxEditingScript
+            scriptString={scriptString}
+            onSave={handleSave}
+            onCancel={() => handleSave}
+          />
+        </div>
       ) : (
-        <TextBoxScript
-          scriptString={scriptString}
-        />
+        <div>
+          <TextBoxChracter
+            scriptString={scriptString}
+            onCharacter={onCharacter}
+          />
+          <TextBoxScript
+            scriptString={scriptString}
+          />
+
+        </div>
       )}
     </div>
   );
