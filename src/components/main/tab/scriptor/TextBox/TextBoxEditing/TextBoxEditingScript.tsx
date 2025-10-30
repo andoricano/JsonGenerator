@@ -20,7 +20,6 @@ export default function TextBoxEditingScript({
     };
 
     const handleSave = () => {
-        if (!inputValue.trim()) return;
         onSave(inputValue);
     };
 
@@ -30,7 +29,7 @@ export default function TextBoxEditingScript({
             handleSave();
         }
     };
-    
+
     return (
         <div
             style={{
@@ -58,7 +57,10 @@ export default function TextBoxEditingScript({
                 }}
             />
             <button
-                onClick={handleSave}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    handleSave();
+                }}
                 style={{
                     padding: '8px 12px',
                     borderRadius: '4px',
@@ -71,7 +73,10 @@ export default function TextBoxEditingScript({
                 Save
             </button>
             <button
-                onClick={onCancel}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onCancel();
+                }}
                 style={{
                     padding: '8px 12px',
                     borderRadius: '4px',

@@ -20,10 +20,13 @@ export default function TextBoxSection(
   var [editing, setEditing] = useState(false);
 
   const handleSave = (script: string) => {
-    if (!script.trim()) return;
     updateScriptText(script)
     setEditing(false);
   };
+
+  const handleCancel = () =>{
+    setEditing(false);
+  }
 
   return (
     <div style={styles.container}
@@ -35,12 +38,12 @@ export default function TextBoxSection(
           <TextBoxChracterEditing
             scriptString={scriptString}
             onSave={handleSave}
-            onCancel={() => handleSave}
+            onCancel={handleCancel}
           />
           <TextBoxEditingScript
             scriptString={scriptString}
             onSave={handleSave}
-            onCancel={() => handleSave}
+            onCancel={handleCancel}
           />
         </div>
       ) : (
