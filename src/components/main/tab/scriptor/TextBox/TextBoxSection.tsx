@@ -10,15 +10,21 @@ type TextBoxSectionProps = {
   scriptString: Script;
   updateScriptText: (script: string) => void;
   onCharacter: (character: Character) => void;
+  characterList : Character[];
 };
 
 export default function TextBoxSection(
   {
-    scriptString, updateScriptText, onCharacter
+    scriptString, updateScriptText, onCharacter,characterList
   }: TextBoxSectionProps
 ) {
   var [editing, setEditing] = useState(false);
 
+
+  const handleSelectingCharacter = (character : Character[]) =>{
+
+    setEditing(false);
+  }
   const handleSave = (script: string) => {
     updateScriptText(script)
     setEditing(false);
@@ -36,7 +42,7 @@ export default function TextBoxSection(
       {editing ? (
         <div>
           <TextBoxChracterEditing
-            scriptString={scriptString}
+            characterList={characterList}
             onSave={handleSave}
             onCancel={handleCancel}
           />

@@ -3,7 +3,13 @@ import TextBoxSection from './TextBox/TextBoxSection';
 
 export default function Scriptor() {
 
-    const { scriptItems, selectedIndex, updateScriptText, updateScriptorCharacter } = useAppStore();
+    const {
+        scriptItems,
+        selectedIndex,
+        updateScriptText,
+        updateScriptorCharacter,
+        characterList,
+    } = useAppStore();
 
     return (
         <div
@@ -16,10 +22,11 @@ export default function Scriptor() {
                 boxSizing: 'border-box',
             }}
         >
-            <TextBoxSection 
+            <TextBoxSection
                 scriptString={scriptItems[selectedIndex]}
                 updateScriptText={updateScriptText}
                 onCharacter={updateScriptorCharacter}
+                characterList={characterList}
             />
         </div>
     );
