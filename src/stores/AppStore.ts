@@ -4,7 +4,7 @@ import girlSkyBlueHip from "/assets/girl_skyblue_hip.png";
 import mascot from "/assets/mascot.png";
 import girlSchoolBlack from "/assets/girl_school_black.png";
 import girlSportBlack from "/assets/girl_sport_black.png";
-import { Script, defaultScript, defaultCharacter, Character } from "../scene";
+import { Script, defaultScript, defaultCharacter, Character, ScriptCharacter } from "../scene";
 
 export function useStoreLogic() {
   // ===== AppStore =====
@@ -78,35 +78,23 @@ export function useStoreLogic() {
     );
   };
 
-  const [scripttextEditing, setscripttextEditing] = useState(false);
 
-  const updateScriptorCharacter = (character: Character) => {
+  const updateScriptorCharacter = (character: ScriptCharacter[]) => {
     setScriptItems(prev =>
       prev.map((item, idx) =>
         idx === selectedIndex
           ? {
             ...item,
-            character: [
-              ...item.character,
-              {
-                character: character,
-                position: 0,
-                tone: 0,
-              },
-            ],
+            character: character
+            ,
           }
           : item
       )
     );
   };
-  const resetScriptorStore = () => {
-    setscripttextEditing(false)
-  };
-
   const resetAll = () => {
     resetAppStore();
     resetMainStore();
-    resetScriptorStore();
   };
 
 
@@ -233,10 +221,7 @@ export function useStoreLogic() {
     scriptToJSON,
 
     //Sctiptor
-    scripttextEditing,
-    setscripttextEditing,
     updateScriptorCharacter,
-    resetScriptorStore,
 
 
     //Chracter

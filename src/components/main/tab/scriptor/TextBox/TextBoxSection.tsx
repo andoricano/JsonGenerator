@@ -2,27 +2,26 @@ import React, { useState } from 'react';
 import TextBoxChracter from './TextBoxCharacter';
 import TextBoxScript from './TextBoxScript';
 import TextBoxEditingScript from './TextBoxEditing/TextBoxEditingScript';
-import { Character, Script } from '../../../../../scene';
+import { Character, Script, ScriptCharacter } from '../../../../../scene';
 import TextBoxChracterEditing from './TextBoxEditing/TextBoxEditingCharacter';
 
 
 type TextBoxSectionProps = {
   scriptString: Script;
   updateScriptText: (script: string) => void;
-  onCharacter: (character: Character) => void;
-  characterList : Character[];
+  onCharacter: (character: ScriptCharacter[]) => void;
+  characterList: Character[];
 };
 
 export default function TextBoxSection(
   {
-    scriptString, updateScriptText, onCharacter,characterList
+    scriptString, updateScriptText, onCharacter, characterList
   }: TextBoxSectionProps
 ) {
   var [editing, setEditing] = useState(false);
 
-
-  const handleSelectingCharacter = (character : Character[]) =>{
-
+  const handleSelectingCharacter = (character: ScriptCharacter[]) => {
+    onCharacter(character)
     setEditing(false);
   }
   const handleSave = (script: string) => {
@@ -30,7 +29,7 @@ export default function TextBoxSection(
     setEditing(false);
   };
 
-  const handleCancel = () =>{
+  const handleCancel = () => {
     setEditing(false);
   }
 
@@ -43,7 +42,7 @@ export default function TextBoxSection(
         <div>
           <TextBoxChracterEditing
             characterList={characterList}
-            onSave={handleSave}
+            onSave={handleSelectingCharacter}
             onCancel={handleCancel}
           />
           <TextBoxEditingScript
@@ -55,8 +54,7 @@ export default function TextBoxSection(
       ) : (
         <div>
           <TextBoxChracter
-            scriptString={scriptString}
-            onCharacter={onCharacter}
+            scriptCharacter={scriptString.character}
           />
           <TextBoxScript
             scriptString={scriptString}

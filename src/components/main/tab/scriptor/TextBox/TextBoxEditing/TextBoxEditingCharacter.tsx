@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Character, Script } from '../../../../../../scene';
+import { Character, Script, ScriptCharacter } from '../../../../../../scene';
 
 type TextBoxEditingCharacterProps = {
     characterList: Character[];
-    onSave: (newScript: string) => void;
+    onSave: (newScriptCharacter: ScriptCharacter[]) => void;
     onCancel: () => void;
 };
 
@@ -15,16 +15,16 @@ export default function TextBoxChracterEditing(
     }: TextBoxEditingCharacterProps
 ) {
     const [selectedCharacter, setSelectedCharacter] = useState(
-        characterList[0]?.name ?? "Unknown"
+        characterList
     );
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedCharacter(e.target.value);
+        // setSelectedCharacter(e.target.value);
     };
 
     const handleSave = (e: React.MouseEvent) => {
         e.stopPropagation(); // 부모 클릭 이벤트 방지
-        onSave(selectedCharacter);
+        // onSave(selectedCharacter);
     };
 
     const handleCancel = (e: React.MouseEvent) => {
@@ -44,7 +44,7 @@ export default function TextBoxChracterEditing(
             }}
         >
             <select
-                value={selectedCharacter}
+                // value={selectedCharacter}
                 onChange={handleChange}
                 style={{
                     flex: 1,

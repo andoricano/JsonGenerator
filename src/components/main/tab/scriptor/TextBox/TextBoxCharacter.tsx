@@ -1,33 +1,40 @@
-import { Character, Script } from "../../../../../scene";
+import { ScriptCharacter } from "../../../../../scene";
 
 type TextBoxChracterProps = {
-  scriptString: Script;
-  onCharacter: (character: Character) => void;
+  scriptCharacter: ScriptCharacter[];
 };
 
 export default function TextBoxChracter(
-  { scriptString, onCharacter }: TextBoxChracterProps
+  { scriptCharacter }: TextBoxChracterProps
 ) {
-
-  const scriptCharacter = scriptString?.character ?? [];
-  const firstCharacter = scriptCharacter[0]?.character;
-  const characterName = firstCharacter?.name ?? "Unknown";
-
-
   return (
     <div
       style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "8px",
         margin: "5px",
         borderBottom: "1px solid #ccc",
+        padding: "8px 15px",
       }}
     >
-      <p
-        style={{
-          paddingLeft: "15px",
-        }}
-      >
-        {scriptCharacter[0].character.name}
-      </p>
+      {scriptCharacter.map((sc, index) => (
+        <div
+          key={index}
+          style={{
+            backgroundColor: "#e0e0e0",
+            borderRadius: "8px",
+            padding: "4px 10px",
+            fontWeight: "bold",
+            fontSize: "14px",
+            color: "#333",
+            whiteSpace: "nowrap",
+            boxShadow: "0 1px 2px rgba(0, 0, 0, 0.15)",
+          }}
+        >
+          {sc.character.name}
+        </div>
+      ))}
     </div>
   );
 }
