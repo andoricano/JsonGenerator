@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { useAppStore } from "../../AppProvider";
 
 
-
 export default function SideScriptBar() {
   const { scriptItems, selectedIndex, setSelectedIndex } = useAppStore();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,8 +16,11 @@ export default function SideScriptBar() {
     <div ref={containerRef} style={styles.container}>
       {scriptItems.map((item, idx) => {
         const isSelected = idx === selectedIndex;
-        const char = item.character[0].character;
-        const image: File = char?.img?.[char.selectedImageIndex]
+
+        const firstCharItem = item.character?.[0];
+        const char = firstCharItem?.character;
+
+        const image: File | undefined = char?.img?.[char.selectedImageIndex];
 
         return (
           <div
@@ -31,16 +33,16 @@ export default function SideScriptBar() {
           >
             <div style={styles.row}>
               <CharacterImage
-                key={char?.selectedImageIndex}
+                key={char?.selectedImageIndex ?? idx}
                 file={image}
-                name={char?.name}
+                name={char?.name ?? "-"}
               />
               <div>
                 <div style={styles.characterName}>
-                  {idx + 1}. {char?.name ?? "알 수 없음"}
+                  {idx + 1}. {char?.name ?? "-"}
                 </div>
                 <div style={styles.scriptText}>
-                  {item.text.length === 0 ? "대사를 입력해주세요." : item.text ?? ""}
+                  {item.text?.length === 0 ? "대사를 입력해주세요." : item.text ?? ""}
                 </div>
               </div>
             </div>
@@ -54,11 +56,11 @@ export default function SideScriptBar() {
 
 
 function CharacterImage({ file, name }: { file: File; name?: string }) {
-  const [src, setSrc] = useState<string | null>(null); 
+  const [src, setSrc] = useState<string | null>(null);
 
   useEffect(() => {
     if (!file) {
-      setSrc(null); 
+      setSrc(null);
       return;
     }
 
