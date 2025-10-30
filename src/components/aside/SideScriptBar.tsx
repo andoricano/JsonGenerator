@@ -77,10 +77,6 @@ function CharacterImage({ file, name }: { file: File; name?: string }) {
   return <img src={src} alt={name} style={{ width: 50, height: 50, objectFit: "cover" }} />;
 }
 
-
-
-
-
 const styles: Record<string, React.CSSProperties> = {
   container: {
     flex: 1,

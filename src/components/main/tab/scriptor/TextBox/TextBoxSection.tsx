@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import TextBoxChracter from './TextBoxCharacter';
 import TextBoxScript from './TextBoxScript';
-import TextBoxEditingScript from './TextBoxEditing/TextBoxEditingScript';
 import { Character, Script, ScriptCharacter } from '../../../../../scene';
 import TextBoxChracterEditing from './TextBoxEditing/TextBoxEditingCharacter';
+import TextBoxEditingScript from './TextBoxEditing/TextBoxEditingScript';
 
 
 type TextBoxSectionProps = {
@@ -19,6 +19,10 @@ export default function TextBoxSection(
   }: TextBoxSectionProps
 ) {
   var [editing, setEditing] = useState(false);
+
+  scriptString.character.map((sc, i) => {
+    console.log(i, sc.character?.name ?? "");
+  });
 
   const handleSelectingCharacter = (character: ScriptCharacter[]) => {
     onCharacter(character)

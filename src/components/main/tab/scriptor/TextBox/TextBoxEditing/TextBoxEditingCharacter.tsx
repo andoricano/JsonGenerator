@@ -1,92 +1,149 @@
-import React, { useState } from 'react';
-import { Character, Script, ScriptCharacter } from '../../../../../../scene';
+import React, { useState } from "react";
+import { Character, ScriptCharacter } from "../../../../../../scene";
 
 type TextBoxEditingCharacterProps = {
-    characterList: Character[];
-    onSave: (newScriptCharacter: ScriptCharacter[]) => void;
-    onCancel: () => void;
+  characterList: Character[];
+  onSave: (newScriptCharacter: ScriptCharacter[]) => void;
+  onCancel: () => void;
 };
 
-export default function TextBoxChracterEditing(
-    {
-        characterList,
-        onSave,
-        onCancel
-    }: TextBoxEditingCharacterProps
-) {
-    const [selectedCharacter, setSelectedCharacter] = useState(
-        characterList
+export default function TextBoxChracterEditing({
+  characterList,
+  onSave,
+  onCancel,
+}: TextBoxEditingCharacterProps) {
+  const [selectedCharacters, setSelectedCharacters] = useState<Character[]>([]);
+
+  const handleToggle = (character: Character) => {
+    setSelectedCharacters((prev) =>
+      prev.some((c) => c.name === character.name)
+        ? prev.filter((c) => c.name !== character.name)
+        : [...prev, character]
     );
+  };
 
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        // setSelectedCharacter(e.target.value);
-    };
+  const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const scriptCharacters: ScriptCharacter[] = selectedCharacters.map((ch, idx) => ({
+      character: ch,
+      position: idx,
+      tone: 0,
+    }));
+    onSave(scriptCharacters);
+  };
 
-    const handleSave = (e: React.MouseEvent) => {
-        e.stopPropagation(); // 부모 클릭 이벤트 방지
-        // onSave(selectedCharacter);
-    };
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onCancel();
+  };
 
-    const handleCancel = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        onCancel();
-    };
+  return (
+    <div style={styles.container}>
+      <div style={styles.checkboxContainer}>
+        {characterList.map((character, index) => {
+          const isChecked = selectedCharacters.some((c) => c.name === character.name);
+          return (
+            <label
+              key={index}
+              style={{
+                ...styles.label,
+                backgroundColor: isChecked ? "#d0ebff" : "#f5f5f5",
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#d0ebff")}
+              onMouseOut={(e) =>
+                (e.currentTarget.style.backgroundColor = isChecked ? "#d0ebff" : "#f5f5f5")
+              }
+              onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
+              onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            >
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={() => handleToggle(character)}
+                style={styles.input}
+              />
+              {character.name}
+            </label>
+          );
+        })}
+      </div>
 
-    return (
-        <div
-            style={{
-                margin: "5px",
-                borderBottom: "1px solid #ccc",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "5px 10px",
-            }}
+      <div style={styles.buttonContainer}>
+        <button
+          onClick={handleSave}
+          style={styles.buttonSave}
+          onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#0056b3")}
+          onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#007bff")}
+          onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
+          onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
-            <select
-                // value={selectedCharacter}
-                onChange={handleChange}
-                style={{
-                    flex: 1,
-                    padding: "6px 8px",
-                    borderRadius: "4px",
-                    border: "1px solid #ccc",
-                }}
-            >
-                {characterList.map((character, index) => (
-                    <option key={index} value={character.name}>
-                        {character.name}
-                    </option>
-                ))}
-            </select>
+          Save
+        </button>
 
-            <button
-                onClick={handleSave}
-                style={{
-                    padding: "6px 10px",
-                    borderRadius: "4px",
-                    border: "none",
-                    backgroundColor: "#007bff",
-                    color: "#fff",
-                    cursor: "pointer",
-                }}
-            >
-                Save
-            </button>
-
-            <button
-                onClick={handleCancel}
-                style={{
-                    padding: "6px 10px",
-                    borderRadius: "4px",
-                    border: "none",
-                    backgroundColor: "#ccc",
-                    color: "#000",
-                    cursor: "pointer",
-                }}
-            >
-                Cancel
-            </button>
-        </div>
-    );
+        <button
+          onClick={handleCancel}
+          style={styles.buttonCancel}
+          onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#aaa")}
+          onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#ccc")}
+          onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
+          onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
 }
+
+const styles: Record<string, React.CSSProperties> = {
+  container: {
+    margin: 5,
+    borderBottom: "1px solid #ccc",
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+    padding: "8px 10px",
+    backgroundColor: "#fff",
+  },
+  checkboxContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  label: {
+    display: "flex",
+    alignItems: "center",
+    gap: 4,
+    padding: "6px 10px",
+    borderRadius: 6,
+    cursor: "pointer",
+    userSelect: "none",
+    transition: "background 0.2s, transform 0.1s",
+  },
+  input: {
+    cursor: "pointer",
+  },
+  buttonContainer: {
+    display: "flex",
+    gap: 8,
+    justifyContent: "flex-end",
+  },
+  buttonSave: {
+    padding: "6px 10px",
+    borderRadius: 4,
+    border: "none",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    cursor: "pointer",
+    transition: "background 0.2s, transform 0.1s",
+  },
+  buttonCancel: {
+    padding: "6px 10px",
+    borderRadius: 4,
+    border: "none",
+    backgroundColor: "#ccc",
+    color: "#000",
+    cursor: "pointer",
+    transition: "background 0.2s, transform 0.1s",
+  },
+};

@@ -1,9 +1,6 @@
-import { useStores } from "../../../../AppProvider";
-import { useObservable } from "../../../../hooks/useObservable";
 import { useState } from "react";
 
 export default function Config() {
-    const { mainStore } = useStores();
     const [projectName, setProjectName] = useState("");
     const [width, setWidth] = useState(1920);
     const [height, setHeight] = useState(1080);
