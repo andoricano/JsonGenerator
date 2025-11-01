@@ -10,7 +10,6 @@ type TextBoxEditingScriptProps = {
 export default function TextBoxEditingScript({
     scriptString,
     onSave,
-    onCancel,
 }: TextBoxEditingScriptProps) {
     const [inputValue, setInputValue] = useState(scriptString.text);
     const [isComposing, setIsComposing] = useState(false);
@@ -56,38 +55,6 @@ export default function TextBoxEditingScript({
                     border: '1px solid #ccc',
                 }}
             />
-            <button
-                onClick={(e) => {
-                    e.stopPropagation();
-                    handleSave();
-                }}
-                style={{
-                    padding: '8px 12px',
-                    borderRadius: '4px',
-                    border: 'none',
-                    backgroundColor: '#007bff',
-                    color: '#fff',
-                    cursor: 'pointer',
-                }}
-            >
-                Save
-            </button>
-            <button
-                onClick={(e) => {
-                    e.stopPropagation();
-                    onCancel();
-                }}
-                style={{
-                    padding: '8px 12px',
-                    borderRadius: '4px',
-                    border: 'none',
-                    backgroundColor: '#ccc',
-                    color: '#000',
-                    cursor: 'pointer',
-                }}
-            >
-                Cancel
-            </button>
         </div>
     );
 }

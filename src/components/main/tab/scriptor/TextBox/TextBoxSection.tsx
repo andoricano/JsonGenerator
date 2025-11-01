@@ -4,6 +4,7 @@ import TextBoxScript from './TextBoxScript';
 import { Character, Script, ScriptCharacter } from '../../../../../scene';
 import TextBoxChracterEditing from './TextBoxEditing/TextBoxEditingCharacter';
 import TextBoxEditingScript from './TextBoxEditing/TextBoxEditingScript';
+import ActionBar from '../../../../component/ActionBar';
 
 
 type TextBoxSectionProps = {
@@ -34,6 +35,7 @@ export default function TextBoxSection(
   };
 
   const handleCancel = () => {
+    console.log("handleCancel")
     setEditing(false);
   }
 
@@ -52,6 +54,10 @@ export default function TextBoxSection(
           <TextBoxEditingScript
             scriptString={scriptString}
             onSave={handleSave}
+            onCancel={handleCancel}
+          />
+          <ActionBar
+            onSave={handleCancel}
             onCancel={handleCancel}
           />
         </div>
