@@ -20,19 +20,14 @@ export default function TextBoxSection(
   }: TextBoxSectionProps
 ) {
   var [editing, setEditing] = useState(false);
+  var [script, setScript] = useState(scriptString.text);
+  var [character, setCharacter] = useState(scriptString.character);
 
-  scriptString.character.map((sc, i) => {
-    console.log(i, sc.character?.name ?? "");
-  });
-
-  const handleSelectingCharacter = (character: ScriptCharacter[]) => {
+  const handleSave = () => {
+    updateScriptText(script);
+    setEditing(false);
     onCharacter(character)
-    setEditing(false);
   }
-  const handleSave = (script: string) => {
-    updateScriptText(script)
-    setEditing(false);
-  };
 
   const handleCancel = () => {
     console.log("handleCancel")
@@ -48,16 +43,16 @@ export default function TextBoxSection(
         <div>
           <TextBoxChracterEditing
             characterList={characterList}
-            onSave={handleSelectingCharacter}
+            onChanging={setCharacter}
             onCancel={handleCancel}
           />
           <TextBoxEditingScript
             scriptString={scriptString}
+            onInputChange={setScript}
             onSave={handleSave}
-            onCancel={handleCancel}
           />
           <ActionBar
-            onSave={handleCancel}
+            onSave={handleSave}
             onCancel={handleCancel}
           />
         </div>

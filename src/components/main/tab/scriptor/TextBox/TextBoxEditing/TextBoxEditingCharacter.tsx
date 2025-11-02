@@ -3,22 +3,32 @@ import { Character, ScriptCharacter } from "../../../../../../scene";
 
 type TextBoxEditingCharacterProps = {
   characterList: Character[];
-  onSave: (newScriptCharacter: ScriptCharacter[]) => void;
+  onChanging: (newScriptCharacter: ScriptCharacter[]) => void;
   onCancel: () => void;
 };
 
 export default function TextBoxChracterEditing({
   characterList,
-  onSave,
+  onChanging,
 }: TextBoxEditingCharacterProps) {
   const [selectedCharacters, setSelectedCharacters] = useState<Character[]>([]);
 
   const handleToggle = (character: Character) => {
-    setSelectedCharacters((prev) =>
-      prev.some((c) => c.name === character.name)
+    setSelectedCharacters((prev) => {
+      const updated = prev.some((c) => c.name === character.name)
         ? prev.filter((c) => c.name !== character.name)
-        : [...prev, character]
-    );
+        : [...prev, character];
+
+      onChanging(
+        updated.map((ch, idx) => ({
+          character: ch,
+          position: idx,
+          tone: 0,
+        }))
+      );
+
+      return updated;
+    });
   };
 
   return (
@@ -83,5 +93,5 @@ const styles: Record<string, React.CSSProperties> = {
   input: {
     cursor: "pointer",
   },
-  
+
 };

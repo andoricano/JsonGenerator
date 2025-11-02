@@ -3,23 +3,28 @@ import { Script } from '../../../../../../scene';
 
 type TextBoxEditingScriptProps = {
     scriptString: Script;
-    onSave: (newScript: string) => void;
-    onCancel: () => void;
+    onInputChange: (s: string) => void;
+    onSave: () => void;
 };
 
 export default function TextBoxEditingScript({
     scriptString,
+    onInputChange,
     onSave,
 }: TextBoxEditingScriptProps) {
     const [inputValue, setInputValue] = useState(scriptString.text);
     const [isComposing, setIsComposing] = useState(false);
 
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
+        const newValue = e.target.value;
+        setInputValue(newValue);
+        onInputChange(newValue);
     };
 
     const handleSave = () => {
-        onSave(inputValue);
+        console.log(inputValue);
+        onSave();
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
