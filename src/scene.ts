@@ -17,6 +17,7 @@ export type ScriptCharacter = {
 export type Script = {
   id: string;
   character: ScriptCharacter[];
+  represent: number;
   text: string;
 };
 
@@ -55,5 +56,6 @@ export const defaultScript: Script = {
       tone: 1,
     },
   ],
+  represent: 0,
   text: "",
 };

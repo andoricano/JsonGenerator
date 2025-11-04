@@ -1,4 +1,5 @@
 import { useAppStore } from '../../../../AppProvider';
+import ImageSceneSection from './ImageSceneSection';
 import TextBoxSection from './TextBox/TextBoxSection';
 
 export default function Scriptor() {
@@ -22,6 +23,10 @@ export default function Scriptor() {
                 boxSizing: 'border-box',
             }}
         >
+            <ImageSceneSection
+                script={scriptItems[selectedIndex]}
+                onCharacter={(idx) => {}}
+            />
             <TextBoxSection
                 scriptString={scriptItems[selectedIndex]}
                 updateScriptText={updateScriptText}
