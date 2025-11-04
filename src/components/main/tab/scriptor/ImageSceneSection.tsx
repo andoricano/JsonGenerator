@@ -28,7 +28,6 @@ export default function ImageSceneSection(
                 gap: '8px',
                 padding: '10px',
             }}
-            onClick={() => setEditing(true)}
         >
             {editing ? (
                 <div>
