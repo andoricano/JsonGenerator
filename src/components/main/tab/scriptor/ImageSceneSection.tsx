@@ -26,7 +26,6 @@ export default function ImageSceneSection(
                 ...styles.container,
                 display: 'flex',
                 gap: '8px',
-                padding: '10px',
             }}
         >
             {editing ? (
@@ -39,11 +38,9 @@ export default function ImageSceneSection(
                         key={index}
                         style={{
                             flex: 1,
-                            border: '1px solid #ccc',
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            backgroundColor: '#fff',
                             height: '100%',
                         }}
                     >
@@ -65,19 +62,11 @@ export default function ImageSceneSection(
 
 export const styles: { [key: string]: React.CSSProperties } = {
     container: {
-        backgroundColor: '#7cc0d857',
         left: 20,
         right: 20,
         bottom: 20,
         height: '400px',
         boxSizing: 'border-box',
         cursor: 'pointer',
-    },
-    bubble: {
-        padding: '12px',
-        marginBottom: '10px',
-        borderRadius: '12px',
-        display: 'block',
-        maxWidth: '80%',
     },
 };
