@@ -30,9 +30,15 @@ export default function ImageSceneSection(
         >
             {editing ? (
                 <div>
-                    
+
                 </div>
-            ) : (
+            ) :
+
+                <div>
+
+                </div>
+            }
+            {
                 imgList.map((item, index) => (
                     <div
                         key={index}
@@ -48,14 +54,15 @@ export default function ImageSceneSection(
                             <img
                                 src={URL.createObjectURL(item)}
                                 alt={`character-${index}`}
-                                style={{ maxWidth: '100%', maxHeight: '100%' }}
+                                style={styles.character}
+                                onClick={()=>setEditing(!editing)}
                             />
                         ) : (
                             <span>빈 이미지</span>
                         )}
                     </div>
                 ))
-            )}
+            }
         </div>
     );
 }
@@ -69,4 +76,8 @@ export const styles: { [key: string]: React.CSSProperties } = {
         boxSizing: 'border-box',
         cursor: 'pointer',
     },
+    character: {
+        maxWidth: '100%',
+        maxHeight: '100%'
+    }
 };
