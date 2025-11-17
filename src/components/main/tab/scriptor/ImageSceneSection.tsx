@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Character, Script, ScriptCharacter } from '../../../../scene';
-
+import Gallery from '../../../component/Gallery';
 
 type ImageSceneSectionProps = {
     script: Script;
@@ -28,16 +28,24 @@ export default function ImageSceneSection(
                 gap: '8px',
             }}
         >
+
             {editing ? (
                 <div>
-
+                    <Gallery
+                        images={imgList}
+                        onSelecting={(selected) => {
+                            // 여기서 부모에서 처리
+                            console.log("선택된 이미지", selected);
+                            setEditing(false);
+                        }}
+                        onCancel={() => setEditing(false)}
+                    />
                 </div>
-            ) :
-
+            ) : (
                 <div>
-
+                    {/* 기본 화면 */}
                 </div>
-            }
+            )}
             {
                 imgList.map((item, index) => (
                     <div
@@ -55,7 +63,7 @@ export default function ImageSceneSection(
                                 src={URL.createObjectURL(item)}
                                 alt={`character-${index}`}
                                 style={styles.character}
-                                onClick={()=>setEditing(!editing)}
+                                onClick={() => setEditing(!editing)}
                             />
                         ) : (
                             <span>빈 이미지</span>

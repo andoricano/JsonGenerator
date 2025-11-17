@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 type ActionBarProps = {
-    images : File[];
+    images: (File | null)[];
     onSelecting: (files: File[]) => void;
     onCancel: () => void;
 };
@@ -15,7 +15,8 @@ export default function Gallery({
 
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
-    const toggleSelect = (file: File) => {
+    const toggleSelect = (file: (File | null)) => {
+        if(file != null)
         setSelectedImages(prev =>
             prev.includes(file)
                 ? prev.filter(f => f !== file)
@@ -37,26 +38,39 @@ export default function Gallery({
         <div>
             {/* 이미지 목록 예시 */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {images.map((file) => (
-                    <div
-                        key={file.name}
-                        onClick={() => toggleSelect(file)}
-                        style={{
-                            width: 80,
-                            height: 80,
-                            border:
-                                selectedImages.includes(file)
-                                    ? "2px solid #007bff"
-                                    : "2px solid #ccc",
-                            cursor: "pointer",
-                        }}
-                    >
-                        <img
-                            src={URL.createObjectURL(file)}
-                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                        />
-                    </div>
-                ))}
+                {images.map((file, index) => {
+                    const isSelected = file !== null && selectedImages.includes(file);
+
+                    return (
+                        <div
+                            key={index}
+                            onClick={() => {
+                                if (file !== null) {
+                                    toggleSelect(file);
+                                }
+                            }}
+                            style={{
+                                width: 80,
+                                height: 80,
+                                border: isSelected ? "2px solid #007bff" : "2px solid #ccc",
+                                cursor: file ? "pointer" : "default",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                background: "#f5f5f5",
+                            }}
+                        >
+                            {file ? (
+                                <img
+                                    src={URL.createObjectURL(file)}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                />
+                            ) : (
+                                <span style={{ fontSize: 12, color: "#999" }}>빈 이미지</span>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
 
             {/* Save / Cancel */}
