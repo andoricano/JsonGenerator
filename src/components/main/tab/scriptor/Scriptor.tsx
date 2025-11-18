@@ -25,7 +25,9 @@ export default function Scriptor() {
         >
             <ImageSceneSection
                 script={scriptItems[selectedIndex]}
-                onCharacter={(idx) => {}}
+                onCharacter={(file) => {
+                    // updateScriptorCharacter
+                }}
             />
             <TextBoxSection
                 scriptString={scriptItems[selectedIndex]}

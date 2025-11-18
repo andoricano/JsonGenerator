@@ -4,21 +4,23 @@ import Gallery from '../../../component/Gallery';
 
 type ImageSceneSectionProps = {
     script: Script;
-    onCharacter: (idx: number) => void;
+    onCharacter: (file : File) => void;
 };
 export default function ImageSceneSection(
     { script, onCharacter }: ImageSceneSectionProps
 ) {
     const [editing, setEditing] = useState(false);
 
-    const handleSave = (idx: number) => {
-        onCharacter(idx);
+    const handleSave = (file : File) => {
+        onCharacter(file);
     };
-
-    const imgList: (File | null)[] = script.character.map((char: ScriptCharacter) => {
-        const img = char.character.img[char.character.selectedImageIndex];
-        return img ?? null;
-    });
+    
+    const imgList: File[] = script.character
+        .map((char: ScriptCharacter) => {
+            const img = char.character.img[char.character.selectedImageIndex];
+            return img; // File | undefined
+        })
+        .filter((img): img is File => img !== undefined && img !== null);
 
     return (
         <div
@@ -34,7 +36,6 @@ export default function ImageSceneSection(
                     <Gallery
                         images={imgList}
                         onSelecting={(selected) => {
-                            // 여기서 부모에서 처리
                             console.log("선택된 이미지", selected);
                             setEditing(false);
                         }}
@@ -43,7 +44,7 @@ export default function ImageSceneSection(
                 </div>
             ) : (
                 <div>
-                    {/* 기본 화면 */}
+                    
                 </div>
             )}
             {

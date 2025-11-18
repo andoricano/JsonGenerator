@@ -1,27 +1,21 @@
 import { useState } from "react";
 
 type ActionBarProps = {
-    images: (File | null)[];
-    onSelecting: (files: File[]) => void;
+    images: File[];
+    onSelecting: (files: File) => void;
     onCancel: () => void;
 };
 
 export default function Gallery({ images, onSelecting, onCancel }: ActionBarProps) {
-    const [selectedImages, setSelectedImages] = useState<File[]>([]);
+    const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
-    const toggleSelect = (file: File | null) => {
-        if (file !== null) {
-            setSelectedImages((prev) =>
-                prev.includes(file)
-                    ? prev.filter((f) => f !== file)
-                    : [...prev, file]
-            );
-        }
+    const handleSelect = (file: File) => {
+        setSelectedImage(file);
     };
 
     const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        onSelecting(selectedImages);
+        if (selectedImage) onSelecting(selectedImage);
     };
 
     const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,26 +28,22 @@ export default function Gallery({ images, onSelecting, onCancel }: ActionBarProp
             <div style={styles.dialog}>
                 <div style={styles.gridContainer}>
                     {images.map((file, index) => {
-                        const isSelected = file !== null && selectedImages.includes(file);
+                        const isSelected = selectedImage === file;
 
                         return (
                             <div
                                 key={index}
-                                onClick={() => file && toggleSelect(file)}
+                                onClick={() => handleSelect(file)}
                                 style={{
                                     ...styles.imageBox,
                                     border: isSelected ? "2px solid #007bff" : "2px solid #ccc",
-                                    cursor: file ? "pointer" : "default",
+                                    cursor: "pointer",
                                 }}
                             >
-                                {file ? (
-                                    <img
-                                        src={URL.createObjectURL(file)}
-                                        style={styles.image}
-                                    />
-                                ) : (
-                                    <span style={styles.emptyText}>빈 이미지</span>
-                                )}
+                                <img
+                                    src={URL.createObjectURL(file)}
+                                    style={styles.image}
+                                />
                             </div>
                         );
                     })}
@@ -86,6 +76,7 @@ export default function Gallery({ images, onSelecting, onCancel }: ActionBarProp
         </div>
     );
 }
+
 const styles: Record<string, React.CSSProperties> = {
     overlay: {
         position: "fixed",
@@ -132,11 +123,6 @@ const styles: Record<string, React.CSSProperties> = {
         width: "100%",
         height: "100%",
         objectFit: "cover",
-    },
-
-    emptyText: {
-        fontSize: 12,
-        color: "#999",
     },
 
     buttonContainer: {
