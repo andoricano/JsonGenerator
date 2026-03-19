@@ -1,16 +1,16 @@
 import React from 'react';
-import type { Lang } from '../../lang/i18n';
-import { useAppStore } from "../../AppProvider";
+import { useStore, Lang } from "../../stores/useStore";
 
 export default function LanguageSwitcher() {
-    const { lang, setLang } = useAppStore();
+    const lang = useStore((state) => state.lang);
+    const languages = useStore((state) => state.languages);
+    const setLang = useStore((state) => state.setLang);
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selected = e.target.value as Lang;
-        setLang(selected);
+        setLang(e.target.value as Lang);
     };
 
-    const label = lang === "ko" ? "언어" : "Language";
+    const label = lang === "ko" ? "Language" : "언어";
 
     return (
         <div
@@ -25,7 +25,7 @@ export default function LanguageSwitcher() {
                 border: '1px solid #ccc',
                 borderRadius: '6px',
                 backgroundColor: '#f9f9f9',
-                width: '150px',
+                width: '160px',
                 justifyContent: 'space-between',
             }}
         >
@@ -42,8 +42,11 @@ export default function LanguageSwitcher() {
                     cursor: 'pointer',
                 }}
             >
-                <option value="ko">한국어</option>
-                <option value="en">English</option>
+                {languages.map((item) => (
+                    <option key={item.code} value={item.code}>
+                        {item.label}
+                    </option>
+                ))}
             </select>
         </div>
     );

@@ -2,7 +2,7 @@ import { useAppStore } from "../../AppProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Toolbar() {
-  const { resetMainStore,scriptToJSON } = useAppStore();
+  const { resetMainStore, scriptToJSON } = useAppStore();
 
   const handleNew = () => {
     resetMainStore()
@@ -59,7 +59,7 @@ export default function Toolbar() {
         </button>
       ))}
 
-      <LanguageSwitcher/>
+      <LanguageSwitcher />
     </div>
   );
 }
