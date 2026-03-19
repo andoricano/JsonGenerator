@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { useAppStore } from "../../AppProvider";
 import Dialog from "../Dialog";
 import Toolbar from "./Toolbar";
 import Workspace from "../main/Workspace";
+import { useStore } from "../../stores/useStore";
 
 export default function Header() {
-  const { projectName, setProjectName } = useAppStore();
+  const projectName = useStore((state) => state.projectName);
+  const setProjectName = useStore((state) => state.setProjectName);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleConfirm = (newName: string) => {
-    setProjectName(newName.trim());
+    if (newName.trim()) {
+      setProjectName(newName.trim());
+    }
     setDialogOpen(false);
   };
 
