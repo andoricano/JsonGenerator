@@ -1,17 +1,11 @@
-import { useAppStore } from "../../AppProvider";
-
-export const TOOLS = {
-  SCRIPTOR: "Scriptor",
-  CHARACTER: "Character",
-  EDITER: "Resource Editer",
-} as const;
-
-export type ToolType = typeof TOOLS[keyof typeof TOOLS];
+import { useStore } from "../../stores/useStore";
+import { TOOLS, ToolType } from "../../stores/storeType";
 
 export default function Workspace() {
-  const { activeTool, setActiveTool } = useAppStore();
+  const activeTool = useStore((state) => state.activeTool);
+  const setActiveTool = useStore((state) => state.setActiveTool);
 
-  const tools = [
+  const tools: { label: ToolType }[] = [
     { label: TOOLS.SCRIPTOR },
     { label: TOOLS.CHARACTER },
     { label: TOOLS.EDITER },
@@ -25,7 +19,7 @@ export default function Workspace() {
         gap: "30px",
         borderBottom: "2px solid #ccc",
         padding: "6px 10px",
-        backgroundColor:"white"
+        backgroundColor: "white"
       }}
     >
       <h1
@@ -37,9 +31,11 @@ export default function Workspace() {
           padding: "8px 0",
           borderRadius: "8px",
           boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-          boxSizing:"border-box"
-        }}>
-          Workspace</h1>
+          boxSizing: "border-box"
+        }}
+      >
+        Workspace
+      </h1>
 
       <div style={{ display: "flex", gap: "50px" }}>
         {tools.map((tool) => (

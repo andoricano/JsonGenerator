@@ -1,12 +1,14 @@
-import { useAppStore } from "../../AppProvider";
+import React from 'react';
+import { useStore } from "../../stores/useStore";
+import { TOOLS } from "../../stores/storeType";
 import Scriptor from "./tab/scriptor/Scriptor";
 import Editer from "./tab/editer/Editer";
-import { TOOLS } from "./Workspace";
 import Character from "./tab/character/Character";
 import SideBar from "../aside/SideBar";
 
 export default function Canvas() {
-  const { activeTool } = useAppStore();
+  // useAppStore() 대신 useStore()를 사용하고, selector로 activeTool만 가져옵니다.
+  const activeTool = useStore((state) => state.activeTool);
 
   return (
     <div style={styles.canvas}>
