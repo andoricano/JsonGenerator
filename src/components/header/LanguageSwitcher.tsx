@@ -1,15 +1,14 @@
 import React from 'react';
-import { useStore, Lang } from "../../stores/useStore";
+import { useStore } from "../../stores/useStore";
+import { Lang, SUPPORTED_LANGUAGES } from "../../stores/storeType";
 
 export default function LanguageSwitcher() {
     const lang = useStore((state) => state.lang);
-    const languages = useStore((state) => state.languages);
     const setLang = useStore((state) => state.setLang);
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setLang(e.target.value as Lang);
     };
-
     const label = lang === "ko" ? "Language" : "언어";
 
     return (
@@ -42,7 +41,8 @@ export default function LanguageSwitcher() {
                     cursor: 'pointer',
                 }}
             >
-                {languages.map((item) => (
+                {/* 스토어 대신 외부 상수인 SUPPORTED_LANGUAGES를 사용하여 맵핑 */}
+                {SUPPORTED_LANGUAGES.map((item) => (
                     <option key={item.code} value={item.code}>
                         {item.label}
                     </option>
