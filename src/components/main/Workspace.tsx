@@ -8,7 +8,7 @@ export default function Workspace() {
     { label: TOOLS.PROJECT },
     { label: TOOLS.SCRIPTOR },
     { label: TOOLS.CHARACTER },
-    { label: TOOLS.CONFIGURATION },
+    { label: TOOLS.STRUCTURE },
   ];
 
   return (

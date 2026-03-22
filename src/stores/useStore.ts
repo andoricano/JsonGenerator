@@ -14,31 +14,43 @@ const defaultScript: Script = {
   character: [{ character: defaultCharacter[0], position: 0, tone: 1 }]
 };
 
+const createDefaultScript = (): Script => ({
+  id: nanoid(),
+  text: "",
+  character: [{ character: defaultCharacter[0], position: 0, tone: 1 }]
+});
+
 export const useStore = create<AppState>((set, get) => ({
-  // ===== App State =====
-  projectName: "I Love yo yoU",
+  // Initial State
+  projectInfo: {
+    projectName: 'New Project',
+    width: 1920,
+    height: 1080,
+    resourcePath: '',
+  },
   lang: "en",
   darkMode: false,
   activeTool: TOOLS.PROJECT,
-
-  // ===== Logic State =====
   images: [],
-  scriptItems: [{ ...defaultScript }],
+  scriptItems: [createDefaultScript()],
   selectedIndex: 0,
-
-  // ===== Character State =====
   characterList: defaultCharacter,
   selectedCharacter: defaultCharacter[0],
 
   // ===== Actions =====
-  setProjectName: (name) => set({ projectName: name }),
+  setProjectInfo: (info) => set((state) => ({
+    projectInfo: { ...state.projectInfo, ...info }
+  })),
+
   setLang: (lang) => set({ lang }),
+  
   toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
+  
   setActiveTool: (tool) => set({ activeTool: tool }),
 
   // Scriptor Actions
   addScriptItem: () => set((state) => {
-    const newItem = { ...defaultScript, id: nanoid() };
+    const newItem = createDefaultScript();
     const newList = [...state.scriptItems, newItem];
     return {
       scriptItems: newList,
@@ -46,11 +58,14 @@ export const useStore = create<AppState>((set, get) => ({
     };
   }),
 
-  removeScriptItem: (idx) => set((state) => ({
-    scriptItems: state.scriptItems.filter((_, i) => i !== idx),
-    // 삭제 후 인덱스 보정
-    selectedIndex: Math.max(0, state.selectedIndex >= idx ? state.selectedIndex - 1 : state.selectedIndex)
-  })),
+  removeScriptItem: (idx) => set((state) => {
+    const newList = state.scriptItems.filter((_, i) => i !== idx);
+    const nextIdx = Math.max(0, state.selectedIndex >= idx ? state.selectedIndex - 1 : state.selectedIndex);
+    return {
+      scriptItems: newList.length > 0 ? newList : [createDefaultScript()],
+      selectedIndex: newList.length > 0 ? nextIdx : 0
+    };
+  }),
 
   setSelectedIndex: (idx) => set({ selectedIndex: idx }),
 
@@ -123,16 +138,16 @@ export const useStore = create<AppState>((set, get) => ({
   },
 
   initDefaultCharacterImages: async () => {
-    
+    // 이미지 로드 로직 구현 필요
   },
 
   resetAll: () => set({
-    projectName: "I Love yo yoU",
+    projectInfo: { projectName: 'New Project', width: 1920, height: 1080, resourcePath: '' },
     lang: "en",
     darkMode: false,
-    activeTool: "Scriptor",
+    activeTool: TOOLS.PROJECT,
     images: [],
-    scriptItems: [{ ...defaultScript, id: nanoid() }],
+    scriptItems: [createDefaultScript()],
     selectedIndex: 0,
     characterList: defaultCharacter,
     selectedCharacter: defaultCharacter[0]

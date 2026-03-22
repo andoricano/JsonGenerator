@@ -2,7 +2,6 @@ import React from 'react';
 import { useStore } from "../../stores/useStore";
 import { TOOLS } from "../../stores/storeType";
 import Scriptor from "./tab/scriptor/Scriptor";
-import Editer from "./tab/editer/Editer";
 import Character from "./tab/character/Character";
 import SideBar from "../aside/SideBar";
 import Config from './tab/config/Config';

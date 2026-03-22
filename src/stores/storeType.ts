@@ -1,6 +1,13 @@
+export interface ProjectInfo {
+  projectName: string;
+  width: number;
+  height: number;
+  resourcePath: string;
+}
+
 export type Lang = "ko" | "en";
 
-export const SUPPORTED_LANGUAGES: { code: Lang; label: string }[] = [ // 'export'가 있어야 함
+export const SUPPORTED_LANGUAGES: { code: Lang; label: string }[] = [
   { code: "ko", label: "한국어" },
   { code: "en", label: "English" },
 ];
@@ -9,7 +16,7 @@ export const TOOLS = {
   PROJECT: "Project",
   SCRIPTOR: "Scriptor",
   CHARACTER: "Character",
-  CONFIGURATION: "Result Config"
+  STRUCTURE: "Data Structure"
 } as const;
 
 export type ToolType = typeof TOOLS[keyof typeof TOOLS];
@@ -33,28 +40,28 @@ export interface Script {
 }
 
 export interface AppState {
+  // ===== Project State =====
+  projectInfo: ProjectInfo;
+  
   // ===== App State =====
-  projectName: string;
   lang: Lang;
   darkMode: boolean;
-  activeTool: string;
-  
+  activeTool: ToolType;
 
   // ===== Logic State =====
   images: { id: number; url: string }[];
   scriptItems: Script[];
   selectedIndex: number;
-  
 
   // ===== Character State =====
   characterList: Character[];
   selectedCharacter: Character | null;
 
   // ===== Actions =====
-  setProjectName: (name: string) => void;
+  setProjectInfo: (info: Partial<ProjectInfo>) => void;
   setLang: (lang: Lang) => void;
   toggleDarkMode: () => void;
-  setActiveTool: (tool: string) => void;
+  setActiveTool: (tool: ToolType) => void;
   
   // Scriptor Actions
   addScriptItem: () => void;

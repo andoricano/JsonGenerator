@@ -5,7 +5,7 @@ export default function Toolbar() {
   const resetAll = useStore((state) => state.resetAll);
   const scriptItems = useStore((state) => state.scriptItems);
   const characterList = useStore((state) => state.characterList);
-  const projectName = useStore((state) => state.projectName);
+  const projectName = useStore((state) => state.projectInfo.projectName);
 
   const handleNew = () => {
     if (window.confirm("새 프로젝트를 시작하시겠습니까? 현재 데이터는 초기화됩니다.")) {

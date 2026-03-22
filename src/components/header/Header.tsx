@@ -1,20 +1,9 @@
-import { useState } from "react";
-import Dialog from "../Dialog";
 import Toolbar from "./Toolbar";
 import Workspace from "../main/Workspace";
 import { useStore } from "../../stores/useStore";
 
 export default function Header() {
-  const projectName = useStore((state) => state.projectName);
-  const setProjectName = useStore((state) => state.setProjectName);
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const handleConfirm = (newName: string) => {
-    if (newName.trim()) {
-      setProjectName(newName.trim());
-    }
-    setDialogOpen(false);
-  };
+  const projectName = useStore((state) => state.projectInfo.projectName);
 
   return (
     <>
@@ -34,31 +23,18 @@ export default function Header() {
         <h1
           style={{
             margin: 0,
-            cursor: "pointer",
             fontSize: "20px",
             fontWeight: 600,
             color: "#333",
-            transition: "color 0.2s ease",
           }}
-          onClick={() => setDialogOpen(true)}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "#007bff")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "#333")}
         >
-          Project : {projectName}
+          {projectName}
         </h1>
 
         <Toolbar />
       </header>
       <Workspace />
 
-      <Dialog
-        open={dialogOpen}
-        title="프로젝트 이름 변경"
-        placeholder="새 프로젝트 이름"
-        defaultValue={projectName}
-        onClose={() => setDialogOpen(false)}
-        onConfirm={handleConfirm}
-      />
     </>
   );
 }
