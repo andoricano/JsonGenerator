@@ -1,16 +1,18 @@
-import { useAppStore } from '../../../../AppProvider';
+import React from 'react';
+import { useStore } from '../../../../stores/useStore';
 import ImageSceneSection from './ImageSceneSection';
 import TextBoxSection from './TextBox/TextBoxSection';
 
 export default function Scriptor() {
+    const scriptItems = useStore((state) => state.scriptItems);
+    const selectedIndex = useStore((state) => state.selectedIndex);
+    const characterList = useStore((state) => state.characterList);
 
-    const {
-        scriptItems,
-        selectedIndex,
-        updateScriptText,
-        updateScriptorCharacter,
-        characterList,
-    } = useAppStore();
+    const updateScriptText = useStore((state) => state.updateScriptText);
+    const updateScriptorCharacter = useStore((state) => state.updateScriptorCharacter);
+
+
+    const currentScript = scriptItems[selectedIndex];
 
     return (
         <div
@@ -24,13 +26,14 @@ export default function Scriptor() {
             }}
         >
             <ImageSceneSection
-                script={scriptItems[selectedIndex]}
-                onCharacter={(file) => {
-                    // updateScriptorCharacter
+                script={currentScript}
+                onCharacter={(character) => {
+
                 }}
             />
+
             <TextBoxSection
-                scriptString={scriptItems[selectedIndex]}
+                scriptString={currentScript}
                 updateScriptText={updateScriptText}
                 onCharacter={updateScriptorCharacter}
                 characterList={characterList}

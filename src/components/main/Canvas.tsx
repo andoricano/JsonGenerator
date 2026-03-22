@@ -7,7 +7,6 @@ import Character from "./tab/character/Character";
 import SideBar from "../aside/SideBar";
 
 export default function Canvas() {
-  // useAppStore() 대신 useStore()를 사용하고, selector로 activeTool만 가져옵니다.
   const activeTool = useStore((state) => state.activeTool);
 
   return (

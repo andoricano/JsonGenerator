@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useAppStore } from "../../AppProvider";
+import { useStore } from "../../stores/useStore";
 
 export default function SideCharacterBar() {
-  const { characterList, selectedCharacter, setSelectedCharacter } = useAppStore();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const characterList = useStore((state) => state.characterList);
+  const selectedCharacter = useStore((state) => state.selectedCharacter);
+  const setSelectedCharacter = useStore((state) => state.setSelectedCharacter);
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const [characterUrls, setCharacterUrls] = useState<(string | null)[]>([]);
 
   useEffect(() => {

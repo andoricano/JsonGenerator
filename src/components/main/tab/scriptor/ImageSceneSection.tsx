@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
-import { Character, Script, ScriptCharacter } from '../../../../scene';
+
+import { Script, ScriptCharacter } from '../../../../stores/storeType';
 import Gallery from '../../../component/Gallery';
 
 type ImageSceneSectionProps = {
     script: Script;
-    onCharacter: (file : File) => void;
+    onCharacter: (file: File) => void;
 };
-export default function ImageSceneSection(
-    { script, onCharacter }: ImageSceneSectionProps
-) {
+
+export default function ImageSceneSection({ script, onCharacter }: ImageSceneSectionProps) {
     const [editing, setEditing] = useState(false);
 
-    const handleSave = (file : File) => {
-        onCharacter(file);
-    };
-    
+
     const imgList: File[] = script.character
         .map((char: ScriptCharacter) => {
             const img = char.character.img[char.character.selectedImageIndex];
-            return img; // File | undefined
+            return img;
         })
         .filter((img): img is File => img !== undefined && img !== null);
 
@@ -30,27 +27,21 @@ export default function ImageSceneSection(
                 gap: '8px',
             }}
         >
-
-            {editing ? (
-                <div>
-                    <Gallery
-                        images={imgList}
-                        onSelecting={(selected) => {
-                            console.log("선택된 이미지", selected);
-                            setEditing(false);
-                        }}
-                        onCancel={() => setEditing(false)}
-                    />
-                </div>
-            ) : (
-                <div>
-                    
-                </div>
+            {editing && (
+                <Gallery
+                    images={imgList}
+                    onSelecting={(selected) => {
+                        onCharacter(selected);
+                        setEditing(false);
+                    }}
+                    onCancel={() => setEditing(false)}
+                />
             )}
-            {
+
+            {imgList.length > 0 ? (
                 imgList.map((item, index) => (
                     <div
-                        key={index}
+                        key={`${index}-${item.name}`}
                         style={{
                             flex: 1,
                             display: 'flex',
@@ -59,34 +50,34 @@ export default function ImageSceneSection(
                             height: '100%',
                         }}
                     >
-                        {item ? (
-                            <img
-                                src={URL.createObjectURL(item)}
-                                alt={`character-${index}`}
-                                style={styles.character}
-                                onClick={() => setEditing(!editing)}
-                            />
-                        ) : (
-                            <span>빈 이미지</span>
-                        )}
+                        <img
+                            src={URL.createObjectURL(item)}
+                            alt={`character-${index}`}
+                            style={styles.character}
+                            onClick={() => setEditing(true)}
+                        />
                     </div>
                 ))
-            }
+            ) : (
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#666' }}>
+                    <span onClick={() => setEditing(true)}>캐릭터 이미지를 클릭하여 편집하세요</span>
+                </div>
+            )}
         </div>
     );
 }
 
 export const styles: { [key: string]: React.CSSProperties } = {
     container: {
-        left: 20,
-        right: 20,
-        bottom: 20,
+        position: 'relative',
         height: '400px',
         boxSizing: 'border-box',
         cursor: 'pointer',
+        padding: '20px',
     },
     character: {
         maxWidth: '100%',
-        maxHeight: '100%'
+        maxHeight: '100%',
+        objectFit: 'contain',
     }
 };

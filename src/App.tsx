@@ -1,6 +1,6 @@
 import Header from './components/header/Header';
 import Canvas from './components/main/Canvas';
-import { AppProvider, useAppStore } from './AppProvider';
+import { useStore } from './stores/useStore';
 import { useEffect } from 'react';
 
 export default function App() {
@@ -8,7 +8,7 @@ export default function App() {
     const heightRatio = 100 - topRatio;
 
     return (
-        <AppProvider>
+        <>
             <Initializer />
             <header
                 style={{
@@ -40,17 +40,23 @@ export default function App() {
             >
                 <Canvas />
             </main>
-        </AppProvider>
+        </>
     );
 }
 
 function Initializer() {
-    const { characterList, initDefaultCharacterImages } = useAppStore();
+    const characterList = useStore((state) => state.characterList);
+    const initDefaultCharacterImages = useStore((state) => state.initDefaultCharacterImages);
 
     useEffect(() => {
         initDefaultCharacterImages();
-        console.log(characterList)
-    }, []);
+    }, [initDefaultCharacterImages]);
+
+    useEffect(() => {
+        if (characterList.length > 0) {
+            console.log("캐릭터 리스트 초기화 완료:", characterList);
+        }
+    }, [characterList]);
 
     return null;
 }

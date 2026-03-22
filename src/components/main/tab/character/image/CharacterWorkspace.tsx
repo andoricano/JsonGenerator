@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import AsideToolbar from "../image/AsideToolbar";
 import CharacterImageSlider from "./CharacterImageSlider";
 import ImageUploaderDialog from "./CharacterImageUploader";
-import { useAppStore } from "../../../../../AppProvider";
+import { useStore } from "../../../../../stores/useStore";
 
 export default function CharacterWorkspace() {
-  const { selectedCharacter, addCharacterImage, changeCharacterThumbnail } = useAppStore();
+  const selectedCharacter = useStore((state) => state.selectedCharacter);
+  const addCharacterImage = useStore((state) => state.addCharacterImage);
+  const changeCharacterThumbnail = useStore((state) => state.changeCharacterThumbnail);
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
 
   useEffect(() => {
@@ -36,7 +37,6 @@ export default function CharacterWorkspace() {
     { label: "Delete", onClick: () => console.log("Delete") },
   ];
 
-
   return (
     <div style={styles.container}>
       <AsideToolbar buttons={buttons} />
@@ -59,8 +59,6 @@ export default function CharacterWorkspace() {
     </div>
   );
 }
-
-
 
 const styles: Record<string, React.CSSProperties> = {
   container: {

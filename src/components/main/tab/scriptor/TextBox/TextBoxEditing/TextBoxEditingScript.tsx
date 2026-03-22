@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Script } from '../../../../../../scene';
+// 1. 타입을 storeType에서 가져오도록 수정
+import { Script } from '../../../../../../stores/storeType';
 
 type TextBoxEditingScriptProps = {
     scriptString: Script;
@@ -15,7 +16,6 @@ export default function TextBoxEditingScript({
     const [inputValue, setInputValue] = useState(scriptString.text);
     const [isComposing, setIsComposing] = useState(false);
 
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
         setInputValue(newValue);
@@ -23,7 +23,6 @@ export default function TextBoxEditingScript({
     };
 
     const handleSave = () => {
-        console.log(inputValue);
         onSave();
     };
 
@@ -53,11 +52,14 @@ export default function TextBoxEditingScript({
                 onCompositionStart={() => setIsComposing(true)}
                 onCompositionEnd={() => setIsComposing(false)}
                 autoFocus
+                placeholder="대사를 입력하세요..."
                 style={{
                     flex: 1,
                     padding: '8px',
                     borderRadius: '4px',
                     border: '1px solid #ccc',
+                    fontSize: '14px',
+                    outline: 'none',
                 }}
             />
         </div>

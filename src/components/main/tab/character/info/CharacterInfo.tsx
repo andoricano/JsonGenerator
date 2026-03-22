@@ -1,24 +1,23 @@
-import { useAppStore } from "../../../../../AppProvider";
+import { useState, useEffect } from "react";
+import { useStore } from "../../../../../stores/useStore";
 
 export default function CharacterInfo() {
-    const { selectedCharacter } = useAppStore();
+    // 1. Zustand 스토어에서 selectedCharacter 가져오기
+    const selectedCharacter = useStore((state) => state.selectedCharacter);
 
     if (!selectedCharacter) {
         return <EmptyState message="선택된 캐릭터가 없습니다." />;
     }
 
     const selectedIdx = selectedCharacter.selectedImageIndex;
-    const profileImg = selectedCharacter.img?.[selectedIdx]
-        ? URL.createObjectURL(selectedCharacter.img[selectedIdx])
-        : null;
+    const profileFile = selectedCharacter.img?.[selectedIdx] || null;
 
-    console.log(selectedIdx)
     return (
         <div style={styles.container}>
             <div style={styles.content}>
                 <div style={styles.imageWrapper}>
-                    {profileImg ? (
-                        <ProfileImage src={profileImg} alt={selectedCharacter.name} />
+                    {profileFile ? (
+                        <ProfileImage file={profileFile} alt={selectedCharacter.name} />
                     ) : (
                         <div style={styles.placeholderImage}></div>
                     )}
@@ -37,11 +36,22 @@ function EmptyState({ message }: { message: string }) {
         </div>
     );
 }
-function ProfileImage({ src, alt }: { src: string; alt: string }) {
+
+function ProfileImage({ file, alt }: { file: File; alt: string }) {
+    const [src, setSrc] = useState<string | null>(null);
+
+    // 2. File 객체를 안전하게 URL로 변환하고 메모리 해제 처리
+    useEffect(() => {
+        if (!file) return;
+        const objectUrl = URL.createObjectURL(file);
+        setSrc(objectUrl);
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [file]);
+
     return (
         <div style={styles.imageContainer}>
             <div style={styles.imageLabel}>대표 이미지</div>
-            <img src={src} alt={alt} style={styles.image} />
+            {src && <img src={src} alt={alt} style={styles.image} />}
         </div>
     );
 }
@@ -53,7 +63,6 @@ function CharacterDetails({ name }: { name: string; }) {
         </div>
     );
 }
-
 export const styles: Record<string, React.CSSProperties> = {
     container: {
         width: "30%",

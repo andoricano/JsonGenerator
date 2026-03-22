@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { useAppStore } from "../../AppProvider";
-
+import { useStore } from "../../stores/useStore";
 
 export default function SideScriptBar() {
-  const { scriptItems, selectedIndex, setSelectedIndex } = useAppStore();
+  const scriptItems = useStore((state) => state.scriptItems);
+  const selectedIndex = useStore((state) => state.selectedIndex);
+  const setSelectedIndex = useStore((state) => state.setSelectedIndex);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,12 +16,11 @@ export default function SideScriptBar() {
 
   return (
     <div ref={containerRef} style={styles.container}>
-      {scriptItems.map((item, idx) => {
+      {scriptItems?.map((item, idx) => {
         const isSelected = idx === selectedIndex;
 
         const firstCharItem = item.character?.[0];
         const char = firstCharItem?.character;
-
         const image: File | undefined = char?.img?.[char.selectedImageIndex];
 
         return (
@@ -53,9 +54,7 @@ export default function SideScriptBar() {
   );
 }
 
-
-
-function CharacterImage({ file, name }: { file: File; name?: string }) {
+function CharacterImage({ file, name }: { file?: File; name?: string }) {
   const [src, setSrc] = useState<string | null>(null);
 
   useEffect(() => {
@@ -103,18 +102,6 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     alignItems: "flex-start",
     gap: "8px",
-  },
-  thumbnail: {
-    width: 40,
-    height: 40,
-    borderRadius: "6px",
-    objectFit: "cover",
-  },
-  placeholder: {
-    width: 40,
-    height: 40,
-    borderRadius: "6px",
-    backgroundColor: "#ccc",
   },
   characterName: {
     fontWeight: "bold",

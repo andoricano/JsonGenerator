@@ -1,46 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextBoxChracter from './TextBoxCharacter';
 import TextBoxScript from './TextBoxScript';
-import { Character, Script, ScriptCharacter } from '../../../../../scene';
 import TextBoxChracterEditing from './TextBoxEditing/TextBoxEditingCharacter';
 import TextBoxEditingScript from './TextBoxEditing/TextBoxEditingScript';
 import ActionBar from '../../../../component/ActionBar';
+import { Character, Script, ScriptCharacter } from '../../../../../stores/storeType';
 
 
 type TextBoxSectionProps = {
   scriptString: Script;
-  updateScriptText: (script: string) => void;
+  updateScriptText: (text: string) => void;
   onCharacter: (character: ScriptCharacter[]) => void;
   characterList: Character[];
 };
 
-export default function TextBoxSection(
-  {
-    scriptString, updateScriptText, onCharacter, characterList
-  }: TextBoxSectionProps
-) {
-  var [editing, setEditing] = useState(false);
-  var [script, setScript] = useState(scriptString.text);
-  var [character, setCharacter] = useState(scriptString.character);
+export default function TextBoxSection({
+  scriptString,
+  updateScriptText,
+  onCharacter,
+  characterList
+}: TextBoxSectionProps) {
+  const [editing, setEditing] = useState(false);
+
+  const [script, setScript] = useState(scriptString.text);
+  const [character, setCharacter] = useState(scriptString.character);
+
+  useEffect(() => {
+    setScript(scriptString.text);
+    setCharacter(scriptString.character);
+  }, [scriptString]);
 
   const handleSave = () => {
     updateScriptText(script);
+    onCharacter(character);
     setEditing(false);
-    onCharacter(character)
-  }
+  };
 
-  const handleCancel = () => {
-    console.log("handleCancel")
+  const handleCancel = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setScript(scriptString.text);
+    setCharacter(scriptString.character);
     setEditing(false);
-  }
+  };
 
   return (
-    <div style={styles.container}
-      onClick={() => setEditing(true)}
+    <div
+      style={styles.container}
+      onClick={() => !editing && setEditing(true)}
     >
-
       {editing ? (
-        <div>
+        <div onClick={(e) => e.stopPropagation()}>
           <TextBoxChracterEditing
             characterList={characterList}
             onChanging={setCharacter}
@@ -64,7 +73,6 @@ export default function TextBoxSection(
           <TextBoxScript
             scriptString={scriptString}
           />
-
         </div>
       )}
     </div>

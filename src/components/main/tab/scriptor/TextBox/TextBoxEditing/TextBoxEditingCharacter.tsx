@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Character, ScriptCharacter } from "../../../../../../scene";
+import { Character, ScriptCharacter } from "../../../../../../stores/storeType";
 
 type TextBoxEditingCharacterProps = {
   characterList: Character[];

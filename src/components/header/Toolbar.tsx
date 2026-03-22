@@ -1,16 +1,30 @@
-import { useAppStore } from "../../AppProvider";
+import { useStore } from "../../stores/useStore";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Toolbar() {
-  const { resetMainStore, scriptToJSON } = useAppStore();
+  const resetAll = useStore((state) => state.resetAll);
+  const scriptItems = useStore((state) => state.scriptItems);
+  const characterList = useStore((state) => state.characterList);
+  const projectName = useStore((state) => state.projectName);
 
   const handleNew = () => {
-    resetMainStore()
-    console.log("New Project");
+    if (window.confirm("새 프로젝트를 시작하시겠습니까? 현재 데이터는 초기화됩니다.")) {
+      resetAll();
+      console.log("New Project");
+    }
   };
 
   const handleSave = () => {
-    exportJSON(scriptToJSON());
+    const exportData = {
+      projectName,
+      scripts: scriptItems,
+      characters: characterList.map(char => ({
+        name: char.name,
+        selectedImageIndex: char.selectedImageIndex
+      }))
+    };
+
+    exportJSON(exportData, `${projectName || 'project'}.json`);
   };
 
   const handleLoad = () => {
@@ -28,7 +42,6 @@ export default function Toolbar() {
     { label: "Setting", onClick: handleSetting },
   ];
 
-
   return (
     <div
       style={{
@@ -42,18 +55,10 @@ export default function Toolbar() {
           key={btn.label}
           style={buttonStyle}
           onClick={btn.onClick}
-          onMouseOver={(e) =>
-            (e.currentTarget.style.background = "#eaeaea")
-          }
-          onMouseOut={(e) =>
-            (e.currentTarget.style.background = "#f5f5f5")
-          }
-          onMouseDown={(e) =>
-            (e.currentTarget.style.transform = "scale(0.97)")
-          }
-          onMouseUp={(e) =>
-            (e.currentTarget.style.transform = "scale(1)")
-          }
+          onMouseOver={(e) => (e.currentTarget.style.background = "#eaeaea")}
+          onMouseOut={(e) => (e.currentTarget.style.background = "#f5f5f5")}
+          onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
+          onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           {btn.label}
         </button>
@@ -74,8 +79,7 @@ const buttonStyle: React.CSSProperties = {
   transition: "background 0.2s, transform 0.1s",
 };
 
-
-function exportJSON(data: object, filename = "footer.json") {
+function exportJSON(data: object, filename = "data.json") {
   const blob = new Blob([JSON.stringify(data, null, 2)], {
     type: "application/json",
   });
