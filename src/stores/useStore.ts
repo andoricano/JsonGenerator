@@ -8,12 +8,6 @@ const defaultCharacter: Character[] = [
   { name: "mascot", img: [], selectedImageIndex: 0 }
 ];
 
-const defaultScript: Script = {
-  id: nanoid(),
-  text: "",
-  character: [{ character: defaultCharacter[0], position: 0, tone: 1 }]
-};
-
 const createDefaultScript = (): Script => ({
   id: nanoid(),
   text: "",
@@ -26,7 +20,7 @@ export const useStore = create<AppState>((set, get) => ({
     projectName: 'New Project',
     width: 1920,
     height: 1080,
-    resourcePath: '',
+    resourcePath: './Resources/',
   },
   lang: "en",
   darkMode: false,
