@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AppState, Lang, Character, ScriptCharacter, Script } from './storeType';
+import { AppState, Character, Script, TOOLS } from './storeType';
 import { nanoid } from 'nanoid';
 
 // 초기값 설정
@@ -19,7 +19,7 @@ export const useStore = create<AppState>((set, get) => ({
   projectName: "I Love yo yoU",
   lang: "en",
   darkMode: false,
-  activeTool: "Scriptor",
+  activeTool: TOOLS.PROJECT,
 
   // ===== Logic State =====
   images: [],

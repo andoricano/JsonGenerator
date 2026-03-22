@@ -1,7 +1,5 @@
 import Header from './components/header/Header';
 import Canvas from './components/main/Canvas';
-import { useStore } from './stores/useStore';
-import { useEffect } from 'react';
 
 export default function App() {
     const topRatio = 15;
@@ -9,7 +7,6 @@ export default function App() {
 
     return (
         <>
-            <Initializer />
             <header
                 style={{
                     position: 'fixed',
@@ -42,21 +39,4 @@ export default function App() {
             </main>
         </>
     );
-}
-
-function Initializer() {
-    const characterList = useStore((state) => state.characterList);
-    const initDefaultCharacterImages = useStore((state) => state.initDefaultCharacterImages);
-
-    useEffect(() => {
-        initDefaultCharacterImages();
-    }, [initDefaultCharacterImages]);
-
-    useEffect(() => {
-        if (characterList.length > 0) {
-            console.log("캐릭터 리스트 초기화 완료:", characterList);
-        }
-    }, [characterList]);
-
-    return null;
 }

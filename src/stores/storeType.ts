@@ -6,9 +6,10 @@ export const SUPPORTED_LANGUAGES: { code: Lang; label: string }[] = [ // 'export
 ];
 
 export const TOOLS = {
+  PROJECT: "Project",
   SCRIPTOR: "Scriptor",
   CHARACTER: "Character",
-  EDITER: "Resource Editer",
+  CONFIGURATION: "Result Config"
 } as const;
 
 export type ToolType = typeof TOOLS[keyof typeof TOOLS];

@@ -4,11 +4,11 @@ import { TOOLS, ToolType } from "../../stores/storeType";
 export default function Workspace() {
   const activeTool = useStore((state) => state.activeTool);
   const setActiveTool = useStore((state) => state.setActiveTool);
-
   const tools: { label: ToolType }[] = [
+    { label: TOOLS.PROJECT },
     { label: TOOLS.SCRIPTOR },
     { label: TOOLS.CHARACTER },
-    { label: TOOLS.EDITER },
+    { label: TOOLS.CONFIGURATION },
   ];
 
   return (

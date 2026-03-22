@@ -5,6 +5,8 @@ import Scriptor from "./tab/scriptor/Scriptor";
 import Editer from "./tab/editer/Editer";
 import Character from "./tab/character/Character";
 import SideBar from "../aside/SideBar";
+import Config from './tab/config/Config';
+import Project from './tab/project/Project';
 
 export default function Canvas() {
   const activeTool = useStore((state) => state.activeTool);
@@ -16,9 +18,10 @@ export default function Canvas() {
       </aside>
 
       <div style={styles.workspace}>
+        {activeTool === TOOLS.PROJECT && <Project />}
         {activeTool === TOOLS.SCRIPTOR && <Scriptor />}
         {activeTool === TOOLS.CHARACTER && <Character />}
-        {activeTool === TOOLS.EDITER && <Editer />}
+        {activeTool === TOOLS.CONFIGURATION && <Config />}
       </div>
     </div>
   );
