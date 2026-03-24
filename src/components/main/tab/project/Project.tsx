@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Dialog from "../../../Dialog";
 import { useStore } from "../../../../stores/useStore";
 
@@ -5,14 +6,17 @@ export default function Project() {
     const projectInfo = useStore((state) => state.projectInfo);
     const setProjectInfo = useStore((state) => state.setProjectInfo);
 
-    const { projectName, width, height, resourcePath } = projectInfo;
+    const [localInfo, setLocalInfo] = useState(projectInfo);
+
+    const { projectName, width, height, resourcePath } = localInfo;
 
     const handleChange = (key: keyof typeof projectInfo, value: string | number) => {
-        setProjectInfo({ [key]: value });
+        setLocalInfo(prev => ({ ...prev, [key]: value }));
     };
 
     const handleSave = () => {
-        console.log("Saved Project Info:", projectInfo);
+        setProjectInfo(localInfo);
+        console.log("Store Updated:", localInfo);
         alert("설정이 저장되었습니다.");
     };
 
@@ -65,7 +69,6 @@ export default function Project() {
                     </div>
                 </div>
 
-                {/* 저장 버튼 */}
                 <button onClick={handleSave} style={styles.saveButton}>
                     Save Project
                 </button>
@@ -76,6 +79,7 @@ export default function Project() {
                 title="Edit Name"
                 defaultValue={projectName}
                 onClose={() => { }}
+                // 다이얼로그 확인 시에도 로컬 상태만 변경
                 onConfirm={(newName) => handleChange("projectName", newName.trim())}
             />
         </div>
