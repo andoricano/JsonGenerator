@@ -9,18 +9,23 @@ import Project from './tab/project/Project';
 
 export default function Canvas() {
   const activeTool = useStore((state) => state.activeTool);
+  const showSideBar =
+    activeTool === TOOLS.SCRIPTOR ||
+    activeTool === TOOLS.STRUCTURE ||
+    activeTool === TOOLS.CHARACTER;
 
   return (
     <div style={styles.canvas}>
-      <aside style={styles.aside}>
-        <SideBar />
-      </aside>
-
+      {showSideBar && (
+        <aside style={styles.aside}>
+          <SideBar />
+        </aside>
+      )}
       <div style={styles.workspace}>
         {activeTool === TOOLS.PROJECT && <Project />}
         {activeTool === TOOLS.SCRIPTOR && <Scriptor />}
         {activeTool === TOOLS.CHARACTER && <Character />}
-        {activeTool === TOOLS.CONFIGURATION && <Config />}
+        {activeTool === TOOLS.STRUCTURE && <Config />}
       </div>
     </div>
   );
