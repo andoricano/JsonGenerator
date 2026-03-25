@@ -1,7 +1,7 @@
 import React from 'react';
 
 type CharacterImageGridProps = {
-    imgList: string[]; // 스토어의 previewUrls를 직접 받음
+    imgList: string[];
     selectedIdx: number;
     onSelected: (index: number) => void;
 };

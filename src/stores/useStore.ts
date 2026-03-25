@@ -156,6 +156,25 @@ export const useStore = create<AppState>((set, get) => ({
     });
   },
 
+  addCharacterImageList: (files: File[]) => set((state) => {
+    if (!state.selectedCharacter) return state;
+
+    const newUrls = files.map(file => URL.createObjectURL(file));
+
+    const updatedCharacter = {
+      ...state.selectedCharacter,
+      img: [...state.selectedCharacter.img, ...files],
+      previewUrls: [...state.selectedCharacter.previewUrls, ...newUrls],
+    };
+
+    return {
+      selectedCharacter: updatedCharacter,
+      characterList: state.characterList.map(c =>
+        c.id === updatedCharacter.id ? updatedCharacter : c
+      ),
+    };
+  }),
+
   removeImageFromCharacter: (index: number) => {
     const { selectedCharacter, updateSelectedCharacter } = get();
     if (!selectedCharacter) return;

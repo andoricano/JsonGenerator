@@ -33,7 +33,7 @@ export interface AppState {
   activeTool: ToolType;
 
   // ===== Logic State =====
-  images: { id: number; url: string }[]; 
+  images: { id: number; url: string }[];
   lineItems: LineItem[];
   selectedIndex: number;
 
@@ -60,6 +60,7 @@ export interface AppState {
   updateSelectedCharacter: (updated: Character) => void;
   addCharacter: () => void;
   addCharacterImage: (file: File) => void;
+  addCharacterImageList: (files: File[]) => void;
   removeImageFromCharacter: (index: number) => void;
   changeCharacterThumbnail: (index: number) => void;
   initDefaultCharacterImages: () => Promise<void>;
