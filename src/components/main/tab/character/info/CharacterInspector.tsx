@@ -10,7 +10,6 @@ export default function CharacterInspector() {
     const [tempName, setTempName] = useState("");
     const [tempMemo, setTempMemo] = useState("");
 
-    // 캐릭터가 바뀌면 상태 초기화
     useEffect(() => {
         if (selectedCharacter) {
             setTempName(selectedCharacter.name);
@@ -25,16 +24,15 @@ export default function CharacterInspector() {
 
     const profileUrl = selectedCharacter.previewUrls?.[selectedCharacter.thumbnail] || null;
 
-    // 이름이 비어있는지 확인 (저장 버튼 활성화 조건)
     const isNameValid = tempName.trim().length > 0;
 
     const handleSave = () => {
-        if (!isNameValid) return; // 이름이 없으면 저장 불가
+        if (!isNameValid) return;
 
         updateSelectedCharacter({
             ...selectedCharacter,
             name: tempName.trim(),
-            memo: tempMemo, // 메모는 빈 값 허용
+            memo: tempMemo,
         });
         setIsEditing(false);
     };
@@ -54,7 +52,6 @@ export default function CharacterInspector() {
                     {profileUrl ? (
                         <div style={styles.imageContainer}>
                             <img src={profileUrl} alt={selectedCharacter.name} style={styles.image} />
-                            <div style={styles.imageTag}>Thumbnail</div>
                         </div>
                     ) : (
                         <div style={styles.placeholderImage}>No Image</div>
@@ -134,7 +131,6 @@ const styles: Record<string, React.CSSProperties> = {
     imageWrapper: { display: "flex", justifyContent: "center" },
     imageContainer: { position: "relative", width: "100%", maxWidth: "160px" },
     image: { width: "100%", aspectRatio: "1/1", borderRadius: "8px", objectFit: "cover", border: "2px solid #2a5b2e", backgroundColor: "white" },
-    imageTag: { position: "absolute", bottom: "4px", right: "4px", backgroundColor: "rgba(42, 91, 46, 0.8)", color: "white", padding: "2px 6px", fontSize: "10px", borderRadius: "4px" },
     inspectorFields: { display: "flex", flexDirection: "column", gap: "16px" },
     field: { display: "flex", flexDirection: "column", gap: "6px" },
     fieldLabel: { fontSize: "11px", fontWeight: "bold", color: "#1a3b1d" },
