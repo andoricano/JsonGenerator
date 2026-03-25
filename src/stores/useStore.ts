@@ -3,23 +3,24 @@ import { AppState, TOOLS } from './storeType';
 import { nanoid } from 'nanoid';
 import { Character, LineItem } from './canvasType';
 
-// 초기값 설정
 const defaultCharacter: Character[] = [
-  { 
-    id: nanoid(), 
-    name: "User", 
-    img: [], 
-    thumbnail: 0, 
+  {
+    id: nanoid(),
+    name: "User",
+    img: [],
+    previewUrls: [],
+    thumbnail: 0,
     path: "",
-    memo:"기본 생성되는 캐릭터 입니다. 수정해주세요."
+    memo: "기본 생성되는 캐릭터 입니다. 수정해주세요."
   },
-  { 
-    id: nanoid(), 
-    name: "mascot", 
-    img: [], 
-    thumbnail: 0, 
+  {
+    id: nanoid(),
+    name: "mascot",
+    img: [],
+    previewUrls: [],
+    thumbnail: 0,
     path: "",
-    memo:"기본 생성되는 캐릭터 입니다. 수정해주세요."
+    memo: "기본 생성되는 캐릭터 입니다. 수정해주세요."
   }
 ];
 
@@ -28,14 +29,14 @@ const createDefaultScript = (): LineItem => ({
   actors: [
     {
       id: nanoid(),
-      characterId: defaultCharacter[0].id, 
-      characterImageIdx: 0,                
-      actorText: "",                       
-      actorState: 0,                       
-      actorEffect: ""                     
+      characterId: defaultCharacter[0].id,
+      characterImageIdx: 0,
+      actorText: "",
+      actorState: 0,
+      actorEffect: ""
     }
   ],
-  effect: ""                               
+  effect: ""
 });
 
 export const useStore = create<AppState>((set, get) => ({
@@ -62,9 +63,9 @@ export const useStore = create<AppState>((set, get) => ({
   })),
 
   setLang: (lang) => set({ lang }),
-  
+
   toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
-  
+
   setActiveTool: (tool) => set({ activeTool: tool }),
 
   // Scriptor Actions
@@ -90,13 +91,13 @@ export const useStore = create<AppState>((set, get) => ({
 
   updateLineText: (lineId, actorId, newText) => set((state) => ({
     lineItems: state.lineItems.map((item) =>
-      item.id === lineId 
-        ? { 
-            ...item, 
-            actors: item.actors.map(actor => 
-              actor.id === actorId ? { ...actor, actorText: newText } : actor
-            ) 
-          } 
+      item.id === lineId
+        ? {
+          ...item,
+          actors: item.actors.map(actor =>
+            actor.id === actorId ? { ...actor, actorText: newText } : actor
+          )
+        }
         : item
     )
   })),
@@ -113,7 +114,7 @@ export const useStore = create<AppState>((set, get) => ({
   setSelectedCharacter: (char) => set({ selectedCharacter: char }),
 
   updateSelectedCharacter: (updated) => set((state) => {
-    const newList = state.characterList.map(c => 
+    const newList = state.characterList.map(c =>
       c.id === state.selectedCharacter?.id ? updated : c
     );
     return {
@@ -123,39 +124,52 @@ export const useStore = create<AppState>((set, get) => ({
   }),
 
   addCharacter: () => {
-    const newChar: Character = { 
-      id: nanoid(), 
-      name: "New Character", 
-      img: [], 
-      thumbnail: 0, 
-      memo: "", 
-      path: "" 
+    const { characterList } = get();
+    const newCount = characterList.length + 1;
+
+    const newChar: Character = {
+      id: nanoid(),
+      name: `Character ${newCount}`,
+      img: [],
+      previewUrls: [],
+      thumbnail: 0,
+      memo: "",
+      path: ""
     };
+
     set((state) => ({
       characterList: [...state.characterList, newChar],
       selectedCharacter: newChar
     }));
   },
 
-  addCharacterImage: (file) => {
+  addCharacterImage: (file: File) => {
     const { selectedCharacter, updateSelectedCharacter } = get();
     if (!selectedCharacter) return;
+
+    const newPreviewUrl = URL.createObjectURL(file);
+
     updateSelectedCharacter({
       ...selectedCharacter,
-      img: [...selectedCharacter.img, file]
+      img: [...selectedCharacter.img, file],
+      previewUrls: [...(selectedCharacter.previewUrls || []), newPreviewUrl]
     });
   },
 
-  removeImageFromCharacter: (index) => {
+  removeImageFromCharacter: (index: number) => {
     const { selectedCharacter, updateSelectedCharacter } = get();
     if (!selectedCharacter) return;
+
+    const targetUrl = selectedCharacter.previewUrls[index];
+    if (targetUrl) URL.revokeObjectURL(targetUrl);
+
     updateSelectedCharacter({
       ...selectedCharacter,
       img: selectedCharacter.img.filter((_, i) => i !== index),
-      thumbnail: 0 // selectedImageIndex -> thumbnail
+      previewUrls: selectedCharacter.previewUrls.filter((_, i) => i !== index),
+      thumbnail: 0
     });
   },
-
   changeCharacterThumbnail: (index) => {
     const { selectedCharacter, updateSelectedCharacter } = get();
     if (!selectedCharacter) return;
@@ -163,7 +177,7 @@ export const useStore = create<AppState>((set, get) => ({
   },
 
   initDefaultCharacterImages: async () => {
-    
+
   },
 
   resetAll: () => set({

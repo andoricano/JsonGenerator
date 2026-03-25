@@ -7,12 +7,13 @@ export interface ImageResource{
 }
 
 export interface Character {
-  id: string;      
-  name: string;    
-  img: File[];
+  id: string;
+  name: string;
+  img: File[];          
+  previewUrls: string[]; 
   thumbnail: number; 
   memo: string;
-  path: string;  
+  path: string;
 }
 
 export interface LineActor{

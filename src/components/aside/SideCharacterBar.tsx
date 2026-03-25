@@ -1,55 +1,52 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useStore } from "../../stores/useStore";
+import { AppState } from "../../stores/storeType";
 
 export default function SideCharacterBar() {
-  const characterList = useStore((state) => state.characterList);
-  const selectedCharacter = useStore((state) => state.selectedCharacter);
-  const setSelectedCharacter = useStore((state) => state.setSelectedCharacter);
+  const characterList = useStore((state: AppState) => state.characterList);
+  const selectedCharacter = useStore((state: AppState) => state.selectedCharacter);
+  const setSelectedCharacter = useStore((state: AppState) => state.setSelectedCharacter);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const [characterUrls, setCharacterUrls] = useState<(string | null)[]>([]);
 
-  useEffect(() => {
-    const urls = characterList.map(char =>
-      char.img && char.img.length > 0 ? URL.createObjectURL(char.img[char.selectedImageIndex]) : null
-    );
-    setCharacterUrls(urls);
-
-    return () => {
-      urls.forEach(url => url && URL.revokeObjectURL(url));
-    };
-  }, [characterList]);
-
+  // 새로운 캐릭터가 추가될 때만 맨 아래로 스크롤
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     el.scrollTop = el.scrollHeight;
-  }, [characterList]);
+  }, [characterList.length]);
 
   return (
     <div ref={containerRef} style={styles.container}>
       {characterList.map((character, idx) => {
-        const profileUrl = characterUrls[idx];
-        const isSelected = selectedCharacter?.name === character.name;
+        const isSelected = selectedCharacter?.id === character.id;
+
+        // 스토어에서 관리하는 previewUrls의 썸네일 인덱스 참조
+        const profileUrl = character.previewUrls?.[character.thumbnail] || null;
 
         return (
           <div
-            key={character.name ?? idx}
+            key={character.id}
             onClick={() => setSelectedCharacter(character)}
             style={{
               ...styles.characterItem,
-              background: isSelected ? "#cde4ff" : "#f0f0f0",
+              background: isSelected ? "#e3f2fd" : "#ffffff", // 선택 시 연한 파란색
+              border: isSelected ? "2px solid #2196f3" : "2px solid #eee",
+              boxShadow: isSelected ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
             }}
           >
             <div style={styles.characterName}>
               {idx + 1}. {character.name}
             </div>
-            {profileUrl && (
+
+            {profileUrl ? (
               <img
                 src={profileUrl}
-                alt={`${character.name}-represent`}
+                alt={`${character.name}-thumbnail`}
                 style={styles.characterImage}
               />
+            ) : (
+              <div style={styles.noImage}>이미지 없음</div>
             )}
           </div>
         );
@@ -58,34 +55,49 @@ export default function SideCharacterBar() {
   );
 }
 
-const styles: Record<string, React.CSSProperties> = {
+const styles: { [key: string]: React.CSSProperties } = {
   container: {
-    flex: 1,
-    minHeight: 0,
-    display: "flex",
-    flexDirection: "column",
-    overflowY: "auto",
-    padding: 8,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    padding: '12px',
+    overflowY: 'auto',
+    height: '100%',
+    backgroundColor: '#f8f9fa',
   },
   characterItem: {
-    marginBottom: 8,
-    padding: 8,
-    borderRadius: 8,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: 8,
-    cursor: "pointer",
-    transition: "background 0.2s",
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    padding: '12px',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease-in-out',
   },
   characterName: {
-    fontWeight: "bold",
-    color: "#555",
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#333',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   characterImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 6,
-    objectFit: "cover",
+    width: '100%',
+    height: '100px',
+    objectFit: 'contain',
+    borderRadius: '4px',
+    backgroundColor: '#fff',
   },
+  noImage: {
+    width: '100%',
+    height: '100px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '12px',
+    color: '#aaa',
+    border: '1px dashed #ccc',
+    borderRadius: '4px',
+  }
 };

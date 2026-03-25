@@ -1,19 +1,22 @@
 import { useStore } from "../../stores/useStore";
-import { TOOLS } from "../../stores/storeType";
+import { TOOLS, AppState } from "../../stores/storeType";
 import SideCharacterBar from "./SideCharacterBar";
 import SideScriptBar from "./SideScriptBar";
 
 export default function SideBar() {
     const activeTool = useStore((state) => state.activeTool);
 
+    const addLineItem = useStore((state: AppState) => state.addLineItem);
+    const addCharacter = useStore((state: AppState) => state.addCharacter);
+
     const handleAdd = () => {
         switch (activeTool) {
             case TOOLS.SCRIPTOR:
-                console.log("Add Script Item");
+                addLineItem();
                 break;
 
             case TOOLS.CHARACTER:
-                console.log("Add Character");
+                addCharacter();
                 break;
 
             default:
