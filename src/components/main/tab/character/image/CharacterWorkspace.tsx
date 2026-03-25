@@ -44,7 +44,6 @@ export default function CharacterWorkspace() {
   ];
 
   const currentPreviewUrl = selectedCharacter.previewUrls[viewIdx];
-  const totalCount = selectedCharacter.previewUrls.length;
 
   return (
     <div style={styles.container}>

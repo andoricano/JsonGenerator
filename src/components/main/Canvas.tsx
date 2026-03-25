@@ -6,7 +6,7 @@ import Character from "./tab/character/Character";
 import SideBar from "../aside/SideBar";
 import Config from './tab/config/Config';
 import Project from './tab/project/Project';
-
+// Canvas.tsx
 export default function Canvas() {
   const activeTool = useStore((state) => state.activeTool);
   const showSideBar =
@@ -21,6 +21,7 @@ export default function Canvas() {
           <SideBar />
         </aside>
       )}
+      {/* 워크스페이스 영역만 별도로 스크롤 발생 */}
       <div style={styles.workspace}>
         {activeTool === TOOLS.PROJECT && <Project />}
         {activeTool === TOOLS.SCRIPTOR && <Scriptor />}
@@ -33,25 +34,24 @@ export default function Canvas() {
 
 const styles: Record<string, React.CSSProperties> = {
   canvas: {
-    minWidth: "500px",
-    minHeight: "100px",
-    flex: 1,
     display: "flex",
     flexDirection: "row",
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
   },
   aside: {
-    width: "20%",
+    width: "260px",
     height: "100%",
-    background: "#ddd",
-    display: "flex",
-    flexDirection: "column",
-    boxSizing: "border-box",
+    flexShrink: 0,
+    borderRight: "1px solid #eee",
+    backgroundColor: "#fff",
+    overflowY: "auto",
   },
   workspace: {
-    width: "80%",
-    display: "flex",
-    flexDirection: "column",
+    flex: 1,
     height: "100%",
-    boxSizing: "border-box",
+    overflowY: "auto",
+    backgroundColor: "#fafafa",
   },
 };

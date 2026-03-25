@@ -32,7 +32,7 @@ export default function App() {
                     display: 'flex',
                     flexDirection: 'column',
                     background: 'white',
-                    overflow: 'auto',
+                    overflow: 'hidden',
                 }}
             >
                 <Canvas />
