@@ -1,11 +1,11 @@
-import CharacterInfo from "./info/CharacterInfo";
+import CharacterInspector from "./info/CharacterInspector";
 import CharacterWorkspace from "./image/CharacterWorkspace";
 
 export default function Character() {
   return (
     <div style={styles.container}>
       <div style={styles.infoSection}>
-        <CharacterInfo />
+        <CharacterInspector />
         <CharacterWorkspace />
       </div>
     </div>

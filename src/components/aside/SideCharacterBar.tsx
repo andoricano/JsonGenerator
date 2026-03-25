@@ -9,7 +9,6 @@ export default function SideCharacterBar() {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 새로운 캐릭터가 추가될 때만 맨 아래로 스크롤
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -18,10 +17,9 @@ export default function SideCharacterBar() {
 
   return (
     <div ref={containerRef} style={styles.container}>
-      {characterList.map((character, idx) => {
+      {characterList.map((character) => {
         const isSelected = selectedCharacter?.id === character.id;
 
-        // 스토어에서 관리하는 previewUrls의 썸네일 인덱스 참조
         const profileUrl = character.previewUrls?.[character.thumbnail] || null;
 
         return (
@@ -36,7 +34,7 @@ export default function SideCharacterBar() {
             }}
           >
             <div style={styles.characterName}>
-              {idx + 1}. {character.name}
+              {character.name}
             </div>
 
             {profileUrl ? (
