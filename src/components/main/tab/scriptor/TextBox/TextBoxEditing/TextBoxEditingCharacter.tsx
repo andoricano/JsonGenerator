@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Character, ScriptCharacter } from "../../../../../../stores/storeType";
+import { Character, LineActor } from "../../../../../../stores/canvasType";
+import { nanoid } from "nanoid";
 
 type TextBoxEditingCharacterProps = {
   characterList: Character[];
-  onChanging: (newScriptCharacter: ScriptCharacter[]) => void;
+  onChanging: (newLineActors: LineActor[]) => void;
   onCancel: () => void;
 };
 
@@ -15,15 +16,18 @@ export default function TextBoxChracterEditing({
 
   const handleToggle = (character: Character) => {
     setSelectedCharacters((prev) => {
-      const updated = prev.some((c) => c.name === character.name)
-        ? prev.filter((c) => c.name !== character.name)
+      const updated = prev.some((c) => c.id === character.id)
+        ? prev.filter((c) => c.id !== character.id)
         : [...prev, character];
 
       onChanging(
-        updated.map((ch, idx) => ({
-          character: ch,
-          position: idx,
-          tone: 0,
+        updated.map((ch) => ({
+          id: nanoid(),
+          characterId: ch.id,
+          characterImageIdx: 0,
+          actorText: "",
+          actorState: 0,
+          actorEffect: "",
         }))
       );
 
@@ -35,10 +39,10 @@ export default function TextBoxChracterEditing({
     <div style={styles.container}>
       <div style={styles.checkboxContainer}>
         {characterList.map((character, index) => {
-          const isChecked = selectedCharacters.some((c) => c.name === character.name);
+          const isChecked = selectedCharacters.some((c) => c.id === character.id);
           return (
             <label
-              key={index}
+              key={character.id || index}
               style={{
                 ...styles.label,
                 backgroundColor: isChecked ? "#d0ebff" : "#f5f5f5",
@@ -64,7 +68,6 @@ export default function TextBoxChracterEditing({
     </div>
   );
 }
-
 const styles: Record<string, React.CSSProperties> = {
   container: {
     margin: 5,

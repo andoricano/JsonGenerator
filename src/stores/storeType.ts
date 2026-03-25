@@ -1,3 +1,5 @@
+import { Character, LineActor, LineItem } from "./canvasType";
+
 export interface ProjectInfo {
   projectName: string;
   width: number;
@@ -16,41 +18,23 @@ export const TOOLS = {
   PROJECT: "Project",
   SCRIPTOR: "Scriptor",
   CHARACTER: "Character",
-  STRUCTURE: "Data Structure"
+  STRUCTURE: "Scrip Structure"
 } as const;
 
 export type ToolType = typeof TOOLS[keyof typeof TOOLS];
 
-export interface Character {
-  name: string;
-  img: File[];
-  selectedImageIndex: number;
-}
-
-export interface ScriptCharacter {
-  character: Character;
-  position: number;
-  tone: number;
-}
-
-export interface Script {
-  id: string;
-  text: string;
-  character: ScriptCharacter[];
-}
-
 export interface AppState {
   // ===== Project State =====
   projectInfo: ProjectInfo;
-  
+
   // ===== App State =====
   lang: Lang;
   darkMode: boolean;
   activeTool: ToolType;
 
   // ===== Logic State =====
-  images: { id: number; url: string }[];
-  scriptItems: Script[];
+  images: { id: number; url: string }[]; 
+  lineItems: LineItem[];
   selectedIndex: number;
 
   // ===== Character State =====
@@ -62,14 +46,14 @@ export interface AppState {
   setLang: (lang: Lang) => void;
   toggleDarkMode: () => void;
   setActiveTool: (tool: ToolType) => void;
-  
+
   // Scriptor Actions
-  addScriptItem: () => void;
-  removeScriptItem: (idx: number) => void;
+  addLineItem: () => void;
+  removeLineItem: (idx: number) => void;
   setSelectedIndex: (idx: number) => void;
-  updateScriptText: (newText: string) => void;
-  updateScriptorCharacter: (character: ScriptCharacter[]) => void;
-  updateScriptCharacter: (newCharacters: Character[]) => void;
+  updateLineText: (lineId: string, actorId: string, newText: string) => void;
+  updateLineActors: (lineId: string, actors: LineActor[]) => void;
+  updateCharacterList: (newCharacters: Character[]) => void;
 
   // Character Actions
   setSelectedCharacter: (char: Character | null) => void;

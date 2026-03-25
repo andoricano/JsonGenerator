@@ -1,12 +1,13 @@
-import { ScriptCharacter } from "../../../../../scene";
+import { LineActor } from "../../../../../stores/canvasType";
+import { useStore } from "../../../../../stores/useStore"; // 스토어에서 캐릭터 리스트를 가져와야 이름을 찾을 수 있습니다.
 
 type TextBoxChracterProps = {
-  scriptCharacter: ScriptCharacter[];
+  scriptCharacter: LineActor[];
 };
 
-export default function TextBoxChracter(
-  { scriptCharacter }: TextBoxChracterProps
-) {
+export default function TextBoxChracter({ scriptCharacter }: TextBoxChracterProps) {
+  const { characterList } = useStore();
+
   if (!scriptCharacter || scriptCharacter.length === 0) {
     return (
       <div style={styles.container}>
@@ -17,15 +18,19 @@ export default function TextBoxChracter(
 
   return (
     <div style={styles.container}>
-      {scriptCharacter.map((sc, index) => (
-        <div key={index} style={styles.userButton}>
-          {sc?.character?.name?.trim() ? sc.character.name : "no"}
-        </div>
-      ))}
+      {scriptCharacter.map((actor, index) => {
+        const charInfo = characterList.find((c) => c.id === actor.characterId);
+        const displayName = charInfo?.name?.trim() ? charInfo.name : "no";
+
+        return (
+          <div key={actor.id || index} style={styles.userButton}>
+            {displayName}
+          </div>
+        );
+      })}
     </div>
   );
 }
-
 
 const styles: Record<string, React.CSSProperties> = {
 

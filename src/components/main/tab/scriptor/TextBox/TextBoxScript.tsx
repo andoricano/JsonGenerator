@@ -1,12 +1,13 @@
-import React from 'react';
-import { Script } from '../../../../../stores/storeType';
+import { LineItem } from '../../../../../stores/canvasType';
 
 type TextBoxScriptProps = {
-    scriptString: Script;
+    scriptString: LineItem;
 };
 
 export default function TextBoxScript({ scriptString }: TextBoxScriptProps) {
-    const hasText = scriptString.text.trim() !== "";
+    // LineItem 구조에 맞춰 첫 번째 액터의 텍스트를 참조합니다.
+    const actorText = scriptString.actors[0]?.actorText || "";
+    const hasText = actorText.trim() !== "";
 
     return (
         <div
@@ -36,7 +37,7 @@ export default function TextBoxScript({ scriptString }: TextBoxScriptProps) {
                         wordBreak: 'break-word',
                     }}
                 >
-                    {hasText ? scriptString.text : "대사를 입력해주세요."}
+                    {hasText ? actorText : "대사를 입력해주세요."}
                 </span>
             </div>
         </div>

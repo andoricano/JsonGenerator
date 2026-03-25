@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-// 1. 타입을 storeType에서 가져오도록 수정
-import { Script } from '../../../../../../stores/storeType';
+import { LineItem } from '../../../../../../stores/canvasType';
 
 type TextBoxEditingScriptProps = {
-    scriptString: Script;
+    scriptString: LineItem;
     onInputChange: (s: string) => void;
     onSave: () => void;
 };
 
 export default function TextBoxEditingScript({
-    scriptString,
     onInputChange,
     onSave,
 }: TextBoxEditingScriptProps) {
-    const [inputValue, setInputValue] = useState(scriptString.text);
+    const [inputValue, setInputValue] = useState("");
     const [isComposing, setIsComposing] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

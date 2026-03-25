@@ -4,13 +4,12 @@ import TextBoxScript from './TextBoxScript';
 import TextBoxChracterEditing from './TextBoxEditing/TextBoxEditingCharacter';
 import TextBoxEditingScript from './TextBoxEditing/TextBoxEditingScript';
 import ActionBar from '../../../../component/ActionBar';
-import { Character, Script, ScriptCharacter } from '../../../../../stores/storeType';
-
+import { Character, LineItem, LineActor } from '../../../../../stores/canvasType';
 
 type TextBoxSectionProps = {
-  scriptString: Script;
+  scriptString: LineItem;
   updateScriptText: (text: string) => void;
-  onCharacter: (character: ScriptCharacter[]) => void;
+  onCharacter: (character: LineActor[]) => void;
   characterList: Character[];
 };
 
@@ -22,12 +21,13 @@ export default function TextBoxSection({
 }: TextBoxSectionProps) {
   const [editing, setEditing] = useState(false);
 
-  const [script, setScript] = useState(scriptString.text);
-  const [character, setCharacter] = useState(scriptString.character);
+  // LineItem 구조에 맞춰 첫 번째 액터의 텍스트와 액터 리스트를 초기값으로 설정
+  const [script, setScript] = useState(scriptString.actors[0]?.actorText || "");
+  const [character, setCharacter] = useState(scriptString.actors);
 
   useEffect(() => {
-    setScript(scriptString.text);
-    setCharacter(scriptString.character);
+    setScript(scriptString.actors[0]?.actorText || "");
+    setCharacter(scriptString.actors);
   }, [scriptString]);
 
   const handleSave = () => {
@@ -38,8 +38,8 @@ export default function TextBoxSection({
 
   const handleCancel = (e?: React.MouseEvent) => {
     e?.stopPropagation();
-    setScript(scriptString.text);
-    setCharacter(scriptString.character);
+    setScript(scriptString.actors[0]?.actorText || "");
+    setCharacter(scriptString.actors);
     setEditing(false);
   };
 
@@ -68,7 +68,7 @@ export default function TextBoxSection({
       ) : (
         <div>
           <TextBoxChracter
-            scriptCharacter={scriptString.character}
+            scriptCharacter={scriptString.actors}
           />
           <TextBoxScript
             scriptString={scriptString}

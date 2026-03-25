@@ -1,32 +1,57 @@
 import { create } from 'zustand';
-import { AppState, Character, Script, TOOLS } from './storeType';
+import { AppState, TOOLS } from './storeType';
 import { nanoid } from 'nanoid';
+import { Character, LineItem } from './canvasType';
 
 // 초기값 설정
 const defaultCharacter: Character[] = [
-  { name: "User", img: [], selectedImageIndex: 0 },
-  { name: "mascot", img: [], selectedImageIndex: 0 }
+  { 
+    id: nanoid(), 
+    name: "User", 
+    img: [], 
+    thumbnail: 0, 
+    path: "",
+    memo:"기본 생성되는 캐릭터 입니다. 수정해주세요."
+  },
+  { 
+    id: nanoid(), 
+    name: "mascot", 
+    img: [], 
+    thumbnail: 0, 
+    path: "",
+    memo:"기본 생성되는 캐릭터 입니다. 수정해주세요."
+  }
 ];
 
-const createDefaultScript = (): Script => ({
+const createDefaultScript = (): LineItem => ({
   id: nanoid(),
-  text: "",
-  character: [{ character: defaultCharacter[0], position: 0, tone: 1 }]
+  actors: [
+    {
+      id: nanoid(),
+      characterId: defaultCharacter[0].id, 
+      characterImageIdx: 0,                
+      actorText: "",                       
+      actorState: 0,                       
+      actorEffect: ""                     
+    }
+  ],
+  effect: ""                               
 });
 
 export const useStore = create<AppState>((set, get) => ({
-  // Initial State
+  // ===== Initial State =====
   projectInfo: {
     projectName: 'New Project',
     width: 1920,
     height: 1080,
     resourcePath: './Resources/',
   },
+
   lang: "en",
   darkMode: false,
   activeTool: TOOLS.PROJECT,
   images: [],
-  scriptItems: [createDefaultScript()],
+  lineItems: [createDefaultScript()],
   selectedIndex: 0,
   characterList: defaultCharacter,
   selectedCharacter: defaultCharacter[0],
@@ -43,54 +68,53 @@ export const useStore = create<AppState>((set, get) => ({
   setActiveTool: (tool) => set({ activeTool: tool }),
 
   // Scriptor Actions
-  addScriptItem: () => set((state) => {
+  addLineItem: () => set((state) => {
     const newItem = createDefaultScript();
-    const newList = [...state.scriptItems, newItem];
+    const newList = [...state.lineItems, newItem];
     return {
-      scriptItems: newList,
+      lineItems: newList,
       selectedIndex: newList.length - 1
     };
   }),
 
-  removeScriptItem: (idx) => set((state) => {
-    const newList = state.scriptItems.filter((_, i) => i !== idx);
+  removeLineItem: (idx) => set((state) => {
+    const newList = state.lineItems.filter((_, i) => i !== idx);
     const nextIdx = Math.max(0, state.selectedIndex >= idx ? state.selectedIndex - 1 : state.selectedIndex);
     return {
-      scriptItems: newList.length > 0 ? newList : [createDefaultScript()],
+      lineItems: newList.length > 0 ? newList : [createDefaultScript()],
       selectedIndex: newList.length > 0 ? nextIdx : 0
     };
   }),
 
   setSelectedIndex: (idx) => set({ selectedIndex: idx }),
 
-  updateScriptText: (newText) => set((state) => ({
-    scriptItems: state.scriptItems.map((item, idx) =>
-      idx === state.selectedIndex ? { ...item, text: newText } : item
+  updateLineText: (lineId, actorId, newText) => set((state) => ({
+    lineItems: state.lineItems.map((item) =>
+      item.id === lineId 
+        ? { 
+            ...item, 
+            actors: item.actors.map(actor => 
+              actor.id === actorId ? { ...actor, actorText: newText } : actor
+            ) 
+          } 
+        : item
     )
   })),
 
-  updateScriptorCharacter: (character) => set((state) => ({
-    scriptItems: state.scriptItems.map((item, idx) =>
-      idx === state.selectedIndex ? { ...item, character } : item
+  updateLineActors: (lineId, actors) => set((state) => ({
+    lineItems: state.lineItems.map((item) =>
+      item.id === lineId ? { ...item, actors } : item
     )
   })),
 
-  updateScriptCharacter: (newCharacters) => set((state) => ({
-    scriptItems: state.scriptItems.map(item => ({
-      ...item,
-      character: item.character.map(sc => {
-        const found = newCharacters.find(nc => nc.name === sc.character.name);
-        return found ? { ...sc, character: found } : sc;
-      })
-    }))
-  })),
+  updateCharacterList: (newCharacters) => set({ characterList: newCharacters }),
 
   // Character Actions
   setSelectedCharacter: (char) => set({ selectedCharacter: char }),
 
   updateSelectedCharacter: (updated) => set((state) => {
     const newList = state.characterList.map(c => 
-      c.name === state.selectedCharacter?.name ? updated : c
+      c.id === state.selectedCharacter?.id ? updated : c
     );
     return {
       characterList: newList,
@@ -99,7 +123,14 @@ export const useStore = create<AppState>((set, get) => ({
   }),
 
   addCharacter: () => {
-    const newChar: Character = { name: "New Character", img: [], selectedImageIndex: 0 };
+    const newChar: Character = { 
+      id: nanoid(), 
+      name: "New Character", 
+      img: [], 
+      thumbnail: 0, 
+      memo: "", 
+      path: "" 
+    };
     set((state) => ({
       characterList: [...state.characterList, newChar],
       selectedCharacter: newChar
@@ -121,27 +152,27 @@ export const useStore = create<AppState>((set, get) => ({
     updateSelectedCharacter({
       ...selectedCharacter,
       img: selectedCharacter.img.filter((_, i) => i !== index),
-      selectedImageIndex: 0
+      thumbnail: 0 // selectedImageIndex -> thumbnail
     });
   },
 
   changeCharacterThumbnail: (index) => {
     const { selectedCharacter, updateSelectedCharacter } = get();
     if (!selectedCharacter) return;
-    updateSelectedCharacter({ ...selectedCharacter, selectedImageIndex: index });
+    updateSelectedCharacter({ ...selectedCharacter, thumbnail: index });
   },
 
   initDefaultCharacterImages: async () => {
-    // 이미지 로드 로직 구현 필요
+    
   },
 
   resetAll: () => set({
-    projectInfo: { projectName: 'New Project', width: 1920, height: 1080, resourcePath: '' },
+    projectInfo: { projectName: 'New Project', width: 1920, height: 1080, resourcePath: './Resources/' },
     lang: "en",
     darkMode: false,
     activeTool: TOOLS.PROJECT,
     images: [],
-    scriptItems: [createDefaultScript()],
+    lineItems: [createDefaultScript()],
     selectedIndex: 0,
     characterList: defaultCharacter,
     selectedCharacter: defaultCharacter[0]

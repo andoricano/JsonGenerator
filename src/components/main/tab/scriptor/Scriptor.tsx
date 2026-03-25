@@ -1,18 +1,19 @@
-import React from 'react';
 import { useStore } from '../../../../stores/useStore';
+import { AppState } from '../../../../stores/storeType';
 import ImageSceneSection from './ImageSceneSection';
 import TextBoxSection from './TextBox/TextBoxSection';
 
 export default function Scriptor() {
-    const scriptItems = useStore((state) => state.scriptItems);
-    const selectedIndex = useStore((state) => state.selectedIndex);
-    const characterList = useStore((state) => state.characterList);
+    const lineItems = useStore((state: AppState) => state.lineItems);
+    const selectedIndex = useStore((state: AppState) => state.selectedIndex);
+    const characterList = useStore((state: AppState) => state.characterList);
 
-    const updateScriptText = useStore((state) => state.updateScriptText);
-    const updateScriptorCharacter = useStore((state) => state.updateScriptorCharacter);
+    const updateLineText = useStore((state: AppState) => state.updateLineText);
+    const updateLineActors = useStore((state: AppState) => state.updateLineActors);
 
+    const currentScript = lineItems[selectedIndex];
 
-    const currentScript = scriptItems[selectedIndex];
+    if (!currentScript) return null;
 
     return (
         <div
@@ -27,15 +28,21 @@ export default function Scriptor() {
         >
             <ImageSceneSection
                 script={currentScript}
-                onCharacter={(character) => {
-
+                onCharacter={(updatedActors) => {
+                    updateLineActors(currentScript.id, updatedActors);
                 }}
             />
 
             <TextBoxSection
                 scriptString={currentScript}
-                updateScriptText={updateScriptText}
-                onCharacter={updateScriptorCharacter}
+                updateScriptText={(text) => {
+                    if (currentScript.actors[0]) {
+                        updateLineText(currentScript.id, currentScript.actors[0].id, text);
+                    }
+                }}
+                onCharacter={(updatedActors) => {
+                    updateLineActors(currentScript.id, updatedActors);
+                }}
                 characterList={characterList}
             />
         </div>
