@@ -200,6 +200,39 @@ export const useStore = create<AppState>((set, get) => ({
   initDefaultCharacterImages: async () => {
 
   },
+  updateCharacterImage: (idx: number, newFile: File) => {
+    let isSuccess = false;
+
+    set((state) => {
+      if (!state.selectedCharacter || !state.selectedCharacter.img[idx]) {
+        isSuccess = false;
+        return state;
+      }
+
+      const oldUrl = state.selectedCharacter.previewUrls[idx];
+      if (oldUrl) URL.revokeObjectURL(oldUrl);
+
+      const newUrl = URL.createObjectURL(newFile);
+
+      const newImgList = [...state.selectedCharacter.img];
+      const newPreviewList = [...state.selectedCharacter.previewUrls];
+
+      newImgList[idx] = newFile;
+      newPreviewList[idx] = newUrl;
+
+      isSuccess = true;
+
+      return {
+        selectedCharacter: {
+          ...state.selectedCharacter,
+          img: newImgList,
+          previewUrls: newPreviewList,
+        },
+      };
+    });
+
+    return isSuccess;
+  },
 
   resetAll: () => set({
     projectInfo: { projectName: 'New Project', width: 1920, height: 1080, resourcePath: './Resources/' },

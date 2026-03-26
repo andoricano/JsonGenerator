@@ -4,14 +4,17 @@ import ImageUploaderDialog from "./CharacterImageUploader";
 import { useStore } from "../../../../../stores/useStore";
 import { AppState } from "../../../../../stores/storeType";
 import CharacterImageGrid from "./CharacterImageGrid";
+import CharacterImageCropper from "./CharacterImageCropper";
 
 export default function CharacterWorkspace() {
   const selectedCharacter = useStore((state: AppState) => state.selectedCharacter);
   const addCharacterImageList = useStore((state: AppState) => state.addCharacterImageList);
   const removeImageFromCharacter = useStore((state: AppState) => state.removeImageFromCharacter);
   const changeCharacterThumbnail = useStore((state: AppState) => state.changeCharacterThumbnail);
+  const updateCharacterImage = useStore((state: AppState) => state.updateCharacterImage);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isCropOpen, setIsCropOpen] = useState(false);
 
   const [viewIdx, setViewIdx] = useState(0);
 
@@ -54,10 +57,30 @@ export default function CharacterWorkspace() {
     }
   };
 
+  const handleOpenCropModal = () => {
+    if (!selectedCharacter || !selectedCharacter.previewUrls[viewIdx]) {
+      alert("자르기 할 이미지를 선택해주세요.");
+      return;
+    }
+    setIsCropOpen(true);
+  };
+
+  const handleCropConfirm = (croppedFile: File) => {
+    if (selectedCharacter) {
+      const success = updateCharacterImage(viewIdx, croppedFile);
+      if (success) {
+        setIsCropOpen(false);
+      } else {
+        alert("이미지 수정에 실패했습니다.");
+      }
+    }
+  };
+
   const buttons = [
     { label: "Upload", onClick: () => setIsDialogOpen(true) },
-    { label: "Set Thumbnail", onClick: handleSetThumbnail },
-    { label: "Delete", onClick: () => handleDeleteImages() },
+    { label: "Thumbnail Selected Image", onClick: handleSetThumbnail },
+    { label: "Crop Selected Image", onClick: handleOpenCropModal },
+    { label: "Delete", onClick: () => handleDeleteImages },
   ];
 
   const currentPreviewUrl = selectedCharacter.previewUrls[viewIdx];
@@ -82,7 +105,7 @@ export default function CharacterWorkspace() {
         <div style={styles.gridSection}>
           <CharacterImageGrid
             imgList={selectedCharacter.previewUrls}
-            selectedIdx={viewIdx} // 그리드에서도 현재 보고 있는 viewIdx를 하이라이트
+            selectedIdx={viewIdx}
             onSelected={handleSelectIndex}
           />
         </div>
@@ -92,6 +115,12 @@ export default function CharacterWorkspace() {
         isOpen={isDialogOpen}
         onConfirm={handleAddImages}
         onClose={() => setIsDialogOpen(false)}
+      />
+      <CharacterImageCropper
+        isOpen={isCropOpen}
+        imageSrc={currentPreviewUrl}
+        onConfirm={handleCropConfirm}
+        onClose={() => setIsCropOpen(false)}
       />
     </div>
   );
