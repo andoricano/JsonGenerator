@@ -130,42 +130,55 @@ const styles: Record<string, React.CSSProperties> = {
   container: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-start",
     width: "100%",
     height: "100%",
     gap: "12px",
     boxSizing: "border-box",
     backgroundColor: "#fafafa",
     borderRadius: "12px",
-    overflow: "hidden"
+    overflow: "hidden",
+    padding: "12px"
   },
 
   mainArea: {
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    padding: "12px",
     boxSizing: "border-box",
     gap: "12px",
-    height: "100%"
+    height: "100%",
+    minWidth: 0
   },
 
   viewerSection: {
-    flex: 1.2,
+    flex: 1.5,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     borderRadius: "8px",
     border: "1px solid #eee",
     overflow: "hidden",
-    padding: "10px"
+    padding: "20px",
+    boxSizing: "border-box"
+  },
+
+  largeImageWrapper: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
 
   largeImage: {
     maxWidth: "100%",
     maxHeight: "100%",
+    width: "auto",
+    height: "auto",
     objectFit: "contain",
+    display: "block",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
     borderRadius: "4px"
   },
 
@@ -174,7 +187,8 @@ const styles: Record<string, React.CSSProperties> = {
     backgroundColor: "#fff",
     borderRadius: "8px",
     border: "1px solid #eee",
-    overflow: "hidden"
+    overflow: "auto",
+    padding: "12px"
   },
 
   noImageBadge: {
@@ -187,6 +201,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    color: "#999"
+    color: "#999",
+    height: "100%"
   }
 };

@@ -1,10 +1,16 @@
+import { useEffect } from 'react';
 import Header from './components/header/Header';
 import Canvas from './components/main/Canvas';
+import { useStore } from './stores/useStore';
 
 export default function App() {
     const topRatio = 15;
     const heightRatio = 100 - topRatio;
-
+    const initDefaultImages = useStore((state) => state.initDefaultCharacterImages);
+    useEffect(() => {
+        // 앱이 시작될 때 public/assets 이미지를 File 객체로 불러옵니다.
+        initDefaultImages();
+    }, [initDefaultImages]);
     return (
         <>
             <header
