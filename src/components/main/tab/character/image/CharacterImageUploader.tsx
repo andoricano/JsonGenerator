@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useImageUpload } from "../../../../../services/useImageUpload";
 
 type ImageUploaderDialogProps = {
   isOpen: boolean;
-  onConfirm: (files: File[]) => void; // 단일 File이 아닌 File[] 배열을 넘김
+  onConfirm: (files: File[]) => void;
   onClose: () => void;
 };
 
@@ -11,88 +12,88 @@ const ImageUploaderDialog: React.FC<ImageUploaderDialogProps> = ({
   onClose,
   onConfirm,
 }) => {
-  const [previews, setPreviews] = useState<string[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-
-  useEffect(() => {
-    if (isOpen) {
-      setPreviews([]);
-      setSelectedFiles([]);
-    }
-  }, [isOpen]);
+  const {
+    previews,
+    selectedFiles,
+    handleFileChange,
+    handleDrop,
+    resizeImage,
+  } = useImageUpload(isOpen);
 
   if (!isOpen) return null;
 
-  const handleFiles = (files: FileList | null) => {
-    if (!files) return;
-
-    const newFiles = Array.from(files).filter(file => file.type.startsWith("image/"));
-
-    // 기존 선택된 파일들에 추가 (중복 방지는 파일명 등으로 가능하지만 일단 단순 합침)
-    setSelectedFiles(prev => [...prev, ...newFiles]);
-
-    // 미리보기 생성
-    newFiles.forEach(file => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviews(prev => [...prev, reader.result as string]);
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const handleConfirm = () => {
+  // 원본 그대로 업로드
+  const handleOriginalConfirm = () => {
     if (selectedFiles.length > 0) {
       onConfirm(selectedFiles);
     }
     onClose();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleFiles(e.target.files);
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    handleFiles(e.dataTransfer.files);
+  // 최적화(리사이징) 후 업로드
+  const handleOptimizedConfirm = async () => {
+    if (selectedFiles.length > 0) {
+      const optimizedFiles = await Promise.all(
+        selectedFiles.map((file) => resizeImage(file))
+      );
+      onConfirm(optimizedFiles);
+    }
+    onClose();
   };
 
   return (
-    <div style={styles.overlay} onClick={onClose}>
+    <div style={styles.overlay}>
       <div style={styles.dialog} onClick={(e) => e.stopPropagation()}>
-        <h2 style={{ marginBottom: "12px" }}>이미지 다중 업로더</h2>
+        <h2 style={{ marginBottom: "12px" }}>이미지 업로드 설정</h2>
 
         <div
           style={styles.dropArea}
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
         >
-          여러 장의 이미지를 드래그하거나 아래 버튼을 클릭하세요
+          이미지를 드래그하거나 클릭하여 추가하세요
         </div>
 
         <label style={styles.button}>
-          파일 찾기 (다중 선택 가능)
+          파일 찾기
           <input
             type="file"
             accept="image/*"
-            multiple // [핵심] 다중 선택 활성화
+            multiple
             onChange={handleFileChange}
             style={{ display: "none" }}
           />
         </label>
 
-        {/* 선택된 이미지 미리보기 그리드 */}
         <div style={styles.previewContainer}>
           {previews.map((src, i) => (
-            <img key={i} src={src} alt={`preview-${i}`} style={styles.previewThumb} />
+            <img key={i} src={src} alt="preview" style={styles.previewThumb} />
           ))}
         </div>
 
         <div style={styles.buttonRow}>
-          <button onClick={handleConfirm} style={styles.confirmButton} disabled={selectedFiles.length === 0}>
-            {selectedFiles.length}장 추가하기
+          {/* 1. 원본 올리기 */}
+          <button
+            onClick={handleOriginalConfirm}
+            style={styles.confirmButton}
+            disabled={selectedFiles.length === 0}
+          >
+            원본 올리기
           </button>
-          <button onClick={onClose} style={styles.closeButton}>닫기</button>
+
+          {/* 2. 최적화 올리기 (화질/메모리 우선) */}
+          <button
+            onClick={handleOptimizedConfirm}
+            style={styles.optimizeButton}
+            disabled={selectedFiles.length === 0}
+          >
+            최적화 올리기
+          </button>
+
+          {/* 3. 닫기 */}
+          <button onClick={onClose} style={styles.closeButton}>
+            닫기
+          </button>
         </div>
       </div>
     </div>
@@ -107,6 +108,7 @@ const styles: Record<string, React.CSSProperties> = {
   previewContainer: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(80px, 1fr))", gap: "8px", overflowY: "auto", flex: 1, marginBottom: "16px", padding: "4px" },
   previewThumb: { width: "100%", aspectRatio: "1/1", objectFit: "cover", borderRadius: "4px", border: "1px solid #eee" },
   buttonRow: { display: "flex", gap: "10px", justifyContent: "flex-end" },
+  optimizeButton: { padding: "10px 20px", backgroundColor: "#388e3c", color: "white", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold" },
   confirmButton: { padding: "10px 20px", backgroundColor: "#4caf50", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" },
   closeButton: { padding: "10px 20px", backgroundColor: "#eee", border: "none", borderRadius: "6px", cursor: "pointer" }
 };
