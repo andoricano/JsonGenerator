@@ -62,7 +62,7 @@ export interface AppState {
   addCharacterImage: (file: File) => void;
   addCharacterImageList: (files: File[]) => void;
   removeImageFromCharacter: (index: number) => void;
-  changeCharacterThumbnail: (index: number) => void;
+  changeCharacterThumbnail: (index: number) => boolean;
   initDefaultCharacterImages: () => Promise<void>;
 
   // Reset Actions

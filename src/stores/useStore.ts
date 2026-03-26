@@ -144,16 +144,9 @@ export const useStore = create<AppState>((set, get) => ({
   },
 
   addCharacterImage: (file: File) => {
-    const { selectedCharacter, updateSelectedCharacter } = get();
+    const { selectedCharacter, addCharacterImageList } = get();
     if (!selectedCharacter) return;
-
-    const newPreviewUrl = URL.createObjectURL(file);
-
-    updateSelectedCharacter({
-      ...selectedCharacter,
-      img: [...selectedCharacter.img, file],
-      previewUrls: [...(selectedCharacter.previewUrls || []), newPreviewUrl]
-    });
+    addCharacterImageList([file]);
   },
 
   addCharacterImageList: (files: File[]) => set((state) => {
@@ -189,12 +182,21 @@ export const useStore = create<AppState>((set, get) => ({
       thumbnail: 0
     });
   },
-  changeCharacterThumbnail: (index) => {
+  changeCharacterThumbnail: (index: number): boolean => {
     const { selectedCharacter, updateSelectedCharacter } = get();
-    if (!selectedCharacter) return;
-    updateSelectedCharacter({ ...selectedCharacter, thumbnail: index });
-  },
 
+    if (!selectedCharacter) return false;
+
+    const isValidIndex = index >= 0 && index < selectedCharacter.img.length;
+    if (!isValidIndex) return false;
+
+    updateSelectedCharacter({
+      ...selectedCharacter,
+      thumbnail: index
+    });
+
+    return true;
+  },
   initDefaultCharacterImages: async () => {
 
   },

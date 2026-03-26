@@ -8,6 +8,7 @@ import CharacterImageGrid from "./CharacterImageGrid";
 export default function CharacterWorkspace() {
   const selectedCharacter = useStore((state: AppState) => state.selectedCharacter);
   const addCharacterImageList = useStore((state: AppState) => state.addCharacterImageList);
+  const removeImageFromCharacter = useStore((state: AppState) => state.removeImageFromCharacter);
   const changeCharacterThumbnail = useStore((state: AppState) => state.changeCharacterThumbnail);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -33,14 +34,30 @@ export default function CharacterWorkspace() {
   };
 
   const handleSetThumbnail = () => {
-    changeCharacterThumbnail(viewIdx);
-    alert(`${viewIdx + 1}번 이미지가 대표 이미지로 설정되었습니다.`);
+    const isSuccess = changeCharacterThumbnail(viewIdx);
+
+    if (isSuccess) {
+      alert(`${viewIdx + 1}번 이미지가 대표 이미지로 설정되었습니다.`);
+    } else {
+      alert("대표 이미지 설정에 실패했습니다. 사진을 확인해주세요.");
+    }
+  };
+
+  const handleDeleteImages = () => {
+    if (!selectedCharacter) return;
+
+    removeImageFromCharacter(viewIdx);
+
+    const nextMaxIndex = selectedCharacter.img.length - 2;
+    if (viewIdx > nextMaxIndex) {
+      setViewIdx(Math.max(0, nextMaxIndex));
+    }
   };
 
   const buttons = [
     { label: "Upload", onClick: () => setIsDialogOpen(true) },
     { label: "Set Thumbnail", onClick: handleSetThumbnail },
-    { label: "Delete", onClick: () => console.log("Delete logic") },
+    { label: "Delete", onClick: () => handleDeleteImages() },
   ];
 
   const currentPreviewUrl = selectedCharacter.previewUrls[viewIdx];
