@@ -49,6 +49,7 @@ const createDefaultScript = (): LineItem => ({
   effect: ""
 });
 
+
 export const useStore = create<AppState>((set, get) => ({
   // ===== Initial State =====
   projectInfo: {
@@ -57,7 +58,6 @@ export const useStore = create<AppState>((set, get) => ({
     height: 1080,
     resourcePath: './Resources/',
   },
-
   lang: "en",
   darkMode: false,
   activeTool: TOOLS.PROJECT,
@@ -71,14 +71,11 @@ export const useStore = create<AppState>((set, get) => ({
   setProjectInfo: (info) => set((state) => ({
     projectInfo: { ...state.projectInfo, ...info }
   })),
-
   setLang: (lang) => set({ lang }),
-
   toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
-
   setActiveTool: (tool) => set({ activeTool: tool }),
 
-  // Scriptor Actions
+  // --- Scriptor Actions ---
   addLineItem: () => set((state) => {
     const newItem = createDefaultScript();
     const newList = [...state.lineItems, newItem];
@@ -88,12 +85,35 @@ export const useStore = create<AppState>((set, get) => ({
     };
   }),
 
+  // [추가] 특정 위치에 삽입
+  insertLineItem: (idx) => set((state) => {
+    const newItem = createDefaultScript();
+    const newList = [...state.lineItems];
+    newList.splice(idx, 0, newItem);
+    return {
+      lineItems: newList,
+      selectedIndex: idx
+    };
+  }),
+
   removeLineItem: (idx) => set((state) => {
     const newList = state.lineItems.filter((_, i) => i !== idx);
     const nextIdx = Math.max(0, state.selectedIndex >= idx ? state.selectedIndex - 1 : state.selectedIndex);
     return {
       lineItems: newList.length > 0 ? newList : [createDefaultScript()],
       selectedIndex: newList.length > 0 ? nextIdx : 0
+    };
+  }),
+
+  // [추가] 라인 순서 변경 (Swap/Move)
+  moveLineItem: (from, to) => set((state) => {
+    if (to < 0 || to >= state.lineItems.length) return state;
+    const newList = [...state.lineItems];
+    const [movedItem] = newList.splice(from, 1);
+    newList.splice(to, 0, movedItem);
+    return {
+      lineItems: newList,
+      selectedIndex: to
     };
   }),
 
@@ -118,9 +138,23 @@ export const useStore = create<AppState>((set, get) => ({
     )
   })),
 
+  // [추가] 액터 속성 부분 수정 (이미지 인덱스 변경 등)
+  updateActorProperty: (lineId, actorId, property) => set((state) => ({
+    lineItems: state.lineItems.map(item =>
+      item.id === lineId
+        ? {
+          ...item,
+          actors: item.actors.map(actor =>
+            actor.id === actorId ? { ...actor, ...property } : actor
+          )
+        }
+        : item
+    )
+  })),
+
   updateCharacterList: (newCharacters) => set({ characterList: newCharacters }),
 
-  // Character Actions
+  // --- Character Actions ---
   setSelectedCharacter: (char) => set({ selectedCharacter: char }),
 
   updateSelectedCharacter: (updated) => set((state) => {
@@ -129,6 +163,7 @@ export const useStore = create<AppState>((set, get) => ({
     );
     return {
       characterList: newList,
+      selectedIndex: state.selectedIndex, // 선택 인덱스 유지
       selectedCharacter: updated
     };
   }),
@@ -136,7 +171,6 @@ export const useStore = create<AppState>((set, get) => ({
   addCharacter: () => {
     const { characterList } = get();
     const newCount = characterList.length + 1;
-
     const newChar: Character = {
       id: nanoid(),
       name: `Character ${newCount}`,
@@ -146,7 +180,6 @@ export const useStore = create<AppState>((set, get) => ({
       memo: "",
       path: ""
     };
-
     set((state) => ({
       characterList: [...state.characterList, newChar],
       selectedCharacter: newChar
@@ -161,15 +194,12 @@ export const useStore = create<AppState>((set, get) => ({
 
   addCharacterImageList: (files: File[]) => set((state) => {
     if (!state.selectedCharacter) return state;
-
     const newUrls = files.map(file => URL.createObjectURL(file));
-
     const updatedCharacter = {
       ...state.selectedCharacter,
       img: [...state.selectedCharacter.img, ...files],
       previewUrls: [...state.selectedCharacter.previewUrls, ...newUrls],
     };
-
     return {
       selectedCharacter: updatedCharacter,
       characterList: state.characterList.map(c =>
@@ -181,10 +211,8 @@ export const useStore = create<AppState>((set, get) => ({
   removeImageFromCharacter: (index: number) => {
     const { selectedCharacter, updateSelectedCharacter } = get();
     if (!selectedCharacter) return;
-
     const targetUrl = selectedCharacter.previewUrls[index];
     if (targetUrl) URL.revokeObjectURL(targetUrl);
-
     updateSelectedCharacter({
       ...selectedCharacter,
       img: selectedCharacter.img.filter((_, i) => i !== index),
@@ -192,84 +220,61 @@ export const useStore = create<AppState>((set, get) => ({
       thumbnail: 0
     });
   },
+
   changeCharacterThumbnail: (index: number): boolean => {
     const { selectedCharacter, updateSelectedCharacter } = get();
-
     if (!selectedCharacter) return false;
-
     const isValidIndex = index >= 0 && index < selectedCharacter.img.length;
     if (!isValidIndex) return false;
-
-    updateSelectedCharacter({
-      ...selectedCharacter,
-      thumbnail: index
-    });
-
+    updateSelectedCharacter({ ...selectedCharacter, thumbnail: index });
     return true;
   },
+
   initDefaultCharacterImages: async () => {
     const { characterList } = get();
-
     const updatedCharacters = await Promise.all(
       characterList.map(async (char) => {
-        // 상수 정의대로 black/sky는 4장, pink는 3장 로드
         const count = char.path === "pink" ? 3 : 4;
         const imgFiles: File[] = [];
         const previewUrls: string[] = [];
-
         for (let i = 1; i <= count; i++) {
           const fileName = `${char.path}${i}.png`;
           const filePath = `/assets/${fileName}`;
-
           try {
             const response = await fetch(filePath);
             if (!response.ok) continue;
             const blob = await response.blob();
-
-            // 1. File 객체 생성
             const file = new File([blob], fileName, { type: "image/png" });
             imgFiles.push(file);
-
-            // 2. 미리보기 URL 생성
             previewUrls.push(URL.createObjectURL(blob));
           } catch (e) {
             console.error(`${fileName} 로드 실패:`, e);
           }
         }
-
         return { ...char, img: imgFiles, previewUrls };
       })
     );
-
     set({
       characterList: updatedCharacters,
-      // 초기 로드 후 첫 번째 캐릭터를 선택된 상태로 갱신
       selectedCharacter: updatedCharacters[0]
     });
   },
 
-
   updateCharacterImage: (idx: number, newFile: File) => {
     let isSuccess = false;
-
     set((state) => {
       if (!state.selectedCharacter || !state.selectedCharacter.img[idx]) return state;
-
       const newUrl = URL.createObjectURL(newFile);
       const newImgList = [...state.selectedCharacter.img];
       const newPreviewList = [...state.selectedCharacter.previewUrls];
-
       newImgList[idx] = newFile;
       newPreviewList[idx] = newUrl;
-
       const updatedCharacter = {
         ...state.selectedCharacter,
         img: newImgList,
         previewUrls: newPreviewList,
       };
-
       isSuccess = true;
-
       return {
         selectedCharacter: updatedCharacter,
         characterList: state.characterList.map((c) =>
@@ -277,10 +282,10 @@ export const useStore = create<AppState>((set, get) => ({
         ),
       };
     });
-
     return isSuccess;
   },
 
+  // --- Reset Actions ---
   resetAll: () => set({
     projectInfo: { projectName: 'New Project', width: 1920, height: 1080, resourcePath: './Resources/' },
     lang: "en",

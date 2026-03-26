@@ -1,21 +1,19 @@
 import { useState } from "react";
 
-type ActionBarProps = {
-    images: File[];
-    onSelecting: (files: File) => void;
+type GalleryProps = {
+    images: string[];
+    onSelecting: (index: number) => void;
     onCancel: () => void;
 };
 
-export default function Gallery({ images, onSelecting, onCancel }: ActionBarProps) {
-    const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
-    const handleSelect = (file: File) => {
-        setSelectedImage(file);
-    };
+export default function Gallery({ images, onSelecting, onCancel }: GalleryProps) {
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
     const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        if (selectedImage) onSelecting(selectedImage);
+        if (selectedIndex !== null) {
+            onSelecting(selectedIndex);
+        }
     };
 
     const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,25 +22,32 @@ export default function Gallery({ images, onSelecting, onCancel }: ActionBarProp
     };
 
     return (
-        <div style={styles.overlay}>
-            <div style={styles.dialog}>
+        <div style={styles.overlay} onClick={onCancel}>
+            {/* 내부 클릭 시 이벤트 전파 방지 */}
+            <div style={styles.dialog} onClick={(e) => e.stopPropagation()}>
+                <h3 style={{ margin: "0 0 10px 0", fontSize: "16px" }}>표정 선택</h3>
+
                 <div style={styles.gridContainer}>
-                    {images.map((file, index) => {
-                        const isSelected = selectedImage === file;
+                    {images.map((url, index) => {
+                        const isSelected = selectedIndex === index;
 
                         return (
                             <div
                                 key={index}
-                                onClick={() => handleSelect(file)}
+                                onClick={() => setSelectedIndex(index)}
                                 style={{
                                     ...styles.imageBox,
-                                    border: isSelected ? "2px solid #007bff" : "2px solid #ccc",
-                                    cursor: "pointer",
+                                    outline: isSelected ? "3px solid #007bff" : "1px solid #ddd",
+                                    outlineOffset: "-3px",
+                                    transform: isSelected ? "scale(1.05)" : "scale(1)",
+                                    transition: "all 0.1s ease-in-out",
                                 }}
                             >
                                 <img
-                                    src={URL.createObjectURL(file)}
+                                    src={url} // 이미 생성된 previewUrl 사용
+                                    alt={`preview-${index}`}
                                     style={styles.image}
+                                    loading="lazy" // 성능 보완
                                 />
                             </div>
                         );
@@ -52,24 +57,21 @@ export default function Gallery({ images, onSelecting, onCancel }: ActionBarProp
                 <div style={styles.buttonContainer}>
                     <button
                         onClick={handleSave}
-                        style={styles.buttonSave}
-                        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#0056b3")}
-                        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#007bff")}
-                        onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
-                        onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                        disabled={selectedIndex === null}
+                        style={{
+                            ...styles.buttonSave,
+                            opacity: selectedIndex === null ? 0.5 : 1,
+                            cursor: selectedIndex === null ? "not-allowed" : "pointer",
+                        }}
                     >
-                        Save
+                        선택 완료
                     </button>
 
                     <button
                         onClick={handleCancel}
                         style={styles.buttonCancel}
-                        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#aaa")}
-                        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#ccc")}
-                        onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
-                        onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
                     >
-                        Cancel
+                        취소
                     </button>
                 </div>
             </div>

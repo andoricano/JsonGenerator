@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useStore } from "../../stores/useStore";
 
 export default function SideScriptBar() {
-  const scriptItems = useStore((state) => state.scriptItems);
+  const lineItems = useStore((state) => state.lineItems);
+  const characterList = useStore((state) => state.characterList);
   const selectedIndex = useStore((state) => state.selectedIndex);
   const setSelectedIndex = useStore((state) => state.setSelectedIndex);
 
@@ -12,38 +13,46 @@ export default function SideScriptBar() {
     const el = containerRef.current;
     if (!el) return;
     el.scrollTop = el.scrollHeight;
-  }, [scriptItems]);
+  }, [lineItems.length]);
 
   return (
     <div ref={containerRef} style={styles.container}>
-      {scriptItems?.map((item, idx) => {
+      {lineItems.map((item, idx) => {
         const isSelected = idx === selectedIndex;
 
-        const firstCharItem = item.character?.[0];
-        const char = firstCharItem?.character;
-        const image: File | undefined = char?.img?.[char.selectedImageIndex];
+        const firstActor = item.actors[0];
+
+        const char = characterList.find((c) => c.id === firstActor?.characterId);
+
+        const imageUrl = char?.previewUrls[firstActor?.characterImageIdx ?? 0];
 
         return (
           <div
-            key={item.id ?? idx}
+            key={item.id}
             onClick={() => setSelectedIndex(idx)}
             style={{
               ...styles.item,
               background: isSelected ? "#cde4ff" : "#f0f0f0",
+              outline: isSelected ? "2px solid #007bff" : "none",
             }}
           >
             <div style={styles.row}>
-              <CharacterImage
-                key={char?.selectedImageIndex ?? idx}
-                file={image}
-                name={char?.name ?? "-"}
-              />
+              {imageUrl ? (
+                <img
+                  src={imageUrl}
+                  alt={char?.name}
+                  style={{ width: 50, height: 50, objectFit: "cover", borderRadius: "4px" }}
+                />
+              ) : (
+                <div style={{ width: 50, height: 50, background: "#ccc", borderRadius: "4px" }} />
+              )}
+
               <div>
                 <div style={styles.characterName}>
-                  {idx + 1}. {char?.name ?? "-"}
+                  {idx + 1}. {char?.name || "알 수 없음"}
                 </div>
                 <div style={styles.scriptText}>
-                  {item.text?.length === 0 ? "대사를 입력해주세요." : item.text ?? ""}
+                  {firstActor?.actorText || "대사를 입력해주세요."}
                 </div>
               </div>
             </div>
@@ -54,30 +63,6 @@ export default function SideScriptBar() {
   );
 }
 
-function CharacterImage({ file, name }: { file?: File; name?: string }) {
-  const [src, setSrc] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!file) {
-      setSrc(null);
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(file);
-    setSrc(objectUrl);
-
-    return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
-  }, [file]);
-
-  if (!file || !src) {
-    return <div style={{ width: 50, height: 50, background: "#ccc" }}></div>;
-  }
-
-  return <img src={src} alt={name} style={{ width: 50, height: 50, objectFit: "cover" }} />;
-}
-
 const styles: Record<string, React.CSSProperties> = {
   container: {
     flex: 1,
@@ -86,6 +71,8 @@ const styles: Record<string, React.CSSProperties> = {
     flexDirection: "column",
     overflowY: "auto",
     padding: "8px",
+    backgroundColor: "#fff",
+    userSelect: "none",
   },
   item: {
     marginBottom: "8px",
@@ -106,8 +93,11 @@ const styles: Record<string, React.CSSProperties> = {
   characterName: {
     fontWeight: "bold",
     color: "#555",
+    fontSize: "13px",
+    marginBottom: "2px",
   },
   scriptText: {
+    fontSize: "14px",
     overflow: "hidden",
     display: "-webkit-box",
     WebkitLineClamp: 2,
@@ -115,5 +105,6 @@ const styles: Record<string, React.CSSProperties> = {
     textOverflow: "ellipsis",
     wordBreak: "break-word",
     lineHeight: "1.4",
+    color: "#333",
   },
 };

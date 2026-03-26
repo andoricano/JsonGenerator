@@ -47,15 +47,21 @@ export interface AppState {
   toggleDarkMode: () => void;
   setActiveTool: (tool: ToolType) => void;
 
-  // Scriptor Actions
+  // --- Scriptor Actions (리스트 및 대사 제어) ---
   addLineItem: () => void;
+  insertLineItem: (idx: number) => void;
   removeLineItem: (idx: number) => void;
+  moveLineItem: (from: number, to: number) => void;
   setSelectedIndex: (idx: number) => void;
+
   updateLineText: (lineId: string, actorId: string, newText: string) => void;
   updateLineActors: (lineId: string, actors: LineActor[]) => void;
+
+  updateActorProperty: (lineId: string, actorId: string, property: Partial<LineActor>) => void;
+
   updateCharacterList: (newCharacters: Character[]) => void;
 
-  // Character Actions
+  // --- Character Actions (캐릭터 리소스 제어) ---
   setSelectedCharacter: (char: Character | null) => void;
   updateSelectedCharacter: (updated: Character) => void;
   addCharacter: () => void;
@@ -66,6 +72,6 @@ export interface AppState {
   initDefaultCharacterImages: () => Promise<void>;
   updateCharacterImage: (idx: number, newFile: File) => boolean;
 
-  // Reset Actions
+  // --- Reset Actions ---
   resetAll: () => void;
 }

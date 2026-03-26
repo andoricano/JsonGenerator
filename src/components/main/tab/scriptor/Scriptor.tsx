@@ -1,29 +1,32 @@
 import { useStore } from '../../../../stores/useStore';
-import { AppState } from '../../../../stores/storeType';
 import ImageSceneSection from './ImageSceneSection';
 import TextBoxSection from './TextBox/TextBoxSection';
-
 export default function Scriptor() {
-    const lineItems = useStore((state: AppState) => state.lineItems);
-    const selectedIndex = useStore((state: AppState) => state.selectedIndex);
-    const characterList = useStore((state: AppState) => state.characterList);
+    const lineItems = useStore((state) => state.lineItems);
+    const selectedIndex = useStore((state) => state.selectedIndex);
+    const characterList = useStore((state) => state.characterList);
 
-    const updateLineText = useStore((state: AppState) => state.updateLineText);
-    const updateLineActors = useStore((state: AppState) => state.updateLineActors);
+    const updateLineText = useStore((state) => state.updateLineText);
+    const updateLineActors = useStore((state) => state.updateLineActors);
 
     const currentScript = lineItems[selectedIndex];
 
-    if (!currentScript) return null;
+    if (!currentScript) return (
+        <div style={{ flex: 1, backgroundColor: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+            스크립트를 선택하거나 추가해주세요.
+        </div>
+    );
 
     return (
         <div
             style={{
                 display: 'flex',
-                flex: 1,
+                flex: 1, height: '100%',
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
                 backgroundColor: 'black',
                 boxSizing: 'border-box',
+                overflow: 'hidden'
             }}
         >
             <ImageSceneSection
@@ -36,8 +39,9 @@ export default function Scriptor() {
             <TextBoxSection
                 scriptString={currentScript}
                 updateScriptText={(text) => {
-                    if (currentScript.actors[0]) {
-                        updateLineText(currentScript.id, currentScript.actors[0].id, text);
+                    const actorId = currentScript.actors[0]?.id;
+                    if (actorId) {
+                        updateLineText(currentScript.id, actorId, text);
                     }
                 }}
                 onCharacter={(updatedActors) => {

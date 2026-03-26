@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Gallery from '../../../component/Gallery';
 import { Character, LineActor, LineItem } from '../../../../stores/canvasType';
 import { useStore } from '../../../../stores/useStore';
-import { AppState } from '../../../../stores/storeType'; // AppState 임포트 확인
+import { AppState } from '../../../../stores/storeType';
 
 type ImageSceneSectionProps = {
     script: LineItem;
@@ -10,68 +10,75 @@ type ImageSceneSectionProps = {
 };
 
 export default function ImageSceneSection({ script, onCharacter }: ImageSceneSectionProps) {
-    const [editing, setEditing] = useState(false);
+    // 어떤 액터를 편집 중인지 ID로 관리합니다 (null이면 갤러리 닫힘)
+    const [editingActorId, setEditingActorId] = useState<string | null>(null);
 
-    // 1. 구조 분해 할당 대신 Selector를 사용하여 에러 방지
     const characterList = useStore((state: AppState) => state.characterList);
 
-    const imgList: File[] = script.actors
-        .map((actor: LineActor) => {
-            const char = characterList.find((c: Character) => c.id === actor.characterId);
-            if (!char || !char.img[actor.characterImageIdx]) return null;
-            return char.img[actor.characterImageIdx];
-        })
-        .filter((img): img is File => img !== null);
+    // 현재 편집 중인 액터와 그 캐릭터 데이터를 찾아옵니다.
+    const currentActor = script.actors.find(a => a.id === editingActorId);
+    const currentChar = characterList.find(c => c.id === currentActor?.characterId);
 
-    const handleImageSelect = (selectedFile: File) => {
-        const updatedActors = script.actors.map((actor) => {
-            const char = characterList.find((c: Character) => c.id === actor.characterId);
-            if (!char) return actor;
+    const handleImageSelect = (index: number) => {
+        if (!editingActorId) return;
 
-            const nextIdx = char.img.findIndex((f) => f === selectedFile);
-
-            return nextIdx !== -1
-                ? { ...actor, characterImageIdx: nextIdx }
-                : actor;
-        });
+        // 선택한 인덱스로 해당 액터의 이미지 정보만 교체
+        const updatedActors = script.actors.map((actor) =>
+            actor.id === editingActorId
+                ? { ...actor, characterImageIdx: index }
+                : actor
+        );
 
         onCharacter(updatedActors);
-        setEditing(false);
+        setEditingActorId(null);
     };
 
     return (
-        <div style={{ ...styles.container, display: 'flex', gap: '8px' }}>
-            {editing && (
+        <div style={{ ...styles.container, display: 'flex', gap: '8px', justifyContent: 'center' }}>
+            {/* 갤러리: 선택된 캐릭터의 전체 미리보기 URL 리스트를 넘깁니다 */}
+            {editingActorId && currentChar && (
                 <Gallery
-                    images={imgList}
+                    images={currentChar.previewUrls}
                     onSelecting={handleImageSelect}
-                    onCancel={() => setEditing(false)}
+                    onCancel={() => setEditingActorId(null)}
                 />
             )}
 
-            {imgList.length > 0 ? (
-                imgList.map((item: File, index: number) => (
-                    <div key={`${index}-${item.name}`} style={styles.imageWrapper}>
-                        <img
-                            src={URL.createObjectURL(item)}
-                            alt={`character-${index}`}
-                            style={styles.character}
-                            onClick={() => setEditing(true)}
-                        />
-                    </div>
-                ))
+            {script.actors.length > 0 ? (
+                script.actors.map((actor: LineActor) => {
+                    const char = characterList.find((c: Character) => c.id === actor.characterId);
+                    const imageUrl = char?.previewUrls[actor.characterImageIdx];
+
+                    return (
+                        <div key={actor.id} style={styles.imageWrapper}>
+                            {imageUrl ? (
+                                <img
+                                    src={imageUrl}
+                                    alt={char?.name}
+                                    style={styles.character}
+                                    onClick={() => setEditingActorId(actor.id)}
+                                />
+                            ) : (
+                                <div
+                                    style={styles.emptyState}
+                                    onClick={() => setEditingActorId(actor.id)}
+                                >
+                                    이미지 설정 필요
+                                </div>
+                            )}
+                        </div>
+                    );
+                })
             ) : (
                 <div style={styles.emptyState}>
-                    <span onClick={() => setEditing(true)} style={{ cursor: 'pointer' }}>
-                        캐릭터 이미지를 클릭하여 편집하세요
-                    </span>
+                    <span style={{ color: '#999' }}>액터가 없습니다.</span>
                 </div>
             )}
         </div>
     );
 }
 
-// 2. 누락된 스타일 속성 추가 및 정의
+
 export const styles: { [key: string]: React.CSSProperties } = {
     container: {
         position: 'relative',
