@@ -5,32 +5,24 @@ import { useStore, useCurrentLine } from '../../../../../stores/useStore';
 import { SpeakerSection } from './SpeakerSection';
 import { ExpressionSection } from './ExpressionSection';
 import { DialogueSection } from './DialogueSection';
+import { ActorSection } from './ActorSection';
 
 
 
 export default function Inspector() {
     const currentLine = useCurrentLine();
     const characterList = useStore((state) => state.characterList);
-    const updateLineText = useStore((state) => state.updateLineText);
     const updateLineActors = useStore((state) => state.updateLineActors);
+    const updateLineText = useStore((state) => state.updateLineText);
 
-    if (!currentLine) {
-        return <EmptyState message="수정할 라인을 왼쪽에서 선택해주세요." />;
-    }
+    if (!currentLine) return <EmptyState message="라인을 선택해주세요." />;
 
-    const selectedIds = currentLine.actors.map(actor => actor.characterId);
-
-    const firstActor = currentLine.actors[0];
-    const currentChar = characterList.find(c => c.id === firstActor?.characterId);
-
-
-    const handleMultiCharChange = (newIds: string[]) => {
+    // 1. 출연진(Actors) 변경 핸들러 (아까 작성한 로직)
+    const handleActorToggle = (newIds: string[]) => {
         const selectedChars = characterList.filter(c => newIds.includes(c.id));
-
-        const newActors: LineActor[] = selectedChars.map(ch => {
-            const existingActor = currentLine.actors.find(a => a.characterId === ch.id);
-
-            return existingActor || {
+        const newActors = selectedChars.map(ch => {
+            const existing = currentLine.actors.find(a => a.characterId === ch.id);
+            return existing || {
                 id: nanoid(),
                 characterId: ch.id,
                 characterImageIdx: 0,
@@ -40,38 +32,34 @@ export default function Inspector() {
             };
         });
 
-        const speakerNames = selectedChars.map(c => {
-            const target = characterList.find(char => char.id === c.id);
-            return target?.name || "알 수 없음";
-        });
+        // 주의: Actor가 빠지면 Speaker 배열에서도 해당 이름을 지워줘야 안전함
+        const activeNames = selectedChars.map(c => c.name);
+        const filteredSpeakers = currentLine.speakers.filter(name => activeNames.includes(name));
 
-        updateLineActors(currentLine.id, newActors, speakerNames);
+        updateLineActors(currentLine.id, newActors, filteredSpeakers);
     };
 
-
-    const handleIdxChange = (actorId: string, idx: number) => {
-        const newActors = currentLine.actors.map(actor =>
-            actor.id === actorId ? { ...actor, characterImageIdx: idx } : actor
-        );
-        updateLineActors(currentLine.id, newActors, currentLine.speakers);
+    // 2. 발화자(Speakers) 변경 핸들러
+    const handleSpeakerToggle = (newNames: string[]) => {
+        updateLineActors(currentLine.id, currentLine.actors, newNames);
     };
 
     return (
         <div style={styles.container}>
             <div style={styles.header}>SCRIPT INSPECTOR</div>
-
             <div style={styles.content}>
-                {/* 📍 3. Props 이름과 값을 다중 선택용으로 교체 */}
-                <SpeakerSection
-                    selectedIds={selectedIds} // currentId 대신 selectedIds
+
+                <ActorSection
+                    selectedIds={currentLine.actors.map(a => a.characterId)}
                     list={characterList}
-                    onChange={handleMultiCharChange} // handleMultiCharChange 연결
+                    onChange={handleActorToggle} // 아까 nanoid랑 필수 필드 채운 그 함수
                 />
 
-                <ExpressionSection
+                <SpeakerSection
                     actors={currentLine.actors}
                     characterList={characterList}
-                    onChange={handleIdxChange}
+                    selectedNames={currentLine.speakers}
+                    onChange={handleSpeakerToggle}
                 />
 
 
@@ -82,9 +70,18 @@ export default function Inspector() {
                     onChange={(val) => updateLineText(currentLine.id, val)}
                 />
 
-                <div style={styles.metaSection}>
-                    <div style={styles.metaInfo}>Line ID: {currentLine.id.slice(0, 8)}...</div>
-                </div>
+                <hr style={styles.divider} />
+
+                <ExpressionSection
+                    actors={currentLine.actors}
+                    characterList={characterList}
+                    onChange={(actorId, idx) => {
+                        const next = currentLine.actors.map(a =>
+                            a.id === actorId ? { ...a, characterImageIdx: idx } : a
+                        );
+                        updateLineActors(currentLine.id, next, currentLine.speakers);
+                    }}
+                />
             </div>
         </div>
     );
