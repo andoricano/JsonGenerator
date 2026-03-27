@@ -1,26 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import TextBoxEditGroup from './TextBoxEditing/TextBoxEditGroup';
+import React from 'react';
 import TextBoxDisplayGroup from './TextBoxDisplay/TextBoxDisplayGroup';
 import { useCurrentLine } from '../../../../stores/useStore';
 
 export default function TextBoxSection() {
-  const [editing, setEditing] = useState(false);
   const currentLine = useCurrentLine();
 
-  useEffect(() => {
-    setEditing(false);
-  }, [currentLine?.id]);
+  if (!currentLine) return null;
 
   return (
-    <div
-      style={styles.container}
-      onClick={() => !editing && setEditing(true)}
-    >
-      {editing ? (
-        <TextBoxEditGroup onExit={() => setEditing(false)} />
-      ) : (
-        <TextBoxDisplayGroup />
-      )}
+    <div style={styles.container}>
+      <TextBoxDisplayGroup />
     </div>
   );
 }
