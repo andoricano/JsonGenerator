@@ -4,7 +4,7 @@ import { useStore } from "../../stores/useStore";
 export default function SideScriptBar() {
   const lineItems = useStore((state) => state.lineItems);
   const characterList = useStore((state) => state.characterList);
-  const selectedIndex = useStore((state) => state.selectedIndex);
+  const selectedLineIndex = useStore((state) => state.selectedLineIndex);
   const setSelectedIndex = useStore((state) => state.setSelectedIndex);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -18,7 +18,7 @@ export default function SideScriptBar() {
   return (
     <div ref={containerRef} style={styles.container}>
       {lineItems.map((item, idx) => {
-        const isSelected = idx === selectedIndex;
+        const isSelected = idx === selectedLineIndex;
 
         const firstActor = item.actors[0];
 

@@ -35,7 +35,7 @@ export interface AppState {
   // ===== Logic State =====
   images: { id: number; url: string }[];
   lineItems: LineItem[];
-  selectedIndex: number;
+  selectedLineIndex: number;
 
   // ===== Character State =====
   characterList: Character[];

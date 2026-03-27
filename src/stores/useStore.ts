@@ -63,7 +63,7 @@ export const useStore = create<AppState>((set, get) => ({
   activeTool: TOOLS.PROJECT,
   images: [],
   lineItems: [createDefaultScript()],
-  selectedIndex: 0,
+  selectedLineIndex: 0,
   characterList: DEFAULT_CHARACTERS,
   selectedCharacter: DEFAULT_CHARACTERS[0],
 
@@ -98,7 +98,7 @@ export const useStore = create<AppState>((set, get) => ({
 
   removeLineItem: (idx) => set((state) => {
     const newList = state.lineItems.filter((_, i) => i !== idx);
-    const nextIdx = Math.max(0, state.selectedIndex >= idx ? state.selectedIndex - 1 : state.selectedIndex);
+    const nextIdx = Math.max(0, state.selectedLineIndex >= idx ? state.selectedLineIndex - 1 : state.selectedLineIndex);
     return {
       lineItems: newList.length > 0 ? newList : [createDefaultScript()],
       selectedIndex: newList.length > 0 ? nextIdx : 0
@@ -117,7 +117,7 @@ export const useStore = create<AppState>((set, get) => ({
     };
   }),
 
-  setSelectedIndex: (idx) => set({ selectedIndex: idx }),
+  setSelectedIndex: (idx) => set({ selectedLineIndex: idx }),
 
   updateLineText: (lineId, actorId, newText) => set((state) => ({
     lineItems: state.lineItems.map((item) =>
@@ -163,7 +163,7 @@ export const useStore = create<AppState>((set, get) => ({
     );
     return {
       characterList: newList,
-      selectedIndex: state.selectedIndex, // 선택 인덱스 유지
+      selectedLineIndex: state.selectedLineIndex,
       selectedCharacter: updated
     };
   }),
@@ -293,8 +293,12 @@ export const useStore = create<AppState>((set, get) => ({
     activeTool: TOOLS.PROJECT,
     images: [],
     lineItems: [createDefaultScript()],
-    selectedIndex: 0,
+    selectedLineIndex: 0,
     characterList: DEFAULT_CHARACTERS,
     selectedCharacter: DEFAULT_CHARACTERS[0]
   })
 }));
+
+export const useCurrentLine = () => {
+  return useStore((state) => state.lineItems[state.selectedLineIndex] ?? null);
+};

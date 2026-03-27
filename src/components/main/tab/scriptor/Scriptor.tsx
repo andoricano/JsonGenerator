@@ -1,54 +1,45 @@
-import { useStore } from '../../../../stores/useStore';
 import ImageSceneSection from './ImageSceneSection';
-import TextBoxSection from './TextBox/TextBoxSection';
+import TextBoxSection from './TextBoxSection';
+import ScriptInspector from './ScriptInspector';
+
 export default function Scriptor() {
-    const lineItems = useStore((state) => state.lineItems);
-    const selectedIndex = useStore((state) => state.selectedIndex);
-    const characterList = useStore((state) => state.characterList);
-
-    const updateLineText = useStore((state) => state.updateLineText);
-    const updateLineActors = useStore((state) => state.updateLineActors);
-
-    const currentScript = lineItems[selectedIndex];
-
-    if (!currentScript) return (
-        <div style={{ flex: 1, backgroundColor: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-            스크립트를 선택하거나 추가해주세요.
-        </div>
-    );
-
     return (
-        <div
-            style={{
-                display: 'flex',
-                flex: 1, height: '100%',
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-                backgroundColor: 'black',
-                boxSizing: 'border-box',
-                overflow: 'hidden'
-            }}
-        >
-            <ImageSceneSection
-                script={currentScript}
-                onCharacter={(updatedActors) => {
-                    updateLineActors(currentScript.id, updatedActors);
-                }}
-            />
+        <div style={styles.container}>
+            <div style={styles.canvasContainer}>
+                <ImageSceneSection />
+                <TextBoxSection />
+            </div>
 
-            <TextBoxSection
-                scriptString={currentScript}
-                updateScriptText={(text) => {
-                    const actorId = currentScript.actors[0]?.id;
-                    if (actorId) {
-                        updateLineText(currentScript.id, actorId, text);
-                    }
-                }}
-                onCharacter={(updatedActors) => {
-                    updateLineActors(currentScript.id, updatedActors);
-                }}
-                characterList={characterList}
-            />
+            <div style={styles.inspectorWrapper}>
+                <ScriptInspector />
+            </div>
         </div>
     );
 }
+const styles: Record<string, React.CSSProperties> = {
+    container: {
+        display: 'flex',
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+    },
+    canvasContainer: {
+        display: 'flex',
+        flex: 75,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        backgroundColor: 'black',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        position: 'relative',
+    },
+    inspectorWrapper: {
+        flex: 25,
+        borderLeft: '1px solid #ddd',
+        backgroundColor: '#fff',
+        display: 'flex',
+        flexDirection: 'column',
+        minWidth: '250px',
+    },
+};

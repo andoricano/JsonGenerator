@@ -1,39 +1,55 @@
-import React, { useState } from "react";
-import { Character, LineActor } from "../../../../../../stores/canvasType";
+import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
+import { Character, LineActor } from "../../../../../stores/canvasType";
 
 type TextBoxEditingCharacterProps = {
   characterList: Character[];
+  selectedActors: LineActor[];
   onChanging: (newLineActors: LineActor[]) => void;
   onCancel: () => void;
 };
 
 export default function TextBoxChracterEditing({
   characterList,
+  selectedActors,
   onChanging,
 }: TextBoxEditingCharacterProps) {
   const [selectedCharacters, setSelectedCharacters] = useState<Character[]>([]);
 
-  const handleToggle = (character: Character) => {
-    setSelectedCharacters((prev) => {
-      const updated = prev.some((c) => c.id === character.id)
-        ? prev.filter((c) => c.id !== character.id)
-        : [...prev, character];
 
-      onChanging(
-        updated.map((ch) => ({
+  useEffect(() => {
+    if (characterList && selectedActors) {
+      const initial = characterList.filter((char) =>
+        selectedActors.some((actor) => actor.characterId === char.id)
+      );
+      setSelectedCharacters(initial);
+    }
+  }, []);
+
+
+  const handleToggle = (character: Character) => {
+    const isAlreadyChecked = selectedCharacters.some((c) => c.id === character.id);
+    const updatedCharacters = isAlreadyChecked
+      ? selectedCharacters.filter((c) => c.id !== character.id)
+      : [...selectedCharacters, character];
+
+    setSelectedCharacters(updatedCharacters);
+
+    onChanging(
+      updatedCharacters.map((ch) => {
+        const existingActor = selectedActors.find(a => a.characterId === ch.id);
+        return existingActor || {
           id: nanoid(),
           characterId: ch.id,
           characterImageIdx: 0,
           actorText: "",
           actorState: 0,
           actorEffect: "",
-        }))
-      );
-
-      return updated;
-    });
+        };
+      })
+    );
   };
+
 
   return (
     <div style={styles.container}>
@@ -68,6 +84,8 @@ export default function TextBoxChracterEditing({
     </div>
   );
 }
+
+
 const styles: Record<string, React.CSSProperties> = {
   container: {
     margin: 5,
