@@ -1,6 +1,6 @@
 import ImageSceneSection from './ImageSceneSection';
 import TextBoxSection from './TextBoxSection';
-import ScriptInspector from './ScriptInspector';
+import Inspector from './ScriptInspector/Inspector';
 
 export default function Scriptor() {
     return (
@@ -11,7 +11,7 @@ export default function Scriptor() {
             </div>
 
             <div style={styles.inspectorWrapper}>
-                <ScriptInspector />
+                <Inspector />
             </div>
         </div>
     );
