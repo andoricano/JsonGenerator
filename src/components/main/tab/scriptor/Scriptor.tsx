@@ -1,3 +1,4 @@
+import React from 'react';
 import ImageSceneSection from './ImageSceneSection';
 import TextBoxSection from './TextBoxSection';
 import Inspector from './ScriptInspector/Inspector';
@@ -5,17 +6,18 @@ import Inspector from './ScriptInspector/Inspector';
 export default function Scriptor() {
     return (
         <div style={styles.container}>
+            <div style={styles.inspectorWrapper}>
+                <Inspector />
+            </div>
+
             <div style={styles.canvasContainer}>
                 <ImageSceneSection />
                 <TextBoxSection />
             </div>
-
-            <div style={styles.inspectorWrapper}>
-                <Inspector />
-            </div>
         </div>
     );
 }
+
 const styles: Record<string, React.CSSProperties> = {
     container: {
         display: 'flex',
@@ -23,6 +25,14 @@ const styles: Record<string, React.CSSProperties> = {
         width: '100%',
         height: '100%',
         overflow: 'hidden',
+    },
+    inspectorWrapper: {
+        flex: 25,
+        borderRight: '1px solid #ddd',
+        backgroundColor: '#fff',
+        display: 'flex',
+        flexDirection: 'column',
+        minWidth: '300px',
     },
     canvasContainer: {
         display: 'flex',
@@ -33,13 +43,5 @@ const styles: Record<string, React.CSSProperties> = {
         boxSizing: 'border-box',
         overflow: 'hidden',
         position: 'relative',
-    },
-    inspectorWrapper: {
-        flex: 25,
-        borderLeft: '1px solid #ddd',
-        backgroundColor: '#fff',
-        display: 'flex',
-        flexDirection: 'column',
-        minWidth: '250px',
     },
 };

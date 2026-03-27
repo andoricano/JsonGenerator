@@ -1,36 +1,29 @@
-import { LineActor } from "../../../../../stores/canvasType";
-import { useStore } from "../../../../../stores/useStore"; // 스토어에서 캐릭터 리스트를 가져와야 이름을 찾을 수 있습니다.
-
-type TextBoxChracterProps = {
-  scriptCharacter: LineActor[];
+type TextBoxCharacterProps = {
+  speakers: string[];
 };
 
-export default function TextBoxChracter({ scriptCharacter }: TextBoxChracterProps) {
-  const { characterList } = useStore();
+export default function TextBoxCharacter({ speakers }: TextBoxCharacterProps) {
 
-  if (!scriptCharacter || scriptCharacter.length === 0) {
+  if (!speakers || speakers.length === 0) {
     return (
       <div style={styles.container}>
-        <div style={styles.userButton}>캐릭터가 없습니다. 여기를 눌러 설정해주세요.</div>
+        <div style={styles.userButton}>무명</div>
       </div>
     );
   }
 
   return (
     <div style={styles.container}>
-      {scriptCharacter.map((actor, index) => {
-        const charInfo = characterList.find((c) => c.id === actor.characterId);
-        const displayName = charInfo?.name?.trim() ? charInfo.name : "no";
-
-        return (
-          <div key={actor.id || index} style={styles.userButton}>
-            {displayName}
-          </div>
-        );
-      })}
+      {speakers.map((name, index) => (
+        <div key={`${name}-${index}`} style={styles.userButton}>
+          {name.trim() || "no"}
+        </div>
+      ))}
     </div>
   );
 }
+
+
 
 const styles: Record<string, React.CSSProperties> = {
 
