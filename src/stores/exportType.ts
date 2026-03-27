@@ -9,10 +9,11 @@ export interface Script {
 
 export interface ScriptLine {
   id: string;
-  character: ScriptCharacter;
+  character: ScriptCharacter[];
   characterState: number;
-  effect:string;
+  effect: string;
   text: string;
+  speakers: string[];
 }
 
 export interface ScriptCharacter {

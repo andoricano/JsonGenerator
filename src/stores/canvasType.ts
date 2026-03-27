@@ -1,36 +1,37 @@
-export interface ImageResource{
-  id: string;      
-  name: string;    
+export interface ImageResource {
+  id: string;
+  name: string;
   img: File[];
-  thumbnail: number; 
-  path: string;  
+  thumbnail: number;
+  path: string;
 }
 
 export interface Character {
   id: string;
   name: string;
-  img: File[];          
-  previewUrls: string[]; 
-  thumbnail: number; 
+  img: File[];
+  previewUrls: string[];
+  thumbnail: number;
   memo: string;
   path: string;
 }
 
-export interface LineActor{
-    id: string;
+export interface LineActor {
+  id: string;
 
-    characterId: string;
-    characterImageIdx: number;
+  characterId: string;
+  characterImageIdx: number;
 
-    actorText: string;
-    actorState: number;
-    actorEffect: string;       
+  actorState: number;
+  actorEffect: string;
 }
 
 export interface LineItem {
   id: string;
-  actors : LineActor[];
-  effect: string;       
+  actors: LineActor[];
+  speakers: string[];
+  text: string;
+  effect: string;
 }
 
 export interface Project {

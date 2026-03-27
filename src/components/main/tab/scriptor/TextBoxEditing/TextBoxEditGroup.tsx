@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useStore, useCurrentLine } from '../../../../../stores/useStore';
-import ActionBar from '../../../../component/ActionBar';
 import TextBoxChracterEditing from './TextBoxEditingCharacter';
 import TextBoxEditingScript from './TextBoxEditingScript';
 
@@ -10,33 +9,33 @@ export default function TextBoxEditGroup({ onExit }: { onExit: () => void }) {
     const updateLineText = useStore((state) => state.updateLineText);
     const updateLineActors = useStore((state) => state.updateLineActors);
 
-    const [script, setScript] = useState(currentLine?.actors[0]?.actorText || "");
+    const [script, setScript] = useState(currentLine?.text || "");
     const [character, setCharacter] = useState(currentLine?.actors || []);
 
     useEffect(() => {
         if (currentLine) {
-            setScript(currentLine.actors[0]?.actorText || "");
-            setCharacter(currentLine.actors);
+            setScript(currentLine.text || "");
+            setCharacter(currentLine.actors || []);
         }
     }, [currentLine]);
 
     if (!currentLine) return null;
 
+
     const handleSave = () => {
-        console.log("1. 저장 시도 - 현재 로컬 상태:", { script, character });
+        if (!currentLine) return;
 
-        const actorId = currentLine.actors[0]?.id;
-        if (actorId) {
+        const speakerNames = character.map(actor => {
+            const target = characterList.find(c => c.id === actor.characterId);
+            return target?.name || "알 수 없음";
+        });
 
-            console.log("2. 스토어 액션 호출 직전:", { lineId: currentLine.id, actorId, script });
+        updateLineText(currentLine.id, script);
 
+        updateLineActors(currentLine.id, character, speakerNames);
 
-            updateLineText(currentLine.id, actorId, script);
-            updateLineActors(currentLine.id, character);
-        }
         onExit();
     };
-
     const handleCancel = (e?: React.MouseEvent) => {
         e?.stopPropagation();
         onExit();

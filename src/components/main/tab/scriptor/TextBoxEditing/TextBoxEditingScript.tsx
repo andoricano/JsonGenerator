@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 type Props = {
-    value: string; // 부모의 script 상태를 직접 받음
+    value: string;
     onInputChange: (s: string) => void;
     onSave: () => void;
     onCancel: () => void;

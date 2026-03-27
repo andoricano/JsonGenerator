@@ -5,8 +5,7 @@ type TextBoxScriptProps = {
 };
 
 export default function TextBoxScript({ scriptString }: TextBoxScriptProps) {
-    // LineItem 구조에 맞춰 첫 번째 액터의 텍스트를 참조합니다.
-    const actorText = scriptString.actors[0]?.actorText || "";
+    const actorText = scriptString.text || "";
     const hasText = actorText.trim() !== "";
 
     return (

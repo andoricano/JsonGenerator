@@ -20,11 +20,13 @@ export default function SideScriptBar() {
       {lineItems.map((item, idx) => {
         const isSelected = idx === selectedLineIndex;
 
-        const firstActor = item.actors[0];
-
+        const firstActor = item.actors?.[0];
         const char = characterList.find((c) => c.id === firstActor?.characterId);
+        const imageUrl = char?.previewUrls?.[firstActor?.characterImageIdx ?? 0];
 
-        const imageUrl = char?.previewUrls[firstActor?.characterImageIdx ?? 0];
+        const speakerDisplay = item.speakers && item.speakers.length > 0
+          ? item.speakers.join(", ")
+          : (char?.name || "알 수 없음");
 
         return (
           <div
@@ -34,25 +36,28 @@ export default function SideScriptBar() {
               ...styles.item,
               background: isSelected ? "#cde4ff" : "#f0f0f0",
               outline: isSelected ? "2px solid #007bff" : "none",
+              cursor: "pointer",
             }}
           >
             <div style={styles.row}>
+              {/* 이미지 영역 */}
               {imageUrl ? (
                 <img
                   src={imageUrl}
-                  alt={char?.name}
+                  alt={speakerDisplay}
                   style={{ width: 50, height: 50, objectFit: "cover", borderRadius: "4px" }}
                 />
               ) : (
                 <div style={{ width: 50, height: 50, background: "#ccc", borderRadius: "4px" }} />
               )}
 
-              <div>
+              <div style={{ marginLeft: "10px", flex: 1 }}>
                 <div style={styles.characterName}>
-                  {idx + 1}. {char?.name || "알 수 없음"}
+                  {idx + 1}. {speakerDisplay}
                 </div>
+
                 <div style={styles.scriptText}>
-                  {firstActor?.actorText || "대사를 입력해주세요."}
+                  {item.text || "대사를 입력해주세요."}
                 </div>
               </div>
             </div>
@@ -62,6 +67,7 @@ export default function SideScriptBar() {
     </div>
   );
 }
+
 
 const styles: Record<string, React.CSSProperties> = {
   container: {

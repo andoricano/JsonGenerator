@@ -54,8 +54,8 @@ export interface AppState {
   moveLineItem: (from: number, to: number) => void;
   setSelectedIndex: (idx: number) => void;
 
-  updateLineText: (lineId: string, actorId: string, newText: string) => void;
-  updateLineActors: (lineId: string, actors: LineActor[]) => void;
+  updateLineText: (lineId: string, newText: string) => void;
+  updateLineActors: (lineId: string, actors: LineActor[], speakers: string[]) => void;
 
   updateActorProperty: (lineId: string, actorId: string, property: Partial<LineActor>) => void;
 

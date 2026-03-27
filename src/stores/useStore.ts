@@ -34,21 +34,27 @@ const DEFAULT_CHARACTERS: Character[] = [
 ];
 
 
-const createDefaultScript = (): LineItem => ({
-  id: nanoid(),
-  actors: [
-    {
-      id: nanoid(),
-      characterId: DEFAULT_CHARACTERS[0].id,
-      characterImageIdx: 0,
-      actorText: "",
-      actorState: 0,
-      actorEffect: ""
-    }
-  ],
-  effect: ""
-});
+const createDefaultScript = (): LineItem => {
+  const defaultActorId = nanoid();
+  const defaultCharacterId = DEFAULT_CHARACTERS[0].id;
+  const defaultCharacterName = DEFAULT_CHARACTERS[0].name;
 
+  return {
+    id: nanoid(),
+    actors: [
+      {
+        id: defaultActorId,
+        characterId: defaultCharacterId,
+        characterImageIdx: 0,
+        actorState: 0,
+        actorEffect: ""
+      }
+    ],
+    speakers: [defaultCharacterName],
+    text: "",
+    effect: ""
+  };
+};
 
 export const useStore = create<AppState>((set, get) => ({
   // ===== Initial State =====
@@ -119,23 +125,20 @@ export const useStore = create<AppState>((set, get) => ({
 
   setSelectedIndex: (idx) => set({ selectedLineIndex: idx }),
 
-  updateLineText: (lineId, actorId, newText) => set((state) => ({
+  updateLineText: (lineId, newText) => set((state) => ({
     lineItems: state.lineItems.map((item) =>
       item.id === lineId
-        ? {
-          ...item,
-          actors: item.actors.map(actor =>
-            actor.id === actorId ? { ...actor, actorText: newText } : actor
-          )
-        }
+        ? { ...item, text: newText }
         : item
-    )
+    ),
   })),
 
-  updateLineActors: (lineId, actors) => set((state) => ({
+  updateLineActors: (lineId, actors, speakers) => set((state) => ({
     lineItems: state.lineItems.map((item) =>
-      item.id === lineId ? { ...item, actors } : item
-    )
+      item.id === lineId
+        ? { ...item, actors, speakers }
+        : item
+    ),
   })),
 
   // [추가] 액터 속성 부분 수정 (이미지 인덱스 변경 등)
