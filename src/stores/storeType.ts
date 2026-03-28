@@ -18,7 +18,8 @@ export const TOOLS = {
   PROJECT: "Project",
   SCRIPTOR: "Scriptor",
   CHARACTER: "Character",
-  STRUCTURE: "Scrip Structure"
+  PREVIEW: "Preview Scene",
+  STRUCTURE: "Script Structure"
 } as const;
 
 export type ToolType = typeof TOOLS[keyof typeof TOOLS];

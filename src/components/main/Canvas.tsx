@@ -2,6 +2,7 @@ import React from 'react';
 import { useStore } from "../../stores/useStore";
 import { TOOLS } from "../../stores/storeType";
 import Scriptor from "./tab/scriptor/Scriptor";
+import Previewer from "./tab/scriptor/Previewer";
 import Character from "./tab/character/Character";
 import SideBar from "../aside/SideBar";
 import Config from './tab/config/Config';
@@ -26,6 +27,7 @@ export default function Canvas() {
         {activeTool === TOOLS.PROJECT && <Project />}
         {activeTool === TOOLS.SCRIPTOR && <Scriptor />}
         {activeTool === TOOLS.CHARACTER && <Character />}
+        {activeTool === TOOLS.PREVIEW && <Previewer />}
         {activeTool === TOOLS.STRUCTURE && <Config />}
       </div>
     </div>
