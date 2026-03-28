@@ -3,7 +3,7 @@ import Workspace from "../main/Workspace";
 import { useStore } from "../../stores/useStore";
 
 export default function Header() {
-  const projectName = useStore((state) => state.projectInfo.projectName);
+  const projectName = "Script Generator"
 
   return (
     <>
