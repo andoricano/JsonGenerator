@@ -119,56 +119,159 @@ function EmptyState({ message }: { message: string }) {
 }
 
 
+
 const styles: Record<string, React.CSSProperties> = {
     container: {
         width: "100%",
         height: "100%",
-        backgroundColor: "#f9fbf9",
+        backgroundColor: "#fff", 
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden"
+        overflow: "hidden",
+        borderLeft: "1px solid #ddd"
     },
-    header: { padding: "12px", backgroundColor: "#2a5b2e", color: "white", fontSize: "11px", fontWeight: "bold", textAlign: "center" },
-
+    header: { 
+        padding: "12px", 
+        backgroundColor: "#333", 
+        color: "#fff", 
+        fontSize: "11px", 
+        fontWeight: "bold", 
+        textAlign: "left", 
+        letterSpacing: "1px" 
+    },
     content: {
         flex: 1,
         padding: "16px",
         display: "flex",
         flexDirection: "column",
-        gap: "20px",
-        overflow: "hidden"
+        gap: "24px",
+        overflowY: "auto"
     },
-
-    imageWrapper: { flexShrink: 0, display: "flex", justifyContent: "center" },
-    imageContainer: { position: "relative", width: "100%" },
-    image: { width: "100%", aspectRatio: "1/1", borderRadius: "8px", objectFit: "cover", border: "1px solid #ddd", backgroundColor: "white" },
-    representativeBadge: { position: "absolute", bottom: "8px", right: "8px", backgroundColor: "#2a5b2e", color: "white", fontSize: "9px", padding: "2px 6px", borderRadius: "4px" },
-
+    imageWrapper: { 
+        flexShrink: 0, 
+        display: "flex", 
+        justifyContent: "center" 
+    },
+    imageContainer: { 
+        position: "relative", 
+        width: "100%" 
+    },
+    image: { 
+        width: "100%", 
+        aspectRatio: "1/1", 
+        borderRadius: "4px", // 8px -> 4px (더 각진 느낌)
+        objectFit: "cover", 
+        border: "1px solid #eee", 
+        backgroundColor: "#f5f5f5" 
+    },
+    representativeBadge: { 
+        position: "absolute", 
+        bottom: "8px", 
+        right: "8px", 
+        backgroundColor: "rgba(51, 51, 51, 0.8)", 
+        color: "white", 
+        fontSize: "9px", 
+        padding: "2px 6px", 
+        borderRadius: "2px",
+        fontWeight: "bold"
+    },
     inspectorFields: {
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        gap: "16px",
+        gap: "20px",
         overflow: "hidden"
     },
-    field: { flexShrink: 0, display: "flex", flexDirection: "column", gap: "6px" },
-
+    field: { 
+        flexShrink: 0, 
+        display: "flex", 
+        flexDirection: "column", 
+        gap: "8px" 
+    },
     memoField: {
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        gap: "6px",
+        gap: "8px",
         minHeight: 0
     },
-
-    fieldLabel: { fontSize: "10px", fontWeight: "bold", color: "#666" },
-    readOnlyValue: { fontSize: "18px", fontWeight: "bold", color: "#1a3b1d", paddingBottom: "4px", borderBottom: "2px solid #2a5b2e" },
-
-    input: { padding: "8px", borderRadius: "4px", border: "1px solid #ddd", outline: "none" },
-    footer: { padding: "16px", display: "flex", gap: "8px", backgroundColor: "#fff", borderTop: "1px solid #eee" },
-    editButton: { flex: 1, padding: "12px", backgroundColor: "#2a5b2e", color: "white", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold" },
-    saveButton: { flex: 1, padding: "12px", backgroundColor: "#2196f3", color: "white", border: "none", borderRadius: "6px", fontWeight: "bold" },
-    cancelButton: { flex: 1, padding: "12px", backgroundColor: "#eee", color: "#666", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold" },
-    placeholderImage: { width: "100%", aspectRatio: "1/1", backgroundColor: "#eee", borderRadius: "8px", display: "flex", justifyContent: "center", alignItems: "center", color: "#aaa" },
-    emptyState: { justifyContent: "center", alignItems: "center", textAlign: "center", color: "#999" }
+    fieldLabel: { 
+        fontSize: "10px", 
+        fontWeight: "bold", 
+        color: "#999", 
+        letterSpacing: "0.5px"
+    },
+    readOnlyValue: { 
+        fontSize: "13px", 
+        fontWeight: "500", 
+        color: "#333", 
+        paddingBottom: "4px", 
+        borderBottom: "1px solid #eee"
+    },
+    input: { 
+        padding: "8px", 
+        fontSize: "12px",
+        borderRadius: "2px", 
+        border: "1px solid #ddd", 
+        outline: "none",
+        backgroundColor: "#fafafa"
+    },
+    footer: { 
+        padding: "12px 16px", 
+        display: "flex", 
+        gap: "8px", 
+        backgroundColor: "#fff", 
+        borderTop: "1px solid #eee" 
+    },
+    editButton: { 
+        flex: 1, 
+        padding: "10px", 
+        backgroundColor: "#444",
+        color: "white", 
+        border: "none", 
+        borderRadius: "4px", 
+        cursor: "pointer", 
+        fontWeight: "bold",
+        fontSize: "11px"
+    },
+    saveButton: { 
+        flex: 1, 
+        padding: "10px", 
+        backgroundColor: "#333", 
+        color: "white", 
+        border: "none", 
+        borderRadius: "4px", 
+        fontWeight: "bold",
+        fontSize: "11px"
+    },
+    cancelButton: { 
+        flex: 1, 
+        padding: "10px", 
+        backgroundColor: "#eee", 
+        color: "#666", 
+        border: "none", 
+        borderRadius: "4px", 
+        cursor: "pointer", 
+        fontWeight: "bold",
+        fontSize: "11px"
+    },
+    placeholderImage: { 
+        width: "100%", 
+        aspectRatio: "1/1", 
+        backgroundColor: "#f5f5f5", 
+        borderRadius: "4px", 
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center", 
+        color: "#ccc",
+        border: "1px solid #eee",
+        fontSize: "11px"
+    },
+    emptyState: { 
+        justifyContent: "center", 
+        alignItems: "center", 
+        textAlign: "center", 
+        color: "#999",
+        fontSize: "11px"
+    }
 };

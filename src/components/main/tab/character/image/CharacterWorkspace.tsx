@@ -135,7 +135,6 @@ const styles: Record<string, React.CSSProperties> = {
     gap: "12px",
     boxSizing: "border-box",
     backgroundColor: "#fafafa",
-    borderRadius: "12px",
     overflow: "hidden",
     padding: "12px"
   },
