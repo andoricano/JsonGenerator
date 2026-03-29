@@ -3,7 +3,6 @@ import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Toolbar() {
   const resetAll = useStore((state) => state.resetAll);
-  const scriptItems = useStore((state) => state.scriptItems);
   const characterList = useStore((state) => state.characterList);
   const projectName = useStore((state) => state.projectInfo.projectName);
 
@@ -15,31 +14,18 @@ export default function Toolbar() {
   };
 
   const handleSave = () => {
-    const exportData = {
-      projectName,
-      scripts: scriptItems,
-      characters: characterList.map(char => ({
-        name: char.name,
-        selectedImageIndex: char.selectedImageIndex
-      }))
-    };
 
-    exportJSON(exportData, `${projectName || 'project'}.json`);
   };
 
   const handleLoad = () => {
     console.log("Load");
   };
 
-  const handleSetting = () => {
-    console.log("Setting");
-  };
 
   const buttons = [
     { label: "New Project", onClick: handleNew },
     { label: "Save", onClick: handleSave },
     { label: "Load", onClick: handleLoad },
-    { label: "Setting", onClick: handleSetting },
   ];
 
   return (
