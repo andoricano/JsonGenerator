@@ -13,7 +13,6 @@ export default function Previewer() {
     const selectedLineIndex = useStore((state) => state.selectedLineIndex);
     const setSelectedIndex = useStore((state) => state.setSelectedIndex);
 
-    // 현재 라인 데이터 가져오기 (커스텀 훅 호출)
     const currentLine = useCurrentLine();
 
     const containerRef = useRef<HTMLDivElement>(null);
@@ -21,7 +20,6 @@ export default function Previewer() {
     const handlePrev = () => {
         if (selectedLineIndex > 0) {
             const nextIndex = selectedLineIndex - 1;
-            console.log("이전 라인 이동:", nextIndex);
             setSelectedIndex(nextIndex);
         }
     };
@@ -29,13 +27,12 @@ export default function Previewer() {
     const handleNext = () => {
         if (selectedLineIndex < lineItems.length - 1) {
             const nextIndex = selectedLineIndex + 1;
-            console.log("다음 라인 이동:", nextIndex);
             setSelectedIndex(nextIndex);
         }
     };
 
     return (
-        <div style={styles.container}>
+        <div style={styles.container} ref={containerRef}>
             <aside style={{
                 ...styles.inspectorWrapper,
                 flex: isSlideOpen ? 25 : 0,
@@ -44,7 +41,6 @@ export default function Previewer() {
                 transition: "all 0.3s ease-in-out",
                 overflow: "hidden"
             }}>
-                {/* Slidebar 안에 SideScriptBar를 넣어서 사용 */}
                 <Slidebar isOpen={isSlideOpen} setIsOpen={setIsSlideOpen}>
                     <SideScriptBar />
                 </Slidebar>
@@ -61,12 +57,16 @@ export default function Previewer() {
                         style={styles.hoverTrigger}
                     />
                 )}
-                <ArrowController
-                    onPrev={handlePrev}
-                    onNext={handleNext}
-                    isFirst={selectedLineIndex === 0}
-                    isLast={selectedLineIndex === lineItems.length - 1}
-                />
+
+                <div style={styles.arrowWrapper}>
+                    <ArrowController
+                        onPrev={handlePrev}
+                        onNext={handleNext}
+                        isFirst={selectedLineIndex === 0}
+                        isLast={selectedLineIndex === lineItems.length - 1}
+                    />
+                </div>
+
                 {/* <ImageSceneSection />
                 <TextBoxSection /> */}
             </div>
@@ -99,4 +99,22 @@ const styles: Record<string, React.CSSProperties> = {
         overflow: 'hidden',
         position: 'relative',
     },
+    arrowWrapper: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 10,
+        pointerEvents: 'none',
+    },
+    hoverTrigger: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        width: '20px',
+        zIndex: 20,
+        cursor: 'pointer',
+    }
 };
