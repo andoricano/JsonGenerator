@@ -1,11 +1,38 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ImageSceneSection from './ImageSceneSection';
 import TextBoxSection from './TextBoxSection';
 import Slidebar from '../../../aside/SlideBar';
 import SideScriptBar from '../../../aside/SideScriptBar';
+import ArrowController from './preview/ArrowController';
+import { useCurrentLine, useStore } from '../../../../stores/useStore';
 
 export default function Previewer() {
-    const [isSlideOpen, setIsSlideOpen] = useState(false);
+    const [isSlideOpen, setIsSlideOpen] = useState(true);
+
+    const lineItems = useStore((state) => state.lineItems);
+    const selectedLineIndex = useStore((state) => state.selectedLineIndex);
+    const setSelectedIndex = useStore((state) => state.setSelectedIndex);
+
+    // 현재 라인 데이터 가져오기 (커스텀 훅 호출)
+    const currentLine = useCurrentLine();
+
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const handlePrev = () => {
+        if (selectedLineIndex > 0) {
+            const nextIndex = selectedLineIndex - 1;
+            console.log("이전 라인 이동:", nextIndex);
+            setSelectedIndex(nextIndex);
+        }
+    };
+
+    const handleNext = () => {
+        if (selectedLineIndex < lineItems.length - 1) {
+            const nextIndex = selectedLineIndex + 1;
+            console.log("다음 라인 이동:", nextIndex);
+            setSelectedIndex(nextIndex);
+        }
+    };
 
     return (
         <div style={styles.container}>
@@ -34,8 +61,14 @@ export default function Previewer() {
                         style={styles.hoverTrigger}
                     />
                 )}
-                <ImageSceneSection />
-                <TextBoxSection />
+                <ArrowController
+                    onPrev={handlePrev}
+                    onNext={handleNext}
+                    isFirst={selectedLineIndex === 0}
+                    isLast={selectedLineIndex === lineItems.length - 1}
+                />
+                {/* <ImageSceneSection />
+                <TextBoxSection /> */}
             </div>
         </div>
     );
