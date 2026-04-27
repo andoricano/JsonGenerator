@@ -19,7 +19,7 @@ export const TOOLS = {
   SCRIPTOR: "Scriptor",
   CHARACTER: "Character",
   PREVIEW: "Preview Scene",
-  STRUCTURE: "Script Structure"
+  STRUCTURE: "File Structure"
 } as const;
 
 export type ToolType = typeof TOOLS[keyof typeof TOOLS];
@@ -72,6 +72,21 @@ export interface AppState {
   changeCharacterThumbnail: (index: number) => boolean;
   initDefaultCharacterImages: () => Promise<void>;
   updateCharacterImage: (idx: number, newFile: File) => boolean;
+
+
+
+
+  // ===== Local Service Actions =====
+  /**
+   * 프로젝트 데이터를 JSON 파일로 로컬에 저장합니다.
+   */
+  saveToLocal: () => void;
+
+  /**
+   * 저장될 JSON 데이터의 미리보기를 콘솔이나 UI에 출력합니다.
+   */
+  logSavePreview: () => void;
+
 
   // --- Reset Actions ---
   resetAll: () => void;

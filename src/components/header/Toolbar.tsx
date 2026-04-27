@@ -1,3 +1,4 @@
+import { mockupSaveProjectLog } from "../../services/local/saveService";
 import { useStore } from "../../stores/useStore";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -5,6 +6,7 @@ export default function Toolbar() {
   const resetAll = useStore((state) => state.resetAll);
   const characterList = useStore((state) => state.characterList);
   const projectName = useStore((state) => state.projectInfo.projectName);
+  const lineItems = useStore((state) => state.lineItems); // 추가
 
   const handleNew = () => {
     if (window.confirm("새 프로젝트를 시작하시겠습니까? 현재 데이터는 초기화됩니다.")) {
@@ -14,7 +16,7 @@ export default function Toolbar() {
   };
 
   const handleSave = () => {
-
+    mockupSaveProjectLog(lineItems, characterList, projectName);
   };
 
   const handleLoad = () => {

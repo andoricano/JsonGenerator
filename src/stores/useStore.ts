@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { AppState, TOOLS } from './storeType';
 import { nanoid } from 'nanoid';
 import { Character, LineItem } from './canvasType';
+import { mockupSaveProjectLog, saveProjectLines } from '../services/local/saveService';
 
 const DEFAULT_CHARACTERS: Character[] = [
   {
@@ -287,6 +288,17 @@ export const useStore = create<AppState>((set, get) => ({
     });
     return isSuccess;
   },
+
+  saveToLocal: () => {
+    const { lineItems, characterList, projectInfo } = get();
+    saveProjectLines(lineItems, characterList, projectInfo.projectName);
+  },
+
+  logSavePreview: () => {
+    const { lineItems, characterList, projectInfo } = get();
+    mockupSaveProjectLog(lineItems, characterList, projectInfo.projectName);
+  },
+
 
   // --- Reset Actions ---
   resetAll: () => set({
