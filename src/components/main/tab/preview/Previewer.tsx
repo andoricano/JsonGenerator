@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react';
-import ImageSceneSection from './ImageSceneSection';
-import TextBoxSection from './TextBoxSection';
+import TextBoxSection from '../scriptor/TextBoxSection';
 import Slidebar from '../../../aside/SlideBar';
 import SideScriptBar from '../../../aside/SideScriptBar';
-import ArrowController from './preview/ArrowController';
+import ArrowController from './ArrowController';
 import { useCurrentLine, useStore } from '../../../../stores/useStore';
+import PreviewScriptImageSection from './PreiviewScriptImageSection';
+import PreviewScriptTextSection from './PreviewScriptTextSection';
 
 export default function Previewer() {
     const [isSlideOpen, setIsSlideOpen] = useState(true);
@@ -13,9 +14,8 @@ export default function Previewer() {
     const selectedLineIndex = useStore((state) => state.selectedLineIndex);
     const setSelectedIndex = useStore((state) => state.setSelectedIndex);
 
-    // 현재 라인 데이터 가져오기 (커스텀 훅 호출)
     const currentLine = useCurrentLine();
-
+    const characterList = useStore((state) => state.characterList);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const handlePrev = () => {
@@ -44,7 +44,6 @@ export default function Previewer() {
                 transition: "all 0.3s ease-in-out",
                 overflow: "hidden"
             }}>
-                {/* Slidebar 안에 SideScriptBar를 넣어서 사용 */}
                 <Slidebar isOpen={isSlideOpen} setIsOpen={setIsSlideOpen}>
                     <SideScriptBar />
                 </Slidebar>
@@ -67,8 +66,14 @@ export default function Previewer() {
                     isFirst={selectedLineIndex === 0}
                     isLast={selectedLineIndex === lineItems.length - 1}
                 />
-                {/* <ImageSceneSection />
-                <TextBoxSection /> */}
+
+                <PreviewScriptImageSection
+                    currentLine={currentLine}
+                    characterList={characterList}
+                />
+                <PreviewScriptTextSection
+                    currentLine={currentLine}
+                />
             </div>
         </div>
     );

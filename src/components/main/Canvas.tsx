@@ -2,11 +2,11 @@ import React from 'react';
 import { useStore } from "../../stores/useStore";
 import { TOOLS } from "../../stores/storeType";
 import Scriptor from "./tab/scriptor/Scriptor";
-import Previewer from "./tab/scriptor/Previewer";
 import Character from "./tab/character/Character";
 import SideBar from "../aside/SideBar";
 import Config from './tab/config/Config';
 import Project from './tab/project/Project';
+import Previewer from './tab/preview/Previewer';
 // Canvas.tsx
 export default function Canvas() {
   const activeTool = useStore((state) => state.activeTool);
